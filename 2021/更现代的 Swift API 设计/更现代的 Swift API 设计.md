@@ -53,6 +53,7 @@ class Texture { 
 } 
 ```
 当 Material 实例发生拷贝时，会发生什么?
+
 ![texture](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/texture.png)
 很显然，两个 Material 实例持有同一个的 texture，所有 texture 引用所做的任何修改都会对两个 Struct 产生影响，这破坏了 Struct 本身的语义。
 今天我们重点看看如何解决这个问题。
