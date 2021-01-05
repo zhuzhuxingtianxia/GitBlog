@@ -53,12 +53,12 @@ class Texture { 
 } 
 ```
 当 Material 实例发生拷贝时，会发生什么?
-![texture](https://killsky.coding.net/p/blog/d/blog/git/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/texture.png)
+![texture](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/texture.png)
 很显然，两个 Material 实例持有同一个的 texture，所有 texture 引用所做的任何修改都会对两个 Struct 产生影响，这破坏了 Struct 本身的语义。
 今天我们重点看看如何解决这个问题。
 
 ### 一个思路：把 texture 设为不可变类型？
-![640](https://killsky.coding.net/p/blog/d/blog/git/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/640.jpeg)
+![640](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/640.jpeg)
 
 如图所示，并没有什么作用。
 texture 对象的属性依旧可以被修改，一个标记 immutable 的实例属性还能被修改，这会带来更多困扰。
@@ -128,7 +128,7 @@ struct Material {
 ```
 实现思路与之前的代码完全一致，只是引入 dynamicMemberLookup 动态提供对 Texture 的属性访问，这样无论 Class Texture 有多少属性，几行代码轻松支持。
 需要留意的是 Xcode 11 完全支持 dynamicMemberLookup，代码提示也毫无压力
-![dynamicMemberLookup](https://killsky.coding.net/p/blog/d/blog/git/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/dynamicMemberLookup.png)
+![dynamicMemberLookup](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/%E6%9B%B4%E7%8E%B0%E4%BB%A3%E7%9A%84%20Swift%20API%20%E8%AE%BE%E8%AE%A1/dynamicMemberLookup.png)
 至此，似乎『完美解决』了Struct 中嵌套 Class 的拷贝问题。
 此处卖个关子，后面还有更简洁的实现。先来看看 PropertyWrapper。
 
