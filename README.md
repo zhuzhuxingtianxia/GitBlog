@@ -1,5 +1,7 @@
 #blog博客
-GitHub图片不显示问题：
+
+## GitHub图片不显示问题：
+
 Mac终端输入：`sudo vi /etc/hosts`
 输入密码`enter`后，点击 `i`键，进入Insert模式,
 如果hosts文件已存在，点击`e`进入然后点击 `i`键，进入Insert模式。
