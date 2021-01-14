@@ -3,6 +3,7 @@
 `Label`是SwiftUI2.0新增加的组件。`Label`将文本和图像组合在一个视图中,它还根据上下文(例如，如果它放在工具栏上)和动态类型进行调整。
 
 ![image0](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image0.png)
+
 在本文中，让我们在基本知识之外探索这个视图。
 
 ## Initializers
