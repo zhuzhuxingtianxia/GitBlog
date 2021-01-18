@@ -10,8 +10,8 @@
 
 除了外观之外，所有文本字段都有相同的组件:`title`标题、`placeholder`占位符和`border`边框。
 
-![image0]()
-![image1]()
+![image0](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image0.png)
+![image1](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image1.png)
 
 > 两种TextField的外观:`default`和`error`。
 
@@ -66,8 +66,8 @@ struct FSTextField: View {
 ## 一周之后
 一周之后，我们发现设计做了两种新的变化，第一个是在右上角显示一个字形，与标题垂直对齐，另一个是在同一点显示一条消息:
 
-![image2]()
-![image3]()
+![image2](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image2.png)
+![image3](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image3.png)
 
 我们定义了两个新视图,`FSGlyphTextField` 和 `FSMessageTextField`,代码设计如下：
 ```
@@ -133,8 +133,8 @@ struct FSMessageTextField: View {
 
 设计师又修改了`TextField`的展示方式，第一个没有标题，而另一个有通常的标题并在后面的角落有一个按钮：
 
-![image4]()
-![image5]()
+![image4](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image4.png)
+![image5](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image5.png)
 
 我们可以再定义两个文本字段视图(像`FSPlainTextField`和`FSButtonTextField`一样)，然而，为每个变化创建新的视图违背了设计的目的，当设计发生变化，而我们必须更新标题字体或边框颜色时，会发生什么?
 
@@ -166,8 +166,8 @@ struct _FSTextField: View {
 }
 ```
 
-![image7]()
-![image6]()
+![image7](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image7.png)
+![image6](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image6.png)
 
 > 我们的两个`_FSTextField`变体。
 
@@ -239,7 +239,7 @@ FSTextField(placeholder: "Placeholder", text: $text) {
 }
 ```
 
-![imageLabel]()
+![imageLabel](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/imageLabel.png)
 
 最后，我们需要注意在`_FSTextField`上面没有内容的视图变化，我们如何解决这个问题?
 
@@ -253,7 +253,7 @@ FSTextField(
 }
 ```
 
-![image4]()
+![image4](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image4.png)
 
 它工作的原因：
 
@@ -296,7 +296,7 @@ extension FSTextField where TopContent == EmptyView {
 FSTextField(placeholder: "Placeholder", text: $myText)
 ```
 
-![image4]()
+![image4](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image4.png)
 
 ## 通用TextField的初始化
 
@@ -315,7 +315,7 @@ FSTextField(
 }
 ```
 
-![image0]()
+![image0](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image0.png)
 
 然而，由于所有这些变体都有一个带有`title-space-something`模式的`TopContent`，我们可以用一个新的`FSTextField`扩展:
 ```
@@ -354,7 +354,7 @@ FSTextField(
 })
 ```
 
-![image3]()
+![image3](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image3.png)
 
 如前所述，如果我们的开发人员只想显示一个`_FSTextField`和一个标题,它们不需要知道它们可以传递一个`EmptyView`实例作为`topTrailingContent`参数，因此最好创建一个新的扩展来处理这个场景:
 ```
@@ -381,7 +381,7 @@ extension FSTextField {
 FSTextField(title: "Title", placeholder: "Placeholder", text: $myText)
 ```
 
-![image0]()
+![image0](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image0.png)
 
 我们以前用新视图定义的所有其他变量现在都可以通过`FSTextField`直接获得。
 
@@ -541,7 +541,7 @@ struct ContentView: View {
 ```
 
 
-![image10]()
+![image10](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image10.jpeg)
 
 
 ## 总结
