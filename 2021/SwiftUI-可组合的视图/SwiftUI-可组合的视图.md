@@ -11,8 +11,8 @@
 除了外观之外，所有文本字段都有相同的组件:`title`标题、`placeholder`占位符和`border`边框。
 
 <figure>
-	<img src="https://img2018.cnblogs.com/blog/1735896/202001/1735896-20200116162140471-237299356.png" />
-	<img src="https://img2018.cnblogs.com/blog/1735896/202001/1735896-20200116162140471-237299356.png" />
+	<img src="https://img2018.cnblogs.com/blog/1735896/202001/1735896-20200116162140471-237299356.png" style="zoom: 50%;" />
+	<img src="https://img2018.cnblogs.com/blog/1735896/202001/1735896-20200116162140471-237299356.png" style="zoom: 50%;" />
 </figure>
 
 
