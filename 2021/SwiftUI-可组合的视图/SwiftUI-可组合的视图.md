@@ -10,11 +10,10 @@
 
 除了外观之外，所有文本字段都有相同的组件:`title`标题、`placeholder`占位符和`border`边框。
 
-<figure>
-	<img src="https://img2018.cnblogs.com/blog/1735896/202001/1735896-20200116162140471-237299356.png" style="zoom: 50%;" />
-	<img src="https://img2018.cnblogs.com/blog/1735896/202001/1735896-20200116162140471-237299356.png" style="zoom: 50%;" />
-</figure>
-
+<div style="display:flex; flex-direction; margin:2px;">
+	<img src="https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image0.png"/>
+	<img src="https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image1.png"/>
+</div>
 
 ![image0](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image0.png)
 ![image1](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/image1.png)
