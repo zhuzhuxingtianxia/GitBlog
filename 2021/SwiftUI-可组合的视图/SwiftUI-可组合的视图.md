@@ -10,6 +10,9 @@
 
 除了外观之外，所有文本字段都有相同的组件:`title`标题、`placeholder`占位符和`border`边框。
 
+<img src="./image0.png" width = "200px" alt="" align=center />
+<img src="./image1.png" width = "200px" alt="" align=center />
+
 ![image](./image0.png)
 ![image](./image1.png)
 
