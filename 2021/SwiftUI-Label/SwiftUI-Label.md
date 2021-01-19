@@ -2,7 +2,7 @@
 <!--- https://fivestars.blog/swiftui/label.html --->
 `Label`是SwiftUI2.0新增加的组件。`Label`将文本和图像组合在一个视图中,它还根据上下文(例如，如果它放在工具栏上)和动态类型进行调整。
 
-![image0](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image0.png)
+![image0](./image0.png)
 
 在本文中，让我们在基本知识之外探索这个视图。
 
@@ -35,7 +35,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(TitleOnlyLabelStyle())
   .labelStyle(DefaultLabelStyle())
 ```
-![image1](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image1.png)
+![image1](./image1.png)
 
 因为`LabelStyle`是一个协议，我们可以定义自己的样式:
 ```
@@ -84,7 +84,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(IconOnlyLabelStyle())
 ```
 
-![image2](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image2.png)
+![image2](./image2.png)
 
 ## Label样式的橡皮擦
 
@@ -97,7 +97,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(ShadowLabelStyle())
   .labelStyle(IconOnlyLabelStyle())
 ```
-![image2](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image2.png)
+![image2](./image2.png)
 
 输出`Label`标签的图标是否带有阴影。
 ```
@@ -105,7 +105,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(IconOnlyLabelStyle()) // <- the label style order has been swapped
   .labelStyle(ShadowLabelStyle())
 ```
-![image1](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image1.png)
+![image1](./image1.png)
 
 输出`Label`标签的图标没有阴影。
 由于我们使用的是一个样式擦除器，SwiftUI甚至不会首先使用我们的样式，这可以通过在`ShadowLabelStyle`的`makeBody(configuration:)`实现中添加断点来验证:SwiftUI根本不会调用我们的方法。
@@ -130,7 +130,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(IconOnlyLabelStyle())
 ```
 
-![image4](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image4.png)
+![image4](./image4.png)
 
 同样，由于我们的样式现在扮演了一个样式橡皮擦的角色，所以它不会被应用到当前样式之上，而是从一个干净的`Label`开始。
 
@@ -154,7 +154,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(ShadowLabelTryStyle())
   .labelStyle(IconOnlyLabelStyle())
 ```
-![image2](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image2.png)
+![image2](./image2.png)
 
 有趣的是，这是行不通的,结果是`configuration.icon`和`configuration.title`延续了整个配置风格。
 在上面的例子中，`title`视图将被隐藏，尽管我们创建了一个新的`Label`而没有直接传递配置本身。
@@ -181,7 +181,7 @@ Label("Title", systemImage: "moon.circle.fill")
 我们首先应用`IconOnlyLabelStyle`，因此标题`title`是隐藏的，而图像`"moon.circle.fill"`显示。
 我们在`SwapLabelStyle`中交换它们并没有达到效果，用户看到的还是原来的图标。
 
-![image1](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image1.png)
+![image1](./image1.png)
 
 ## 自定义icon和title的样式
 为了完整起见，我必须指出`LabelStyle`的`makeBody(configuration:)`只需要返回`some View`，而不是`Label`(或带有几个修饰符的`Label`标签)。
@@ -203,7 +203,7 @@ struct HStackLabelStyle: LabelStyle {
 Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(HStackLabelStyle())
 ```
-![image5](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image5.png)
+![image5](./image5.png)
 
 虽然这可以工作，但这是一个绝佳的机会来指出`.labelStyle`修饰符只有在应用于标签时才能工作,
 由于`HStackLabelStyle`不返回`Label`标签，任何进一步应用的标签样式(包括擦除标签)都将被忽略。
@@ -213,7 +213,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(ShadowLabelStyle())
   .labelStyle(IconOnlyLabelStyle())
 ```
-![image5](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image5.png)
+![image5](./image5.png)
 
 在`HStackLabelStyle`之前应用它们就可以了:
 ```
@@ -222,7 +222,7 @@ Label("Title", systemImage: "moon.circle.fill")
   .labelStyle(IconOnlyLabelStyle())
   .labelStyle(HStackLabelStyle())
 ```
-![image2](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image2.png)
+![image2](./image2.png)
 
 然而，如果我们这样做，我们可能一开始就不应该使用Label。
 
@@ -243,7 +243,7 @@ struct AccessibleLabelStyle: LabelStyle {
 }
 ```
 
-![image6](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image6.png)
+![image6](./image6.png)
 
 ## Label Extensions
 尽管标签样式是自定义和标准化标签的主要方式，但有时我们可以通过创建一个标签扩展来代替。
@@ -271,7 +271,7 @@ Label("Title", colorfulSystemImage: "moon.circle.fill")
   .labelStyle(ShadowLabelStyle())
 ```
 
-![image7](https://github.com/zhuzhuxingtianxia/GitBlog/raw/master/2021/SwiftUI-Label/image7.png)
+![image7](./image7.png)
 
 ## 总结
 
