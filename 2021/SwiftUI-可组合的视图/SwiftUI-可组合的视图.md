@@ -15,9 +15,6 @@
 	<img src="./image1.png" width = "300px" alt="" />
 </div>
 
-![image](./image0.png)
-![image](./image1.png)
-
 > 两种TextField的外观:`default`和`error`。
 
 有了这些知识，我们继续构建我们自己的`FSTextField`:
