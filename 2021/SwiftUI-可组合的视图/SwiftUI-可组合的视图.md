@@ -11,8 +11,7 @@
 除了外观之外，所有文本字段都有相同的组件:`title`标题、`placeholder`占位符和`border`边框。
 
 <center class="half">
-	<img src="./image0.png" width = "300px" alt="" />
-	<img src="./image1.png" width = "300px" alt="" />
+	<img src="./image0.png" width = "300px" alt="" /><img src="./image1.png" width = "300px" alt="" />
 </center>
 
 ![image](./image0.png)
