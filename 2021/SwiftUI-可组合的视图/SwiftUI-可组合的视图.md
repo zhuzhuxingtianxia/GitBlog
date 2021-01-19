@@ -13,7 +13,6 @@
 ![image0](./image0.png)
 ![image1](./image1.png)
 
-
 > 两种TextField的外观:`default`和`error`。
 
 有了这些知识，我们继续构建我们自己的`FSTextField`:
