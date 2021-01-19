@@ -10,8 +10,8 @@
 
 除了外观之外，所有文本字段都有相同的组件:`title`标题、`placeholder`占位符和`border`边框。
 
-![image0](./image0.png)
-![image1](./image1.png)
+![image](./image0.png)
+![image](./image1.png)
 
 > 两种TextField的外观:`default`和`error`。
 
