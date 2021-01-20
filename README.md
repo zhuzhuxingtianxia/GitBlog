@@ -31,7 +31,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
-* [SwiftUI:Custom Button](./2021/SwiftUI-Custom Button/SwiftUI-Custom Button.md)
+* [SwiftUI:Custom Button](./2021/SwiftUI-Custom%20Button/SwiftUI-Custom%20Button.md)
 * [SwiftUI:自适应Views](./2021/SwiftUI-%E8%87%AA%E9%80%82%E5%BA%94Views/SwiftUI-%E8%87%AA%E9%80%82%E5%BA%94Views.md)
 * [SwiftUI:可组合的视图](./2021/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE/SwiftUI-%E5%8F%AF%E7%BB%84%E5%90%88%E7%9A%84%E8%A7%86%E5%9B%BE.md)
 * [SwiftUI:Label](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-Label/SwiftUI-Label.md)
