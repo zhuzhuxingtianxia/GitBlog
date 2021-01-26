@@ -31,6 +31,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
+* [SwiftUI:navigation进阶](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-navigation%E8%BF%9B%E9%98%B6/SwiftUI-navigation%E8%BF%9B%E9%98%B6.md)
 * [SwiftUI:NavigationView](./2021/SwiftUI-NavigationView/SwiftUI-NavigationView.md)
 * [SwiftUI:Swift协议](./2021/SwiftUI-Swift%E5%8D%8F%E8%AE%AE/SwiftUI-Swift%E5%8D%8F%E8%AE%AE.md)
 * [SwiftUI:Equatable背后的奥秘](./2021/SwiftUI-Equatable%E8%83%8C%E5%90%8E%E7%9A%84%E5%A5%A5%E7%A7%98/SwiftUI-Equatable%E8%83%8C%E5%90%8E%E7%9A%84%E5%A5%A5%E7%A7%98.md)
