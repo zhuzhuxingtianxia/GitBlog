@@ -31,6 +31,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
+* [SwiftUI:Text约束](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-Text%E7%BA%A6%E6%9D%9F/SwiftUI-Text%E7%BA%A6%E6%9D%9F.md)
 * [SwiftUI:@State原理解析](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%40State%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/SwiftUI-%40State%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90.md)
 * [SwiftUI:navigation进阶](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-navigation%E8%BF%9B%E9%98%B6/SwiftUI-navigation%E8%BF%9B%E9%98%B6.md)
 * [SwiftUI:NavigationView](./2021/SwiftUI-NavigationView/SwiftUI-NavigationView.md)
