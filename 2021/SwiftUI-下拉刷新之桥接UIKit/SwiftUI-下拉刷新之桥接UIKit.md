@@ -350,6 +350,37 @@ struct PullRefresh: UIViewRepresentable {
 
 ![refreshed](./refreshed.gif)
 
+另一种使用方式是这样的：
+```
+class ModelObject: ObservableObject {
+    @Published var isRefreshing: Bool = false {
+        didSet {
+            if isRefreshing {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.isRefreshing = false
+                }
+            }
+        }
+    }
+}
+
+struct ListView: View {
+    @ObservedObject var modelObject = ModelObject()
+    
+    var array = ["a","b","c","d","e","f","g"]
+    
+    var body: some View {
+        NavigationView {
+          List(array, id: \.self) { text in
+            Text(text)
+          }
+          .navigationBarTitle("刷新demo")
+        }
+        .background(PullRefresh(isRefreshing: $modelObject.isRefreshing))
+    }
+}
+```
+
 到此看似我们的功能已经完成了。但是我们发现我们只要下拉后，事件回调就会被触发，即使我们不送手。我们将在[下一篇文章]()解决这个问题，并做进一步优化操作！
 
 ## 总结
