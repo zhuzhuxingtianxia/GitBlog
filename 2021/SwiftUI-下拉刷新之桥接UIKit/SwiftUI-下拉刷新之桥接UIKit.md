@@ -356,10 +356,15 @@ class ModelObject: ObservableObject {
     @Published var isRefreshing: Bool = false {
         didSet {
             if isRefreshing {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    self.isRefreshing = false
-                }
+                //刷新发起网络请求
+                requestData()
             }
+        }
+    }
+    
+    func requestData() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.isRefreshing = false
         }
     }
 }
