@@ -1,6 +1,6 @@
 # SwiftUI:List下拉刷新之桥接UIKit 2
 
-在[SwiftUI:List下拉刷新之桥接UIKit]()一文中我们让`List`拥有了下拉刷新的能力，我们也想让`ScrollView`也拥有这个功能。我们可以把`PullToRefresh`中桥接的查询从`UITableView`换成`UIScrollView`,因为`UITableView`继承自`UIScrollView`，所以功能上是不受影响的。
+在[SwiftUI:List下拉刷新之桥接UIKit](https://www.jianshu.com/p/75010f9ddce2)一文中我们让`List`拥有了下拉刷新的能力，我们也想让`ScrollView`也拥有这个功能。我们可以把`PullToRefresh`中桥接的查询从`UITableView`换成`UIScrollView`,因为`UITableView`继承自`UIScrollView`，所以功能上是不受影响的。
 只需要修改为`scrollView(root: UIView) -> UIScrollView?`即可，如下：
 ```
 private func scrollView(root: UIView) -> UIScrollView? {
@@ -169,6 +169,8 @@ var body: some View {
    }
 }
 ```
+
+![refreshed](./refreshed.gif)
 
 ## 总结
 如果你想使用第三方的刷新或加载更多组件，在`UIViewRepresentable`中接入也是一个不错的选择。
