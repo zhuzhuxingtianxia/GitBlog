@@ -165,6 +165,7 @@ struct RefreshUI: UIViewRepresentable {
             }
             if style == .header {
                 if let refreshControl = scrollView.refreshControl {
+                		context.coordinator.resetFooter(scrollView)
                     if self.isRefreshing {
                         refreshControl.beginRefreshing()
                     } else {
@@ -210,6 +211,7 @@ extension RefreshUI {
         private var stateToken: NSKeyValueObservation?
         private var sizeToken: NSKeyValueObservation?
         private var initOffset:CGFloat = 0
+        private var initInsetBottom:CGFloat = 0
         private let height:CGFloat = 60
         private var progress: CGFloat = 0
         private var footerView:FooterView?
@@ -223,6 +225,15 @@ extension RefreshUI {
             self.action = action
         }
         
+        func resetFooter(_ scrollView: UIScrollView) {
+            if style == .header {
+                if initInsetBottom != scrollView.contentInset.bottom, scrollView.contentOffset.y <= initOffset - height {
+                    scrollView.contentInset.bottom = initInsetBottom
+                }
+            }
+            
+        }
+        
         func setupFooterView(_ scrollView: UIScrollView) {
             if style == .footer{
                 if footerView == nil  {
@@ -230,13 +241,16 @@ extension RefreshUI {
                 }
                 footerView?.loadingText = noMoreText
                 if noMoreText != nil && !isRefreshing.wrappedValue {
-                    scrollView.contentInset.bottom += self.height
+                    scrollView.contentInset.bottom = initInsetBottom + self.height
                 }
                 
                 if footerView?.isRefreshing != isRefreshing.wrappedValue && !isRefreshing.wrappedValue {
                     DispatchQueue.main.async {
                         UIView.animate(withDuration: 0.3, animations: {
-                            scrollView.contentInset.bottom -= self.height
+                            if self.noMoreText == nil {
+                                scrollView.contentInset.bottom -= self.height
+                            }
+                            
                         }, completion: { _ in
                             
                             self.progress = 0
@@ -270,8 +284,12 @@ extension RefreshUI {
                 
                 self?.scrollViewDidEndDragging(scrollView)
             }
+            
+            initInsetBottom = scrollView.contentInset.bottom
+            
             if style == .header {
                 initOffset = scrollView.contentOffset.y
+                
             }else {
                 guard let footerView = footerView  else {
                     return
@@ -299,6 +317,7 @@ extension RefreshUI {
                 }
                
             }
+            
         }
         
         func scrollViewDidEndDragging(_ scrollView: UIScrollView) {
