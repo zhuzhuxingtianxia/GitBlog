@@ -66,7 +66,7 @@ class ModelObject: ObservableObject {
 }
 ```
 
-在这里我们同时订阅了`isRefreshing``isLoadingMore`和`array`,当它们发生变化时，将会触发网络请求和界面渲染。
+在这里我们同时订阅了`isRefreshing` `isLoadingMore`和`array`,当它们发生变化时，将会触发网络请求和界面渲染。
 
 SwiftUI界面调用就变得简单了：
 ```
