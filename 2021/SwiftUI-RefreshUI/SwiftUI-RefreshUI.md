@@ -433,7 +433,7 @@ private class FooterView: UIView {
 }
 ```
 
-最总运行效果如下：
+最终运行效果如下：
 
 ![refreshUI](./refreshUI.gif)
 
