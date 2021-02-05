@@ -1,5 +1,5 @@
 # SwiftUI:刷新组件RefreshUI之桥接UIKit
-在这篇文章中我们将把下拉刷新和上拉加载功能合并到一个自定义组件`RefreshUI`。在UIKit中`UIScrollView`自带`refreshControl`下拉刷新功能。我们只需要在合适的时机做一下状态处理即可，具体可参看[SwiftUI:List下拉刷新之桥接UIKit](https://www.jianshu.com/p/0190bfaa0949https://www.jianshu.com/p/0190bfaa0949)。
+在这篇文章中我们将把下拉刷新和上拉加载功能合并到一个自定义组件`RefreshUI`。在UIKit中`UIScrollView`自带`refreshControl`下拉刷新功能。我们只需要在合适的时机做一下状态处理即可，具体可参看[SwiftUI:List下拉刷新之桥接UIKit](https://www.jianshu.com/p/0190bfaa0949)。
 但是上拉加载就需要我们自己去处理了，在一些第三方的刷新组件中，下拉刷新和上拉加载功能都是采用自定义的方式。我们在这里参考三方组件中上拉加载功能的一些思路，做一个简单的上拉加载功能。
 
 最终效果如下：
