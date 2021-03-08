@@ -24,20 +24,6 @@ struct HUD<Content: View>: View {
       )
   }
 }
-struct HUD<Content: View>: View {
-  @ViewBuilder let content: Content
-
-  var body: some View {
-    content
-      .padding(.horizontal, 12)
-      .padding(16)
-      .background(
-        Capsule()
-          .foregroundColor(Color.white)
-          .shadow(color: Color(.black).opacity(0.16), radius: 12, x: 0, y: 5)
-      )
-  }
-}
 ```
 例如，我们可以用以下方法创建预览:
 ```
