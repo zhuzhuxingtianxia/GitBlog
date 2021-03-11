@@ -31,7 +31,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
-* [SwiftUI:自定义HUDs](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs.md)
+* [SwiftUI:自定义HUDs](./2021/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs.md)
 
 * [SwiftUI:刷新组件RefreshUI之桥接UIKit](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-RefreshUI/SwiftUI-RefreshUI.md)
 
