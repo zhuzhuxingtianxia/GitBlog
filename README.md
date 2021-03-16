@@ -65,3 +65,5 @@ Mac终端输入：`sudo vi /etc/hosts`
 * [SwiftUI:PreferenceKey的reduce方法解密](./2021/SwiftUI-PreferenceKey%E7%9A%84reduce%E6%96%B9%E6%B3%95%E8%A7%A3%E5%AF%86/SwiftUI-PreferenceKey%E7%9A%84reduce%E6%96%B9%E6%B3%95%E8%A7%A3%E5%AF%86.md)
 
 
+## [2020](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2020)
+
