@@ -1,6 +1,6 @@
 # SwiftUI: 全局状态管理
 
-随着SwiftUI的采用，创建全局范围内状态的新趋势正在形成。这是非常合理的，因为它是为数不多的正确处理深度链接、[HUDs]()等的方法之一。
+随着SwiftUI的采用，创建全局范围内状态的新趋势正在形成。这是非常合理的，因为它是为数不多的正确处理深度链接、[HUDs](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs.md)等的方法之一。
 在本文中，让我们看看这种方法，以及如何避免其使用弊端。
 
 ## App
