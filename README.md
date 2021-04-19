@@ -31,6 +31,8 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
+* [SwiftUI:views检查Mirror](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-views%E6%A3%80%E6%9F%A5Mirror/SwiftUI-views%E6%A3%80%E6%9F%A5Mirror.md)
+
 * [SwiftUI:全局状态管理](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/SwiftUI-%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86.md)
 
 * [SwiftUI:自定义HUDs](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89HUDs.md)
