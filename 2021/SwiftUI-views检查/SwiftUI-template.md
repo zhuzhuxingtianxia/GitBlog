@@ -1,2 +1,0 @@
-# SwiftUI:template
-
