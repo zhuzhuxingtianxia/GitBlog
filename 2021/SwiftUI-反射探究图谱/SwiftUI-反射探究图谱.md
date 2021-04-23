@@ -116,7 +116,7 @@ NavigationView<
 
 SwiftUI如何知道哪个存储/发布者与每个视图相关联?下面我们来回答这个问题。
 
-## 动态 VS 静态试图
+## 动态 VS 静态视图
 假如我们的应用需要显示`ViewA`:在这样做之前，SwiftUI需要弄清楚`ViewA`是动态的(也就是有自己的storage/publishers)还是静态的(也就是它是一组原语，如`Int`, `String`等)。
 
 这个问题的答案取决于视图的属性包装器。
