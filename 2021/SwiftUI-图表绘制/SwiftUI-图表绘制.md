@@ -147,7 +147,62 @@ func drawGrid() -> some View {
 ![graph_grid](./graph_grid.png)
 
 ### 绘制活动渐变线
-接下来，我们将编写`drawActivityGradient(logs:)`函数。
+接下来，我们将编写`drawActivityGradient(logs:)`函数。这将为图层添加一些样式，以便更好地展示数据的高低。思路是在这个矩形中创建一个`LinearGradient`,然后覆盖到图层中。让我们看下代码：
+```
+func drawActivityGradient(logs: [ActivityLog]) -> some View {
+    LinearGradient(gradient: Gradient(colors: [Color(red: 251/255, green: 82/255, blue: 0), .white]), startPoint: .top, endPoint: .bottom)
+        .padding(.horizontal, 8)
+        .padding(.bottom, 1)
+        .opacity(0.8)
+        .mask(
+            GeometryReader { geo in
+                Path { p in
+                    // 用于视图缩放的数据
+                    let maxNum = logs.reduce(0) { (res, log) -> Double in
+                        return max(res, log.distance)
+                    }
+
+                    let scale = geo.size.height / CGFloat(maxNum)
+
+                    //每个周的绘制索引 (0-11)
+                    var index: CGFloat = 0
+
+                    // 添加绘制的起始的x,y点坐标
+                    p.move(to: CGPoint(x: 8, y: geo.size.height - (CGFloat(logs[Int(index)].distance) * scale)))
+
+                    // 绘制添加线
+                    for _ in logs {
+                        if index != 0 {
+                            p.addLine(to: CGPoint(x: 8 + ((geo.size.width - 16) / 11) * index, y: geo.size.height - (CGFloat(logs[Int(index)].distance) * scale)))
+                        }
+                        index += 1
+                    }
+
+                    // 形成闭环路径
+                    p.addLine(to: CGPoint(x: 8 + ((geo.size.width - 16) / 11) * (index - 1), y: geo.size.height))
+                    p.addLine(to: CGPoint(x: 8, y: geo.size.height))
+                    p.closeSubpath()
+                }
+            }
+        )
+}
+```
+如果您现在取消对在`body`代码中`.overlay(drawActivityGradient(logs: logs))
+`绘制渐变的调用的注释:
+```
+var body: some View {
+    drawGrid()
+    .opacity(0.2)
+    .overlay(drawActivityGradient(logs: logs))
+    //.overlay(drawActivityLine(logs: logs))
+    //.overlay(drawLogPoints(logs: logs))
+    //.overlay(addUserInteraction(logs: logs))
+}
+```
+
+然后您应该会看到类似下图的内容。
+
+![drawGradient](./drawGradient.png)
 
 ### 绘制活动线
 
