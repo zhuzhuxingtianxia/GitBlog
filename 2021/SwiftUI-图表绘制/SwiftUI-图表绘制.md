@@ -146,7 +146,7 @@ func drawGrid() -> some View {
 
 ![graph_grid](./graph_grid.png)
 
-### 绘制活动渐变线
+### 绘制渐变线
 接下来，我们将编写`drawActivityGradient(logs:)`函数。这将为图层添加一些样式，以便更好地展示数据的高低。思路是在这个矩形中创建一个`LinearGradient`,然后覆盖到图层中。让我们看下代码：
 ```
 func drawActivityGradient(logs: [ActivityLog]) -> some View {
