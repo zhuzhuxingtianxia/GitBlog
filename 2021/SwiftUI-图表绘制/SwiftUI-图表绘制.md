@@ -543,21 +543,6 @@ struct ActivityHistoryView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            // Stats
-            ActivityHistoryText(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
-            
-            // Graph
-            ActivityGraph(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
-            
-        }.padding()
-    }
-}
-struct ActivityHistoryView: View {
-    
-    @State var selectedIndex: Int = 0
-    
-    var body: some View {
-        VStack(spacing: 16) {
             // 统计数据文本视图
             ActivityHistoryText(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
             
