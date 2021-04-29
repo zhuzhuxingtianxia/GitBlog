@@ -205,18 +205,366 @@ var body: some View {
 ![drawGradient](./drawGradient.png)
 
 ### 绘制活动线
+绘制线条函数的工作原理与渐变函数类似。唯一的区别是，我们不会关闭路径并使用它作为一个遮罩。我们简单地画一条线，给它一些颜色。参见下面的`drawActivityLine(logs:)`函数。
+```
+func drawActivityLine(logs: [ActivityLog]) -> some View {
+    GeometryReader { geo in
+        Path { p in
+            let maxNum = logs.reduce(0) { (res, log) -> Double in
+                return max(res, log.distance)
+            }
 
+            let scale = geo.size.height / CGFloat(maxNum)
+            var index: CGFloat = 0
+
+            p.move(to: CGPoint(x: 8, y: geo.size.height - (CGFloat(logs[0].distance) * scale)))
+
+            for _ in logs {
+                if index != 0 {
+                    p.addLine(to: CGPoint(x: 8 + ((geo.size.width - 16) / 11) * index, y: geo.size.height - (CGFloat(logs[Int(index)].distance) * scale)))
+                }
+                index += 1
+            }
+        }
+        .stroke(style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round, miterLimit: 80, dash: [], dashPhase: 0))
+        .foregroundColor(Color(red: 251/255, green: 82/255, blue: 0))
+    }
+}
+```
+取消`body`变量中的行注释后，您应该会在预览画布中看到如下图所示的内容。
+
+![add_line](./add_line.png)
 
 ### 绘制点
+我们的下一个函数，`drawLogPoints(logs:)`将在图形上放置圆圈点作为覆盖。请参见下面的代码:
+```
+func drawLogPoints(logs: [ActivityLog]) -> some View {
+    GeometryReader { geo in
 
+        let maxNum = logs.reduce(0) { (res, log) -> Double in
+            return max(res, log.distance)
+        }
+
+        let scale = geo.size.height / CGFloat(maxNum)
+
+        ForEach(logs.indices) { i in
+            Circle()
+                .stroke(style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round, miterLimit: 80, dash: [], dashPhase: 0))
+                .frame(width: 10, height: 10, alignment: .center)
+                .foregroundColor(Color(red: 251/255, green: 82/255, blue: 0))
+                .background(Color.white)
+                .cornerRadius(5)
+                .offset(x: 8 + ((geo.size.width - 16) / 11) * CGFloat(i) - 5, y: (geo.size.height - (CGFloat(logs[i].distance) * scale)) - 5)
+        }
+    }
+}
+```
+通过在`body`变量中取消注释绘制点的那行代码，您应该在画布预览中获得以下结果。
+
+![points_overlayed](./points_overlayed.png)
 
 ### 添加用户交互
+现在我们已经到了构建图表的最后一步。我们将为用户添加拖动图形的能力。这将在图形选择的位置显示一条垂直线。
+
+![dragging_across_graph](./dragging_across_graph.png)
+
+它的工作方式是通过向视图添加一个`DragGesture`，在这个过程中我们将获得用户的触摸位置。
+使用该位置，我们将沿着活动图形放置一条垂直线和一个点。
+
+同样，我们将编写一个名为`addUserInteraction(logs:)`的函数让它返回一个`View`视图。
+```
+func addUserInteraction(logs: [ActivityLog]) -> some View {
+    GeometryReader { geo in
+
+        let maxNum = logs.reduce(0) { (res, log) -> Double in
+            return max(res, log.distance)
+        }
+
+        let scale = geo.size.height / CGFloat(maxNum)
+
+        ZStack(alignment: .leading) {
+            // 线和点叠加
+
+            // 添加拖动手势代码
+            
+        }
+
+    }
+}
+```
+首先让我们设计垂直的线和圆点覆盖叠加。
+
+```
+func addUserInteraction(logs: [ActivityLog]) -> some View {
+    GeometryReader { geo in
+
+        let maxNum = logs.reduce(0) { (res, log) -> Double in
+            return max(res, log.distance)
+        }
+
+        let scale = geo.size.height / CGFloat(maxNum)
+
+        ZStack(alignment: .leading) {
+            // 线和点叠加
+            Color(red: 251/255, green: 82/255, blue: 0)
+                .frame(width: 2)
+                .overlay(
+                    Circle()
+                        .frame(width: 24, height: 24, alignment: .center)
+                        .foregroundColor(Color(red: 251/255, green: 82/255, blue: 0))
+                        .opacity(0.2)
+                        .overlay(
+                            Circle()
+                                .fill()
+                                .frame(width: 12, height: 12, alignment: .center)
+                                .foregroundColor(Color(red: 251/255, green: 82/255, blue: 0))
+                        )
+                    , alignment: .bottom) // 设置和圆底部对齐
+            // 添加拖动手势代码
+            
+        }
+
+    }
+}
+```
+为了让视图遵循用户的触摸，我们需要偏移视图，包括垂直线和圆覆盖。
+为此，我们需要添加一些新的`@State`变量。这样做的目的是，当用户选择垂直线时，垂直线会捕捉到用户的触摸位置，但当用户抬起手指时，垂直线又会捕捉到最近的记录点。
+```
+@State var lineOffset: CGFloat = 8 // 垂直线的偏移量
+@State var selectedXPos: CGFloat = 8 // 手势位置X点
+@State var selectedYPos: CGFloat = 0 // 手势位置Y点
+@State var isSelected: Bool = false // 用户是否触摸图形
+```
+现在定义了这些变量后，我们可以添加使视图偏移的代码。
+```
+func addUserInteraction(logs: [ActivityLog]) -> some View {
+    GeometryReader { geo in
+
+        let maxNum = logs.reduce(0) { (res, log) -> Double in
+            return max(res, log.distance)
+        }
+
+        let scale = geo.size.height / CGFloat(maxNum)
+
+        ZStack(alignment: .leading) {
+            // 线和点叠加
+            Color(red: 251/255, green: 82/255, blue: 0)
+                .frame(width: 2)
+                .overlay(
+                    Circle()
+                        .frame(width: 24, height: 24, alignment: .center)
+                        .foregroundColor(Color(red: 251/255, green: 82/255, blue: 0))
+                        .opacity(0.2)
+                        .overlay(
+                            Circle()
+                                .fill()
+                                .frame(width: 12, height: 12, alignment: .center)
+                                .foregroundColor(Color(red: 251/255, green: 82/255, blue: 0))
+                        )
+                        .offset(x: 0, y: isSelected ? 12 - (selectedYPos * scale) : 12 - (CGFloat(logs[selectedIndex].distance) * scale))
+                    , alignment: .bottom)
+
+                .offset(x: isSelected ? lineOffset : 8 + ((geo.size.width - 16) / 11) * CGFloat(selectedIndex), y: 0)
+                .animation(Animation.spring().speed(4))
+
+            // 添加拖动手势代码
+
+    }
+}
+```
+
+这样我们就可以添加`DragGesture`代码了。我们将添加这是一个几乎完全透明的视图，它将捕获用户触摸事件。
+```
+func addUserInteraction(logs: [ActivityLog]) -> some View {
+    GeometryReader { geo in
+
+        let maxNum = logs.reduce(0) { (res, log) -> Double in
+            return max(res, log.distance)
+        }
+
+        let scale = geo.size.height / CGFloat(maxNum)
+
+        ZStack(alignment: .leading) {
+            // 线和点叠加的代码放在前面
+            // ....
+            
+            // 拖动手势代码
+            Color.white.opacity(0.1)
+                .gesture(
+                    DragGesture(minimumDistance: 0)
+                        .onChanged { touch in
+                            let xPos = touch.location.x
+                            self.isSelected = true
+                            let index = (xPos - 8) / (((geo.size.width - 16) / 11))
+
+                            if index > 0 && index < 11 {
+                                let m = (logs[Int(index) + 1].distance - logs[Int(index)].distance)
+                                self.selectedYPos = CGFloat(m) * index.truncatingRemainder(dividingBy: 1) + CGFloat(logs[Int(index)].distance)
+                            }
 
 
+                            if index.truncatingRemainder(dividingBy: 1) >= 0.5 && index < 11 {
+                                self.selectedIndex = Int(index) + 1
+                            } else {
+                                self.selectedIndex = Int(index)
+                            }
+                            self.selectedXPos = min(max(8, xPos), geo.size.width - 8)
+                            self.lineOffset = min(max(8, xPos), geo.size.width - 8)
+                        }
+                        .onEnded { touch in
+                            let xPos = touch.location.x
+                            self.isSelected = false
+                            let index = (xPos - 8) / (((geo.size.width - 16) / 11))
+
+                            if index.truncatingRemainder(dividingBy: 1) >= 0.5 && index < 11 {
+                                self.selectedIndex = Int(index) + 1
+                            } else {
+                                self.selectedIndex = Int(index)
+                            }
+                        }
+                )
+        }
+
+    }
+}
+```
+
+![result_Graph](./result_Graph.gif)
 
 ## 构造活动统计文本
 
+现在我们的图表已经完成了，我们把它放到项目中用于显示活动统计信息。我继续创建了一个名为`ActivityStatsText`的新的swifitUI视图，并传递了与图表相同的参数。这里我不会深入讲解，但是我将日志按周分组，就像图表一样，并在视图中显示了这些周的里程、持续时间和海拔统计数据。`selectedIndex`变量绑定在父视图上，它与提供给图表的父视图相同。这样，当用户点击图形时，统计文本根据用户选择的活动日志而变化。
+```
+struct ActivityHistoryText: View {
+    
+    var logs: [ActivityLog]
+    var mileMax: Int
+    
+    @Binding var selectedIndex: Int
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd"
+        return formatter
+    }
+    
+    init(logs: [ActivityLog], selectedIndex: Binding<Int>) {
+        self._selectedIndex = selectedIndex
+        
+        let curr = Date() // 当前日期
+        let sortedLogs = logs.sorted { (log1, log2) -> Bool in
+            log1.date > log2.date
+        } // 按时间顺序对日志进行排序
+        
+        var mergedLogs: [ActivityLog] = []
 
+        for i in 0..<12 {
 
+            var weekLog: ActivityLog = ActivityLog(distance: 0, duration: 0, elevation: 0, date: Date())
 
+            for log in sortedLogs {
+                if log.date.distance(to: curr.addingTimeInterval(TimeInterval(-604800 * i))) < 604800 && log.date < curr.addingTimeInterval(TimeInterval(-604800 * i)) {
+                    weekLog.distance += log.distance
+                    weekLog.duration += log.duration
+                    weekLog.elevation += log.elevation
+                }
+            }
+
+            mergedLogs.insert(weekLog, at: 0)
+        }
+
+        self.logs = mergedLogs
+        self.mileMax = Int(mergedLogs.max(by: { $0.distance < $1.distance })?.distance ?? 0)
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("\(dateFormatter.string(from: logs[selectedIndex].date.addingTimeInterval(-604800))) - \(dateFormatter.string(from: logs[selectedIndex].date))".uppercased())
+                .font(Font.body.weight(.heavy))
+            
+            HStack(spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Distance")
+                        .font(.caption)
+                        .foregroundColor(Color.black.opacity(0.5))
+                    Text(String(format: "%.2f mi", logs[selectedIndex].distance))
+                        .font(Font.system(size: 20, weight: .medium, design: .default))
+                }
+                
+                Color.gray
+                    .opacity(0.5)
+                    .frame(width: 1, height: 30, alignment: .center)
+                    
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Time")
+                        .font(.caption)
+                        .foregroundColor(Color.black.opacity(0.5))
+                    Text(String(format: "%.0fh", logs[selectedIndex].duration / 3600) + String(format: " %.0fm", logs[selectedIndex].duration.truncatingRemainder(dividingBy: 3600) / 60))
+                        .font(Font.system(size: 20, weight: .medium, design: .default))
+                }
+                
+                Color.gray
+                    .opacity(0.5)
+                    .frame(width: 1, height: 30, alignment: .center)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Elevation")
+                        .font(.caption)
+                        .foregroundColor(Color.black.opacity(0.5))
+                    Text(String(format: "%.0f ft", logs[selectedIndex].elevation))
+                        .font(Font.system(size: 20, weight: .medium, design: .default))
+                }
+                
+                Spacer()
+            }
+            
+            VStack(alignment: .leading, spacing: 5) {
+                Text("LAST 12 WEEKS")
+                    .font(Font.caption.weight(.heavy))
+                    .foregroundColor(Color.black.opacity(0.7))
+                Text("\(mileMax) mi")
+                    .font(Font.caption)
+                    .foregroundColor(Color.black.opacity(0.5))
+            }.padding(.top, 10)
+            
+            
+        }
+    }
+```
+
+## 活动数据视图
+
+这是父视图，它包含图表视图和文本视图：
+```
+struct ActivityHistoryView: View {
+    
+    @State var selectedIndex: Int = 0
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            // Stats
+            ActivityHistoryText(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
+            
+            // Graph
+            ActivityGraph(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
+            
+        }.padding()
+    }
+}
+struct ActivityHistoryView: View {
+    
+    @State var selectedIndex: Int = 0
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            // 统计数据文本视图
+            ActivityHistoryText(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
+            
+            // 图表
+            ActivityGraph(logs: ActivityTestData.testData, selectedIndex: $selectedIndex)
+            
+        }.padding()
+    }
+}
+```
 
