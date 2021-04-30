@@ -10,7 +10,7 @@ import SwiftUI
 struct ActivityHistoryText: View {
     
     var logs: [ActivityLog]
-    var mileMax: Int
+    var mileMax: String
     
     @Binding var selectedIndex: Int
     
@@ -49,7 +49,7 @@ struct ActivityHistoryText: View {
         }
 
         self.logs = mergedLogs
-        self.mileMax = Int(mergedLogs.max(by: { $0.distance < $1.distance })?.distance ?? 0)
+        self.mileMax = String(format: "%.2f",mergedLogs.max(by: { $0.distance < $1.distance })?.distance ?? 0)
     }
     
     var body: some View {
@@ -97,7 +97,7 @@ struct ActivityHistoryText: View {
                 Text("最近 12 周")
                     .font(Font.caption.weight(.heavy))
                     .foregroundColor(Color.black.opacity(0.7))
-                Text("\(mileMax) mi")
+                Text("最远：\(mileMax) mi")
                     .font(Font.caption)
                     .foregroundColor(Color.black.opacity(0.5))
             }.padding(.top, 10)
