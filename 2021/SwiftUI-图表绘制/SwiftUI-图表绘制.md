@@ -369,7 +369,7 @@ func addUserInteraction(logs: [ActivityLog]) -> some View {
                 .animation(Animation.spring().speed(4))
 
             // 添加拖动手势代码
-			}
+		 }
     }
 }
 ```
