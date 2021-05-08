@@ -83,7 +83,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [SwiftUI: ScrollView offset](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-ScrollView%20offset/SwiftUI-ScrollView%20offset.md)
 
-* [SwiftUI: 灵活的布局]()
+* [SwiftUI: 灵活的布局](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E7%81%B5%E6%B4%BB%E7%9A%84%E5%B8%83%E5%B1%80/SwiftUI-%E7%81%B5%E6%B4%BB%E7%9A%84%E5%B8%83%E5%B1%80.md)
 
-* [SwiftUI: GeometryReader]()
+* [SwiftUI: GeometryReader](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-GeometryReader/SwiftUI-GeometryReader.md)
 
