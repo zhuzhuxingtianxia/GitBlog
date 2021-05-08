@@ -79,4 +79,6 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [SwiftUI: 有条件的视图修饰符view modifiers](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E6%9C%89%E6%9D%A1%E4%BB%B6%E7%9A%84%E8%A7%86%E5%9B%BE%E4%BF%AE%E9%A5%B0%E7%AC%A6view%20modifiers/SwiftUI-%E6%9C%89%E6%9D%A1%E4%BB%B6%E7%9A%84%E8%A7%86%E5%9B%BE%E4%BF%AE%E9%A5%B0%E7%AC%A6view%20modifiers.md)
 
+* [SwiftUI:设计一个Sidebar]()
+
 
