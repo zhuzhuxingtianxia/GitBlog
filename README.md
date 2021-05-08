@@ -75,3 +75,6 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2020](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2020)
 
+* [SwiftUI: 创建自定义的.redacted效果](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84.redacted%E6%95%88%E6%9E%9C/SwiftUI-%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84.redacted%E6%95%88%E6%9E%9C.md)
+
+
