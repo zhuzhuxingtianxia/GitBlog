@@ -87,3 +87,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [SwiftUI: GeometryReader](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-GeometryReader/SwiftUI-GeometryReader.md)
 
+* [SwiftUI:用ScrollViewReader和DragGesture桥接UIKit](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E7%94%A8ScrollViewReader%E5%92%8CDragGesture%E6%A1%A5%E6%8E%A5UIKit/SwiftUI-%E7%94%A8ScrollViewReader%E5%92%8CDragGesture%E6%A1%A5%E6%8E%A5UIKit.md)
+
+* [SwiftUI:为views添加可选的@Bindings](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E4%B8%BAviews%E6%B7%BB%E5%8A%A0%E5%8F%AF%E9%80%89%E7%9A%84%40Bindings/SwiftUI-%E4%B8%BAviews%E6%B7%BB%E5%8A%A0%E5%8F%AF%E9%80%89%E7%9A%84%40Bindings.md)
+
