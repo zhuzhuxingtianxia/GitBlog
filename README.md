@@ -91,7 +91,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [SwiftUI:为views添加可选的@Bindings](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E4%B8%BAviews%E6%B7%BB%E5%8A%A0%E5%8F%AF%E9%80%89%E7%9A%84%40Bindings/SwiftUI-%E4%B8%BAviews%E6%B7%BB%E5%8A%A0%E5%8F%AF%E9%80%89%E7%9A%84%40Bindings.md)
 
-* [SwiftUI:自定义SearchBar](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89SearchBar/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89SearchBar.md)
+* [SwiftUI:自定义SearchBar(内有学习文章)](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89SearchBar/SwiftUI-%E8%87%AA%E5%AE%9A%E4%B9%89SearchBar.md)
 
 * [SwiftUI:设计一个简单的ToastView](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/SwiftUI-%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84ToastView/SwiftUI-%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84ToastView.md)
 
