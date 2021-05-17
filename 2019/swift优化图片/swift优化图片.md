@@ -130,12 +130,12 @@ func downsampleImage(at URL:NSURL, maxSize:Float) -> UIImage
 # swift 说明
 ## convenience关键字和required关键字
 
-1. 使用convenience修饰的构造函数叫做便利构造函数，便利构造函数通常用在对系统的类进行构造函数的扩充时使用。**convenience**增加init的初始化方法,convenience修饰的初始化方法不能被子类重写或者是从子类中以super的方式被调用。
-> 1.便利构造函数通常都是写在extension里面；
-> 2.便利函数init前面需要加载convenience
-> 3.在便利构造函数中需要明确的调用self.init()
+###### 使用convenience修饰的构造函数叫做便利构造函数，便利构造函数通常用在对系统的类进行构造函数的扩充时使用。**convenience**增加init的初始化方法,convenience修饰的初始化方法不能被子类重写或者是从子类中以super的方式被调用。
+ 1. 便利构造函数通常都是写在extension里面；
+ 2. 便利函数init前面需要加载convenience
+ 3. 在便利构造函数中需要明确的调用self.init()
 
-2. 希望子类中一定实现的初始化方法，我们可以通过添加**required**关键字进行限制，强制子类对这个方法重写。
+###### 希望子类中一定实现的初始化方法，我们可以通过添加**required**关键字进行限制，强制子类对这个方法重写。
 
 ## Swift 访问级别
 
@@ -220,9 +220,9 @@ open class DataTransform: TransformType {
 
 ## 泛型Where分句
 
-泛型 Where 分句让你能够要求一个关联类型必须遵循指定的协议，或者指定的类型形式参数和关联类型必须相同。
-泛型 Where 分句以 Where 关键字开头，后接关联类型的约束或类型和关联类型一致的关系。
-泛型 Where 分句写在一个类型或函数体的左半个大括号前面。
+* 泛型 Where 分句让你能够要求一个关联类型必须遵循指定的协议，或者指定的类型形式参数和关联类型必须相同。
+* 泛型 Where 分句以 Where 关键字开头，后接关联类型的约束或类型和关联类型一致的关系。
+* 泛型 Where 分句写在一个类型或函数体的左半个大括号前面。
 
 ```
 func allItemsMatch <C1: Container, C2: Container> (_ someContainer: C1, _ anotherContainer: C2) -> Bool
@@ -239,10 +239,11 @@ func allItemsMatch <C1: Container, C2: Container> (_ someContainer: C1, _ anothe
 }
 
 ```
-C1 必须遵循 Container 协议（写作 C1: Container ）；
-C2 也必须遵循 Container 协议（写作 C2: Container ）；
-C1 的 ItemType 必须和 C2 的 ItemType 相同（写作 C1.ItemType == C2.ItemType ）；
-C1 的 ItemType 必须遵循 Equatable 协议（写作 C1.ItemType: Equatable ）
+
+* C1 必须遵循 Container 协议（写作 C1: Container ）；
+* C2 也必须遵循 Container 协议（写作 C2: Container ）；
+* C1 的 ItemType 必须和 C2 的 ItemType 相同（写作 C1.ItemType == C2.ItemType ）；
+* C1 的 ItemType 必须遵循 Equatable 协议（写作 C1.ItemType: Equatable ）
 
 ## 带有泛型 Where 分句的扩展
 ```
