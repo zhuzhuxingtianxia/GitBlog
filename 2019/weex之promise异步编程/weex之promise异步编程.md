@@ -10,10 +10,10 @@ promise是异步编程的一种解决方法,比传统的回调函数和事件更
 ![flow.jpg](./flow.jpg)
 
 * Promise对象可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
-* Promise的缺点：
- 1.首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
- 2.其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
- 3.第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+* Promise的缺点：<br/>
+ 1. 首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
+ 2. 其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
+ 3. 第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
 
 ## Promise实例
 使用构造函数创建一个promise对象实例
@@ -29,7 +29,7 @@ var promise = new Promise( function( resolve, reject) {
 
 ```
 **参数：**resolve和reject，是两个函数，由Javascript引擎提供，不用自己部署。
-`resolve函数的作用`：将promise对象的状态从“pending”变为‘’resolved‘’，在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
+`resolve函数的作用`：将promise对象的状态从“pending”变为“resolved”，在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
 
 `reject函数的作用是`：将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为 rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
 
@@ -45,8 +45,10 @@ promise.then(
 
 ```
 then()方法回调函数说明：
+
 * 第一个回调函数是promise对象的状态变为resolved时调用；
 * 第二个函数是可选的，是promise对象的状态变为rejected时调用；
+
 这两个函数都接受promise对象传出的值作为参数。
 
 如果调用resolve函数和reject函数时带有参数，那么他们的参数会被传递给回调函数，reject函数的参数通常是Error对象的实例，表示抛出的错误，resolve函数的参数除了正常的值以外，还可以是另一个promise实例；
@@ -65,6 +67,7 @@ p1和p2都是 Promise 的实例，但是p2的resolve方法将p1作为参数，�
 这时p1的状态就会传递给p2，也就是说，p1的状态决定了p2的状态。如果p1的状态是pending，那么p2的回调函数就会等待p1的状态改变；如果p1的状态已经是resolved或者rejected，那么p2的回调函数将会立刻执行。
 
 ## Promise执行顺序问题
+
 看下这段代码输入：
 ```
 let promise = new Promise(function(resolve, reject) {
@@ -172,7 +175,9 @@ promise对象实现stream操作的例子
     }
 
 ```
+
 发起请求
+
 ```
 const body = {title:'标题', article:'内容'};
 const API = 'https://jsonplaceholder.typicode.com/posts';
@@ -183,7 +188,7 @@ this.post(API,body).then(data =>{
  
 ```
 
-then()方法返回的是一个新的Promise实例（不是原来那个Promise实例），因此可以采用链式写法，即then方法后面再调用另一个then方法
+`then()`方法返回的是一个新的Promise实例（不是原来那个Promise实例），因此可以采用链式写法，即then方法后面再调用另一个then方法
 ```
 post(url,param).then(function (respone){
            return respone;
@@ -193,6 +198,7 @@ post(url,param).then(function (respone){
 
 ```
 采用链式的then，可以指定一组按照次序调用的回调函数。这时前一个回调函数，有可能返回的还是一个promise对象(即有异步操作)，这时后一个回调函数，就会等待该promise对象的状态发生变化，才会被调用。例如两个网络请求，第二个依赖于第一个请求返回的数据：
+
 ```
 const self = this;
 this.post(API,body).then(function(data){

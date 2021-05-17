@@ -113,12 +113,12 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [swift内存泄漏](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/swift%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F.md)
 
-* [weex之promise异步编程]()
+* [weex之promise异步编程](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/weex%E4%B9%8Bpromise%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/weex%E4%B9%8Bpromise%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B.md)
 
-* [swift优化图片]()
+* [swift优化图片及关键字](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E4%BC%98%E5%8C%96%E5%9B%BE%E7%89%87/swift%E4%BC%98%E5%8C%96%E5%9B%BE%E7%89%87.md)
 
-* [js高阶函数用法]()
+* [js高阶函数用法](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/js%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95/js%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95.md)
 
-* [NSArray的enumerate]()
+* [NSArray的enumerate](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/NSArray%E7%9A%84enumerate/NSArray%E7%9A%84enumerate.md)
 
 
