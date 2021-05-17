@@ -105,3 +105,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [swift指针和对象的相互转化](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E6%8C%87%E9%92%88%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96/swift%E6%8C%87%E9%92%88%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96.md)
 
+* [NSKeyedUnarchiver在iOS11以上的用法](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/NSKeyedUnarchiver%E5%9C%A8iOS11%E4%BB%A5%E4%B8%8A%E7%9A%84%E7%94%A8%E6%B3%95/NSKeyedUnarchiver%E5%9C%A8iOS11%E4%BB%A5%E4%B8%8A%E7%9A%84%E7%94%A8%E6%B3%95.md)
+
+* [关于离屏渲染的深入研究](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/%E5%85%B3%E4%BA%8E%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6/%E5%85%B3%E4%BA%8E%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6.md)
+
