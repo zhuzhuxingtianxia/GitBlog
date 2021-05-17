@@ -121,4 +121,12 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [NSArray的enumerate](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/NSArray%E7%9A%84enumerate/NSArray%E7%9A%84enumerate.md)
 
+## [2018](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2018)
+
+* [weex实战案例](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2018/weex%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B/weex%E5%AE%9E%E6%88%98%E6%A1%88%E4%BE%8B.md)
+
+* [Weex之stream的坑](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2018/Weex%E4%B9%8Bstream%E7%9A%84%E5%9D%91/Weex%E4%B9%8Bstream%E7%9A%84%E5%9D%91.md)
+
+* [iOS创建Pod库方法]()
+
 
