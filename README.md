@@ -97,3 +97,11 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [iOS方法签名](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2020/iOS%E6%96%B9%E6%B3%95%E7%AD%BE%E5%90%8D/iOS%E6%96%B9%E6%B3%95%E7%AD%BE%E5%90%8D.md)
 
+## [2019](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2019)
+
+* [weex开发之与web交互](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/weex%E5%BC%80%E5%8F%91%E4%B9%8B%E4%B8%8Eweb%E4%BA%A4%E4%BA%92/weex%E5%BC%80%E5%8F%91%E4%B9%8B%E4%B8%8Eweb%E4%BA%A4%E4%BA%92.md)
+
+* [swift之单链表学习](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E4%B9%8B%E5%8D%95%E9%93%BE%E8%A1%A8%E5%AD%A6%E4%B9%A0/swift%E4%B9%8B%E5%8D%95%E9%93%BE%E8%A1%A8%E5%AD%A6%E4%B9%A0.md)
+
+* [swift指针和对象的相互转化](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E6%8C%87%E9%92%88%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96/swift%E6%8C%87%E9%92%88%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96.md)
+
