@@ -1,20 +1,21 @@
 # iOS方法签名
 ## 一.方法签名NSMethodSignature
 如何获取NSMethodSignature的实例？
+
 1. NSMethodSignature类的初始化方法：
 ```
  + (nullable NSMethodSignature *)signatureWithObjCTypes:(const char *)types;
 ```
-2. NSObject中也包含获取NSMethodSignature对象的方法
-2.1 获取类方法或者实例方法签名, 无论是对象还是类对象都能调用该方法
+2. NSObject中也包含获取NSMethodSignature对象的方法 <br/>
+ 获取类方法或者实例方法签名, 无论是对象还是类对象都能调用该方法
 ```
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector;
 ```
-2.2 只能获取实例方法签名
+ 只能获取实例方法签名
 ```
 + (NSMethodSignature *)instanceMethodSignatureForSelector:(SEL)aSelector
 ```
-3.  方法签名中的CTypes描述
+3. 方法签名中的CTypes描述
 
 第一个表示返回值类型，例如：@为id类型，v为void类型
 第二个表示函数调用者类型self，即为id类型。一般表示为@
