@@ -130,12 +130,12 @@ func downsampleImage(at URL:NSURL, maxSize:Float) -> UIImage
 # swift 说明
 ## convenience关键字和required关键字
 
-一.使用convenience修饰的构造函数叫做便利构造函数，便利构造函数通常用在对系统的类进行构造函数的扩充时使用。**convenience**增加init的初始化方法,convenience修饰的初始化方法不能被子类重写或者是从子类中以super的方式被调用。
-1、便利构造函数通常都是写在extension里面；
-2、便利函数init前面需要加载convenience
-3、在便利构造函数中需要明确的调用self.init()
+1. 使用convenience修饰的构造函数叫做便利构造函数，便利构造函数通常用在对系统的类进行构造函数的扩充时使用。**convenience**增加init的初始化方法,convenience修饰的初始化方法不能被子类重写或者是从子类中以super的方式被调用。
+> 1.便利构造函数通常都是写在extension里面；
+> 2.便利函数init前面需要加载convenience
+> 3.在便利构造函数中需要明确的调用self.init()
 
-二.希望子类中一定实现的初始化方法，我们可以通过添加**required**关键字进行限制，强制子类对这个方法重写。
+2. 希望子类中一定实现的初始化方法，我们可以通过添加**required**关键字进行限制，强制子类对这个方法重写。
 
 ## Swift 访问级别
 
