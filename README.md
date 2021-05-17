@@ -113,3 +113,12 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [swift内存泄漏](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/swift%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F.md)
 
+* [weex之promise异步编程]()
+
+* [swift优化图片]()
+
+* [js高阶函数用法]()
+
+* [NSArray的enumerate]()
+
+
