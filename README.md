@@ -109,3 +109,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [关于离屏渲染的深入研究](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/%E5%85%B3%E4%BA%8E%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6/%E5%85%B3%E4%BA%8E%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93%E7%9A%84%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6.md)
 
+* [weex之百度地图组件开发](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/weex%E4%B9%8B%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E7%BB%84%E4%BB%B6%E5%BC%80%E5%8F%91/weex%E4%B9%8B%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BE%E7%BB%84%E4%BB%B6%E5%BC%80%E5%8F%91.md)
+
+* [swift内存泄漏](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2019/swift%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F/swift%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F.md)
+
