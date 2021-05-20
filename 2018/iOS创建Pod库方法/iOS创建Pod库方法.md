@@ -2,21 +2,21 @@
 
 ## 本地Pod库
 
-#### 新建lib库
+#### 一、新建lib库
 在工程目录新建文件夹，名称XXXLib（随便什么名字，最好可读性较强，带有集成库的含义即可）
 
-#### 新建同名文件夹
+#### 二、新建同名文件夹
 在上述库中新建与你想要集成库**同名**文件夹
 我要集成的文件是`NTalkerSDK`，所以新建了该文件夹
 
-#### 创建 .podspec 文件
+#### 三、创建 .podspec 文件
 pod 命令会生成 `.podspec` 文件
 ```
 cd NTalkerSDK
 pod spec create NTalkerSDK
 ```
 
-#### 配置 .podspec 文件
+#### 四、配置 .podspec 文件
 ```
 Pod::Spec.new do |spec|
 
@@ -77,19 +77,23 @@ Pod::Spec.new do |spec|
 end
 ```
 
-#### 检查 .podspec
+#### 五、检查 .podspec
 切换到`NTalkerSDK.podspec` 路径，执行命令：
 ```
 pod lib lint
 ```
 会出现一些问题，可根据提示排查
 
-**问题：**模拟器下编译不通过问题
+**问题**模拟器下编译不通过问题
 在`pod lib lint --verbose` 阶段就不能通过，直接报错！
 
-`Ld /Users/jion/Library/Developer/Xcode/DerivedData/App-dphkvfphtohrwobsykxtcixkolaq/Build/Intermediates.noindex/App.build/Release-iphonesimulator/App.build/Objects-normal/i386/App normal i386 (in target: App)`
+```
+Ld /Users/jion/Library/Developer/Xcode/DerivedData/App-dphkvfphtohrwobsykxtcixkolaq/Build/Intermediates.noindex/App.build/Release-iphonesimulator/App.build/Objects-normal/i386/App normal i386 (in target: App)
+```
 或
-`Ld /Users/jion/Library/Developer/Xcode/DerivedData/App-dphkvfphtohrwobsykxtcixkolaq/Build/Intermediates.noindex/App.build/Release-iphonesimulator/App.build/Objects-normal/x86_64/App normal x86_64 (in target: App)`
+```
+Ld /Users/jion/Library/Developer/Xcode/DerivedData/App-dphkvfphtohrwobsykxtcixkolaq/Build/Intermediates.noindex/App.build/Release-iphonesimulator/App.build/Objects-normal/x86_64/App normal x86_64 (in target: App)
+```
 
 解决方法：
 
@@ -97,7 +101,7 @@ pod lib lint
 2. `pod lib lint`命令添加 `--skip-import-validation`参数，lint 将跳过验证 pod 是否可以导入。
 3. 如果上传则 `pod repo push` 命令添加 `--skip-import-validation` 参数，push 将跳过验证 pod 是否可以导入。 
 
-**编译报错：** `(maybe you meant: ___llvm_profile_runtime_user)`
+**编译报错：** `(maybe you meant: ___llvm_profile_runtime_user)`<br/>
  解决：Other Linker Flags中添加`-fprofile-instr-generate`
 
 ## 公共Pod库
