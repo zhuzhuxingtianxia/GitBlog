@@ -127,6 +127,6 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [Weex之stream的坑](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2018/Weex%E4%B9%8Bstream%E7%9A%84%E5%9D%91/Weex%E4%B9%8Bstream%E7%9A%84%E5%9D%91.md)
 
-* [iOS创建Pod库方法]()
+* [iOS创建Pod库方法](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2018/iOS%E5%88%9B%E5%BB%BAPod%E5%BA%93%E6%96%B9%E6%B3%95/iOS%E5%88%9B%E5%BB%BAPod%E5%BA%93%E6%96%B9%E6%B3%95.md)
 
 
