@@ -129,4 +129,6 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 * [iOS创建Pod库方法](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2018/iOS%E5%88%9B%E5%BB%BAPod%E5%BA%93%E6%96%B9%E6%B3%95/iOS%E5%88%9B%E5%BB%BAPod%E5%BA%93%E6%96%B9%E6%B3%95.md)
 
+* [iOS在storyboard或xib中添加另一个xib](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2018/iOS%E5%9C%A8storyboard%E6%88%96xib%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%8F%A6%E4%B8%80%E4%B8%AAxib/iOS%E5%9C%A8storyboard%E6%88%96xib%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%8F%A6%E4%B8%80%E4%B8%AAxib.md)
+
 
