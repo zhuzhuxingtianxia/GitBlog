@@ -276,4 +276,6 @@ NSPredicate *predTemp = [NSPredicate predicateWithFormat:@"%K = %@",@"name",
 ```
 查看newArray1，newArray2:
 
+![ppt2](./ppt2.jpg)
+
 
