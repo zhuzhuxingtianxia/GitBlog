@@ -1,0 +1,27 @@
+
+.headerComponent {
+    position: sticky;
+    left: 0;
+    top:0;
+    z-index: 1999;
+    &__navBar {
+        height: 44px;
+        padding-top: 20px;
+        box-shadow: 0 10px 10px hsla(0,0%,95.7%,0.6);
+        .am-navbar-left {
+            padding-left: 0;
+        }
+        .am-navbar-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    }
+
+    //华为p40-780，iPhonex-812,iphonePlus-736
+    @media screen and (min-height: 780px) {
+        &__navBar {
+            padding-top: 44px;
+        }
+    }
+}
