@@ -9,7 +9,7 @@ const Detail = (props={}) => {
             <Header>{'详情'}</Header>
             <div className='wrap_content'>
                 <div onClick={()=>{
-                    window.appHistory.goBack()
+                    props.history.goBack()
                  }}>goBack</div>
             </div>
             
