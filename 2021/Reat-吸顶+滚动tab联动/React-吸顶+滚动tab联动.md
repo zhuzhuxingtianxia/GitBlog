@@ -565,7 +565,12 @@ onTouchMove={onTouchMove}
 onTouchEnd={onTouchEnd}
 
 ```
-因为在tab点击切换时发现`onScroll`方法也是会执行的，所以添加手势方法用于区分是点击事件还是滑动事件。
+因为在tab点击切换时发现`onScroll`方法也是会执行的，所以添加手势方法用于区分是点击事件还是滑动事件,这里我们设置一个变量`isDragging`。
+在`const StickyPage`的上方添加：
+```
+let isDragging = false
+let pageY = 0
+```
 方法实现如下：
 ```
 const onScroll = (e) => {
@@ -607,6 +612,49 @@ const onTouchEnd = () => {
 
 ## 如何解决滑动缓冲问题
 
+如何知道滚动缓冲后停止这个动作呢，我们并没有类似`onScrollStop`这样烦人api可以使用。这确实是个让人头疼的事件。
+我们可以发现，在`isDragging`为`true`时是允许执行`onScroll`的代码的。这一切是为了防止`onTabClick`这个方法在执行滚动时不执行`onScroll`的代码。那么我们可以想一种方案，在`onTabClick`中添加一个变量`isClick`，当`onTabClick`执行完滚动后改变变量`isClick`的状态。
 
+那么什么时候滚动停止呢，这里我们设置一个延时操作。定义变量如下：
+```
+let isDragging = false
+let pageY = 0
+let isClick = false
+let timeout = null;
+```
+在`onTabClick`方法种添加代码：
+```
+isClick = true
+if(timeout) {
+  clearTimeout(timeout)
+}
+timeout = setTimeout(()=>{
+  isClick = false
+},500)
+```
 
+好了，我们的问题到这里基本解决了。这是目前想到的解决方法，如果有更优的方案欢迎指点。
+
+## 进一步优化
+
+考虑了一下，我们可以把代码抽离出来封装一个`StickyView`组件出来。最终调用代码是这样的：
+```
+<StickyView 
+     datas={ftDatas}
+     header={
+         <div className='headerBanner'></div>
+     }
+     renderItem={(item,idx) => {
+         return (
+             <div className={'renderItem'}
+                 onClick={onClickDetail}
+                 style={{background:item.color,height:item.height}}>
+                 {item.title}
+             </div>
+         )
+     }}
+ />
+```
+
+到这里就结束了！
 
