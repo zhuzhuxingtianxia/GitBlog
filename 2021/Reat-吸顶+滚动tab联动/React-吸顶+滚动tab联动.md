@@ -1,10 +1,10 @@
 # React：吸顶+滚动tab联动
 
-![preview1](./preview1.jpg)
+![preview1](./preview1.png)
 
 在这篇文章中，我将演示如何使用React创建一个tab不固定在顶部，滑动到顶部自动吸顶。点击tab切换滚动到指定位置，滑动界面滚动到指定商品分类时，tab跟随切换。
 
-![preview2](./preview2.jpg)
+![preview2](./preview2.png)
 
 最终要实现的效果是这样的：
 
