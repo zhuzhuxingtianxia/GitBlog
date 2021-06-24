@@ -31,6 +31,8 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
+* [SwiftUI:进度环](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E8%BF%9B%E5%BA%A6%E7%8E%AF/SwiftUI-%E8%BF%9B%E5%BA%A6%E7%8E%AF.md)
+
 * [SwiftUI：FlowTextModifier自定义的ViewModifier](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-FlowTextModifier%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84ViewModifier/SwiftUI-FlowTextModifier%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84ViewModifier.md)
 
 * [React：吸顶+滚动tab联动](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/Reat-%E5%90%B8%E9%A1%B6%2B%E6%BB%9A%E5%8A%A8tab%E8%81%94%E5%8A%A8/React-%E5%90%B8%E9%A1%B6%2B%E6%BB%9A%E5%8A%A8tab%E8%81%94%E5%8A%A8.md)
