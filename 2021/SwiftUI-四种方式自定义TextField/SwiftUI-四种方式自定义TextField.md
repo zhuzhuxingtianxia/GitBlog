@@ -58,5 +58,8 @@ VStack {
 }
 .background(Color.yellow)
 ```
+这是系统的方式，下面让我们说说自定义的方式
+
+## 方式1: swiftUI方式
 
 
