@@ -208,6 +208,162 @@ textField.attributedPlaceholder = NSAttributedString(
 
 ## 自省的方式
 
+尽管SwiftUI APIs 与UIKit非常不同，但通常UIKit仍然在幕后使用。在iOS 14中，`TextField`的底层仍然是使用的`UITextField`:记住这一点,我们可以遍历`TextField`的UIKit层次结构，并寻找相关的`UITextField`。
+
+SwiftUI库`Introspect`所要做的就是，允许我们接触到与SwiftUI视图对应的UIKit视图，从而让我们解锁UIKit的性能和管理，而无需创建我们自己的`UIViewRepresentable`:
+
+```
+import Introspect
+
+struct ContentView: View {
+  @State var text = ""
+
+  var body: some View {
+    TextField("Type something...", text: $text)
+      .introspectTextField { textField in
+        // this method will be called with our view's UITextField (if found)
+        ...
+      }
+  }
+}
+```
+
+例如，SwiftUI没有办法将工具栏与给定的文本字段关联起来，我们可以使用`Introspect`来修补它:
+
+```
+struct ContentView: View {
+  @State var text = ""
+
+  var body: some View {
+    TextField("Type something...", text: $text)
+      .introspectTextField(customize: addToolbar)
+  }
+
+  func addToolbar(to textField: UITextField) {
+    let toolBar = UIToolbar(
+      frame: CGRect(
+        origin: .zero,
+        size: CGSize(width: textField.frame.size.width, height: 44)
+      )
+    )
+    let flexButton = UIBarButtonItem(
+      barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace,
+      target: nil,
+      action: nil
+    )
+    let doneButton = UIBarButtonItem(
+      title: "Done",
+      style: .done,
+      target: self,
+      action: #selector(textField.didTapDoneButton(_:))
+    )
+    toolBar.setItems([flexButton, doneButton], animated: true)
+    textField.inputAccessoryView = toolBar
+  }
+}
+
+extension  UITextField {
+  @objc func didTapDoneButton(_ button: UIBarButtonItem) -> Void {
+    resignFirstResponder()
+  }
+}
+```
+
+超过20行添加一个`Done`按钮!
+
+![toolbar](./toolbar.gif)
+
+
+虽然这种方法现在很有效，但不能保证在未来的iOS版本中也能有效，因为我们依赖于SwiftUI的私有实现细节。
+使用`Introspect`是安全的:当SwiftUI的`TextField`将不再使用`UITextField`时，我们的自定义方法(`addToolbar(to)`在上面的例子)将不会被调用。
+
+## TextFieldStyle的方式
+
+在文章的开头提到了SwiftUI不允许我们创建自己的`TextFieldStyle`。
+在Xcode 12.5中，这是完整的`TextFieldStyle`声明:
+
+```
+/// A specification for the appearance and interaction of a text field.
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+public protocol TextFieldStyle {
+
+}
+```
+
+然而，它实际上可以通过一个“hidden”`_body`方法来创建我们自己的样式，因此我们可以这样考虑实际的`TextFieldStyle`声明如下:
+
+```
+public protocol TextFieldStyle {
+  associatedtype _Body: View
+  @ViewBuilder func _body(configuration: TextField<Self._Label>) -> Self._Body
+  typealias _Label = _TextFieldStyleLabel
+}
+```
+
+这让创建我们自己的样式成为可能：
+
+```
+struct FSTextFieldStyle: TextFieldStyle {
+  func _body(configuration: TextField<_Label>) -> some View {
+     //
+  }
+}
+```
+
+下面是我们如何用一个新的`FSTextFieldStyle`来替换之前的`FSTextField`声明:
+
+```
+struct ContentView: View {
+  @State var text = ""
+
+  /// Whether the user is focused on this `TextField`.
+  @State private var isEditing: Bool = false
+
+  var body: some View {
+    TextField("Type something...", text: $text, onEditingChanged: { isEditing = $0 })
+      .textFieldStyle(FSTextFieldStyle(isEditing: isEditing))
+  }
+}
+
+struct FSTextFieldStyle: TextFieldStyle {
+  /// Whether the user is focused on this `TextField`.
+  var isEditing: Bool
+
+  func _body(configuration: TextField<_Label>) -> some View {
+    configuration
+      .textFieldStyle(PlainTextFieldStyle())
+      .multilineTextAlignment(.leading)
+      .accentColor(.pink)
+      .foregroundColor(.blue)
+      .font(.title.weight(.semibold))
+      .padding(.vertical, 12)
+      .padding(.horizontal, 16)
+      .background(border)
+  }
+
+  var border: some View {
+    RoundedRectangle(cornerRadius: 16)
+      .strokeBorder(
+        LinearGradient(
+          gradient: .init(
+            colors: [
+              Color(red: 163 / 255.0, green: 243 / 255.0, blue: 7 / 255.0),
+              Color(red: 226 / 255.0, green: 247 / 255.0, blue: 5 / 255.0)
+            ]
+          ),
+          startPoint: .topLeading,
+          endPoint: .bottomTrailing
+        ),
+        lineWidth: isEditing ? 4 : 2
+      )
+  }
+}
+```
+
+![customSwiftUI](./customSwiftUI.gif)
+
+不幸的是，这种方法使用了私有API，使用起来不安全:希望我们很快就能得到一个正式的API。
+
 
 
 
