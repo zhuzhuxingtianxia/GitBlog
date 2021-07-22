@@ -81,6 +81,29 @@ pip install wsgiref boto
 
 下载解压后保存到`/usr/local/bin`这个目录下。
 
+在终端查看chromedriver版本，执行：
+```
+chromedriver
+```
+
+也可通过命令行安装,这个需要之前有安装homebrew才可以：
+```
+brew cask install chromedriver
+```
+这种方式能不能指定版本暂没找到方法？？
+
+这是另外一篇相关的[文章](https://www.cnblogs.com/wxhou/p/chromedriver-py.html)
+
+
+验证一下，终端输入：
+```
+python3
+>>> from selenium import webdriver
+>>> browser = webdriver.Chrome()
+```
+
+执行上面的代码后就会打开Chrome浏览器，说明安装成功了！
+
 ## 自动化测试开发
 
 
