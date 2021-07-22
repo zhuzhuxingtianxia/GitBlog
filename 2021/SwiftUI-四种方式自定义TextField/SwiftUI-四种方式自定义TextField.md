@@ -120,7 +120,7 @@ public struct FSTextField: View {
 这是可以真正的自定义一个`TextField`。没有办法改变占位符文本的颜色，或者设置不同文本的字体的大小：我们可以通过使用外部文本甚至在跟踪TextField状态时应用掩码来绕过一些限制，但是我们会很快遇到其他的困境，例如键盘操作相关的一些内容。
 
 
-## 方式2: swiftUI方式
+## 方式2: 桥接UIKit方式
 
 当`TextField`不能满足我们的需求时，我们可以回到UIKit的`UITextField`.这需要创建一个`UIViewRepresentable`:
 ```
@@ -206,7 +206,7 @@ textField.attributedPlaceholder = NSAttributedString(
 
 对于一个高级的`TextField` `UIViewRepresentable`示例，我建议查看[SwiftUIX's CocoaTextField](https://github.com/SwiftUIX)。
 
-## 自省的方式
+## 方式3: Introspect
 
 尽管SwiftUI APIs 与UIKit非常不同，但通常UIKit仍然在幕后使用。在iOS 14中，`TextField`的底层仍然是使用的`UITextField`:记住这一点,我们可以遍历`TextField`的UIKit层次结构，并寻找相关的`UITextField`。
 
@@ -277,7 +277,7 @@ extension  UITextField {
 虽然这种方法现在很有效，但不能保证在未来的iOS版本中也能有效，因为我们依赖于SwiftUI的私有实现细节。
 使用`Introspect`是安全的:当SwiftUI的`TextField`将不再使用`UITextField`时，我们的自定义方法(`addToolbar(to)`在上面的例子)将不会被调用。
 
-## TextFieldStyle的方式
+## 方式4: TextFieldStyle
 
 在文章的开头提到了SwiftUI不允许我们创建自己的`TextFieldStyle`。
 在Xcode 12.5中，这是完整的`TextFieldStyle`声明:
