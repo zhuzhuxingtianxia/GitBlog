@@ -37,6 +37,7 @@ pip默认的镜像源是：**https://pypi.org/simple/**
 * 修改pip.conf文件：open pip.conf
 ```
 [global]
+timeout=600
 index-url=https://mirrors.aliyun.com/pypi/simple/
 [install]
 trusted-host=mirrors.aliyun.com
