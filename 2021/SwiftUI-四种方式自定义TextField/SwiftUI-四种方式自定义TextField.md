@@ -60,6 +60,87 @@ VStack {
 ```
 这是系统的方式，下面让我们说说自定义的方式
 
+## TextFieldStyle的Configuration
+如何创建一个样式，添加一个清除的按钮?
+```
+struct ContentView: View {
+  @State var text = "FIVE STARS"
+
+  var body: some View {
+    TextField(
+      "type something...",
+      text: $text
+    )
+    .textFieldStyle(ClearStyle())
+  }
+}
+
+struct ClearStyle: TextFieldStyle {
+  @ViewBuilder
+  func _body(configuration: TextField<_Label>) -> some View {
+    let mirror = Mirror(reflecting: configuration)
+    let text: Binding<String> = mirror.descendant("_text") as! Binding<String>
+    configuration
+      .overlay(
+        Button { text.wrappedValue = "" } label: { Image(systemName: "clear") }
+          .padding(),
+        alignment: .trailing
+      )
+  }
+}
+```
+
+![clear](./clear.gif)
+
+或者我们希望根据是否满足文本字段的要求来获得不同的视觉效果:
+```
+struct ContentView: View {
+  @State var text = "FIVE STARS"
+
+  var body: some View {
+    TextField(
+      "type something...",
+      text: $text
+    )
+    .textFieldStyle(RequirementStyle())
+  }
+}
+
+struct RequirementStyle: TextFieldStyle {
+  @ViewBuilder
+  func _body(configuration: TextField<_Label>) -> some View {
+    let mirror = Mirror(reflecting: configuration)
+    let text: String = mirror.descendant("_text", "_value") as! String
+    configuration
+      .padding()
+      .background(
+        RoundedRectangle(cornerRadius: 16)
+          .strokeBorder(text.count > 3 ? Color.green : Color.red)
+      )
+  }
+}
+```
+
+![req](./req.gif)
+
+我们也可以随意调用`onEditingChanged`或`onCommit`:
+```
+struct DeceiveStyle: TextFieldStyle {
+  @ViewBuilder
+  func _body(configuration: TextField<_Label>) -> some View {
+    let mirror = Mirror(reflecting: configuration)
+    let onCommit: () -> Void = mirror.descendant("onCommit") as! () -> Void
+
+    VStack {
+      configuration
+      Button("Trigger onCommit event", action: onCommit)
+    }
+  }
+}
+```
+这种方法的一个限制是我们不能订阅我们的样式到`onEditingChanged`或`onCommit`事件。
+一旦官方api是公开的，这可能是可能的，可能有一个新的`TextField`初始化器接受`TextFieldConfiguration`和两个可选的`onEditingChanged`或`onCommit`块。
+
 ## 方式1: swiftUI方式
 
 没有公共的API来创建新的`TextField`的样式的，推荐的方式就是对`TextField`进行一次包装：
