@@ -31,7 +31,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
-* [Python:自动化环境配置]()
+* [Python:自动化环境配置](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/Python-%E8%87%AA%E5%8A%A8%E5%8C%96%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/Python-%E8%87%AA%E5%8A%A8%E5%8C%96%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md)
 
 * [SwiftUI:四种方式自定义TextField](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F%E8%87%AA%E5%AE%9A%E4%B9%89TextField/SwiftUI-%E5%9B%9B%E7%A7%8D%E6%96%B9%E5%BC%8F%E8%87%AA%E5%AE%9A%E4%B9%89TextField.md)
 
