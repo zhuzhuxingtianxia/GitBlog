@@ -437,6 +437,104 @@ private class FooterView: UIView {
 
 ![refreshUI](./refreshUI.gif)
 
+## Introspect方法设置下拉刷新
+```
+import SwiftUI
+import Introspect
+
+private struct PullToRefresh: UIViewRepresentable {
+    
+    @Binding var isShowing: Bool
+    let onRefresh: () -> Void
+    
+    public init(
+        isShowing: Binding<Bool>,
+        onRefresh: @escaping () -> Void
+    ) {
+        _isShowing = isShowing
+        self.onRefresh = onRefresh
+    }
+    
+    public class Coordinator {
+        let onRefresh: () -> Void
+        let isShowing: Binding<Bool>
+        
+        init(
+            onRefresh: @escaping () -> Void,
+            isShowing: Binding<Bool>
+        ) {
+            self.onRefresh = onRefresh
+            self.isShowing = isShowing
+        }
+        
+        @objc
+        func onValueChanged() {
+            isShowing.wrappedValue = true
+            onRefresh()
+        }
+    }
+    
+    public func makeUIView(context: UIViewRepresentableContext<PullToRefresh>) -> UIView {
+        let view = UIView(frame: .zero)
+        view.isHidden = true
+        view.isUserInteractionEnabled = false
+        return view
+    }
+    
+    private func tableView(entry: UIView) -> UITableView? {
+        
+        // Search in ancestors
+        if let tableView = Introspect.findAncestor(ofType: UITableView.self, from: entry) {
+            return tableView
+        }
+
+        guard let viewHost = Introspect.findViewHost(from: entry) else {
+            return nil
+        }
+
+        // Search in siblings
+        return Introspect.previousSibling(containing: UITableView.self, from: viewHost)
+    }
+
+    public func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<PullToRefresh>) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            
+            guard let tableView = self.tableView(entry: uiView) else {
+                return
+            }
+            
+            if let refreshControl = tableView.refreshControl {
+                if self.isShowing {
+                    refreshControl.beginRefreshing()
+                } else {
+                    refreshControl.endRefreshing()
+                }
+                return
+            }
+            
+            let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(context.coordinator, action: #selector(Coordinator.onValueChanged), for: .valueChanged)
+            tableView.refreshControl = refreshControl
+        }
+    }
+    
+    public func makeCoordinator() -> Coordinator {
+        return Coordinator(onRefresh: onRefresh, isShowing: $isShowing)
+    }
+}
+
+extension View {
+    public func pullToRefresh(isShowing: Binding<Bool>, onRefresh: @escaping () -> Void) -> some View {
+        return overlay(
+            PullToRefresh(isShowing: isShowing, onRefresh: onRefresh)
+                .frame(width: 0, height: 0)
+        )
+    }
+}
+```
+这种方式更加的优雅简单！！
+
 ## 总结
 
 `refreshUI`只实现了最为基础的功能，相对于比较成熟的第三方框架来说还是不够完善的。比如如何设置自定义效果，如何设置下拉或加载的自定义视图GIF效果等。所以如果要获得更加强大的功能，可以对第三方框架二次封装转换API给SwiftUI使用。
