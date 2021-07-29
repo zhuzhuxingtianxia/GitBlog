@@ -356,7 +356,7 @@ enum Introspect {
 答案可能是肯定的。任何读过这篇文章的人都完全了解库是如何工作的:如果有什么东西坏了，我们应该知道去哪里找并找到解决办法。
 
 #### SwiftUI Introspect的亮点在哪里?
-向后兼容性。例如，让我们想象一下，iOS15 List引入了下拉刷新的功能：我们知道SwiftUI Introspect允许我们在iOS13和14中添加列表[下拉刷新]()。到那时，我们可以使用Introspect针对旧的操作系统版本，并使用新的SwiftUI方式针对iOS15或更高版本。
+向后兼容性。例如，让我们想象一下，iOS15 List引入了下拉刷新的功能：我们知道SwiftUI Introspect允许我们在iOS13和14中添加列表[下拉刷新(Introspect方法设置下拉刷新)](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-RefreshUI/SwiftUI-RefreshUI.md)。到那时，我们可以使用Introspect针对旧的操作系统版本，并使用新的SwiftUI方式针对iOS15或更高版本。
 
 这样做可以保证不会出现问题，因为新的操作系统版本将使用SwiftUI的“原生”方法，只有过去的iOS版本才会使用Introspect。
 
