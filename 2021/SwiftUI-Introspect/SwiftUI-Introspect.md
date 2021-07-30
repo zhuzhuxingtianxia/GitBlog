@@ -200,7 +200,6 @@ public class IntrospectionUIView: UIView {
 
 
 ### 实现原理
-
 我们已经看到了SwiftUI Introspect是如何获取UIKit层次结构的。库剩下要做的就是找到我们要找的UIKit视图或视图控制器。
 
 回到`UIKitIntrospectionView`的实现中，神奇的事情发生在`updateUIView(_:context)`中，这是`UIViewRepresentable`生命周期方法:
