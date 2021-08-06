@@ -8,7 +8,7 @@ SwiftUI大概可以满足任何现代应用程序需求的95%，而剩下的5%�
 * SwiftUI Introspect
 
 ## 什么是SwiftUI Introspect
-SwiftUI Introspect是一个开源库。它的主要目的是获取和修改任何SwiftUI视图的底层UIKit或AppKit元素。
+SwiftUI Introspect是一个[开源库](https://github.com/siteline/SwiftUI-Introspect)。它的主要目的是获取和修改任何SwiftUI视图的底层UIKit或AppKit元素。
 
 这是可能的，因为许多SwiftUI视图(仍然)依赖于它们的UIKit，例如:
 
@@ -42,21 +42,7 @@ struct ContentView: View {
     }
   }
 }
-import Introspect
-import SwiftUI
 
-struct ContentView: View {
-  var body: some View {
-    ScrollView {
-      VStack {
-        Color.red.frame(height: 300)
-        Color.green.frame(height: 300)
-        Color.blue.frame(height: 300)
-      }
-      .introspectScrollView { $0.bounces = false }
-    }
-  }
-}
 ```
 
 ![scroll](./scroll.gif)
