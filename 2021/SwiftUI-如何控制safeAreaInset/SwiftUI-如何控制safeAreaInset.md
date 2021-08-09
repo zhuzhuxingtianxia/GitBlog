@@ -338,6 +338,7 @@ struct ContentView: View {
 > 在Xcode 13b1，只有`ScrollView`正确地遵守了`safeAreaInsets`:希望列表和表单将在即将到来的Xcode种子中被修复
  
 ## 兼容iOS15之前的版本
+<!-- https://fivestars.blog/articles/safe-area-insets-2/ -->
 `safeAreaInset`是iOS15才开始支持的API，那么如何在iOS13和14中使用相同的功能呢？
 ```
 @available(iOS, introduced: 13, deprecated: 15, message: "Use .safeAreaInset() directly") // 👈🏻 2
