@@ -336,6 +336,128 @@ struct ContentView: View {
 ```
 
 > 在Xcode 13b1，只有`ScrollView`正确地遵守了`safeAreaInsets`:希望列表和表单将在即将到来的Xcode种子中被修复
+ 
+## 兼容iOS15之前的版本
+`safeAreaInset`是iOS15才开始支持的API，那么如何在iOS13和14中使用相同的功能呢？
+```
+@available(iOS, introduced: 13, deprecated: 15, message: "Use .safeAreaInset() directly") // 👈🏻 2
+extension View {
+  @ViewBuilder
+  func bottomSafeAreaInset<OverlayContent: View>(_ overlayContent: OverlayContent) -> some View {
+    if #available(iOS 15.0, *) {
+      self.safeAreaInset(edge: .bottom, spacing: 0, content: { overlayContent }) // 👈🏻 1
+    } else {
+      self.modifier(BottomInsetViewModifier(overlayContent: overlayContent))
+    }
+  }
+}
+
+```
+我们希望在我们放弃对旧iOS版本的支持后，能够更容易地转移到SwiftUI的`safeAreaInset`。
+
+```
+struct BottomInsetViewModifier<OverlayContent: View>: ViewModifier {
+  @Environment(\.bottomSafeAreaInset) var ancestorBottomSafeAreaInset: CGFloat
+  var overlayContent: OverlayContent
+  @State var overlayContentHeight: CGFloat = 0
+
+  func body(content: Self.Content) -> some View {
+    content
+      .environment(\.bottomSafeAreaInset, overlayContentHeight + ancestorBottomSafeAreaInset)
+      .overlay(
+        overlayContent
+          .readHeight {
+            overlayContentHeight = $0
+          }
+          .padding(.bottom, ancestorBottomSafeAreaInset)
+        ,
+        alignment: .bottom
+      )
+  }
+}
+```
+
+```
+extension View {
+  func readHeight(onChange: @escaping (CGFloat) -> Void) -> some View {
+    background(
+      GeometryReader { geometryProxy in
+        Spacer()
+          .preference(
+            key: HeightPreferenceKey.self,
+            value: geometryProxy.size.height
+          )
+      }
+    )
+    .onPreferenceChange(HeightPreferenceKey.self, perform: onChange)
+  }
+}
+
+private struct HeightPreferenceKey: PreferenceKey {
+  static var defaultValue: CGFloat = .zero
+  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {}
+}
+
+struct BottomSafeAreaInsetKey: EnvironmentKey {
+  static var defaultValue: CGFloat = 0
+}
+
+extension EnvironmentValues {
+  var bottomSafeAreaInset: CGFloat {
+    get { self[BottomSafeAreaInsetKey.self] }
+    set { self[BottomSafeAreaInsetKey.self] = newValue }
+  }
+}
+
+struct ExtraBottomSafeAreaInset: View {
+  @Environment(\.bottomSafeAreaInset) var bottomSafeAreaInset: CGFloat
+
+  var body: some View {
+    Spacer(minLength: bottomSafeAreaInset)
+  }
+}
+```
+使用案例如下：
+
+![stackSafeAreaInset](./stackSafeAreaInset.gif)
+
+```
+struct ContentView: View {
+  var body: some View {
+    ScrollView {
+      scrollViewContent
+      ExtraBottomSafeAreaInset()
+    }
+    .bottomSafeAreaInset(overlayContent)
+    .bottomSafeAreaInset(overlayContent)
+    .bottomSafeAreaInset(overlayContent)
+    .bottomSafeAreaInset(overlayContent)
+    .bottomSafeAreaInset(overlayContent)
+  }
+
+  var scrollViewContent: some View {
+    ForEach(1..<60) { _ in
+      Text("Five Stars")
+        .font(.title)
+        .frame(maxWidth: .infinity)
+    }
+  }
+
+  var overlayContent: some View {
+    Button {
+      // ...
+    } label: {
+      Text("Continue")
+        .foregroundColor(.white)
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.accentColor.cornerRadius(8))
+        .padding(.horizontal)
+    }
+  }
+}
+```
+
 
 ## 结论
 
