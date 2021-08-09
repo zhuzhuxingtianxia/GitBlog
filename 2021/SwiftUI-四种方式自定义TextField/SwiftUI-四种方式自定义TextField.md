@@ -4,7 +4,7 @@
 在考虑自定义之前，我们应该考虑SwiftUI提供什么。`TextField`有自己的风格，给我们提供了一些选项:
 
 * `DefaultTextFieldStyle`
-* `DefaultTextFieldStyle`
+* `PlainTextFieldStyle`
 * `RoundedBorderTextFieldStyle`
 
 ![defaultstyles](./defaultstyles.png)
