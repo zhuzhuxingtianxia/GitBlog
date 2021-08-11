@@ -22,6 +22,35 @@
 
 可以选择创建项目或打开已有的项目。
 
+## 设置python文件模版
+
+打开PyCharm设置项Preferences->Editor->File and Code Templates->Python Script
+
+![setting_temp](./setting_temp.jpg)
+
+设置文件模版：
+```
+# -*- coding: utf-8 -*-
+"""
+@Project: ${PROJECT_NAME}
+@File: ${NAME}.py
+@CreateTime: ${DATE}
+@Desc: 
+~~~~~~~~~~~~~~~~~~~~~~~~
+"""
+
+
+```
+
+新建文件：
+![newFile](./newFile.png)
+
+1. New->Directory 新建文件夹
+2. New-> Python Package 新建python模块，也是一个文件夹，会自动生成`__init__.py`文件
+3. New-> File 新建文件，例如：`test.py`,但不会引入py模版
+4. New-> Python File 新建py文件，无需添加后缀，自动引入添加的py模版
+
+
 ## 配置pip镜像源
 
 pip类似`npm`或`cocoapods`，是包管理工具。
