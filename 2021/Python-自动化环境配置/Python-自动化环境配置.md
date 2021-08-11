@@ -71,7 +71,7 @@ pip install wsgiref boto
 
 ## 下载ChromeDriver
 
-[ChromeDriver](http://npm.taobao.org/mirrors/chromedriver/)可以到这里去下载。
+[ChromeDriver](http://npm.taobao.org/mirrors/chromedriver/)可以到这里去下载。该工具用于驱动Chrome浏览器。
 在下载之前首先去看下你的Chrome的版本号：
 
 ![Chrome_version](./Chrome_version.png)
