@@ -157,4 +157,40 @@ pip3 install selenium
 
 ### 2. 如何用Chrome打开一个网站
 
+这里我们写一个简单的程序，打开一个网站，等待10s后退出程序：
+```
+class UIAuto:
+    driver = None
+
+    def __init__(self):
+        self.get_driver_instance()
+        self.open_url('http://www.baidu.com')
+        self.wait_exit()
+
+    def get_driver_instance(self):
+        if not self.driver:
+            self.driver = webdriver.Chrome()
+            pass
+
+    def open_url(self, url=None):
+        if not url:
+            print('url is not none')
+        else:
+            try:
+                self.driver.get(url)
+            except Exception as ex:
+                print(f'Exception: {ex}')
+
+    def wait_exit(self):
+        runLoop = 10
+        while runLoop:
+            runLoop -= 1
+            time.sleep(1)
+        self.driver.quit()
+        self.driver = None
+        sys.exit()
+```
+
+运行即可看到打开百度网站，10s后浏览器窗口关闭。
+
 
