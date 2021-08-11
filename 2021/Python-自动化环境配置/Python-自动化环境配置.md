@@ -107,6 +107,25 @@ python3
 
 ## 自动化测试开发
 
+### 1.创建工程
+打开PyCharm，新建项目：
 
+![createpro](./createpro.png)
+
+其他的不多说，我们来看下`New environment using`选项，我们点开这个下拉框可以看到，虚拟环境可以使用三种工具，Virtualenv、pipnev、conda。 
+
+* Virtualenv: 本身是一款Python工具，具有Python所必须的依赖库，用于创建独立的Python虚拟环境，方便管理不同版本的python模块。零基础就选它。 
+* pipenv: 可以说是`virtualenv`和`pip`的结合体，它不但会自动为你的项目创建和管理virtualenv（就是第一个选项），而且在安装/卸载软件包时通过`Pipfile`文件自动添加/删除软件包。所以对于管理包来说是非常好用的。但暂时作为初入门的人来说东西有点多，短时间是用不上的。
+* conda: conda非常强大，conda是一个不仅支持Python，它还支持C或C ++库等许多语言的软件包、依赖库和环境管理的工具。 如果你选择conda的话，项目文件夹会在.conda下面，同时你还可以用Anaconda的非常受欢迎的数据科学、机器学习和AI框架的软件包。 这个暂时也不适用于新手 
+
+我们选择`Virtualenv`,并设置项目名称和路径，然后点击create，至此我们的项目就创建完成了。
+运行控制台将打印：`Hi, PyCharm`。
+
+打开项目终端，安装用于测试网站的自动化测试工具`selenium`:
+```
+pip3 install selenium
+```
+
+### 2. 如何用Chrome打开一个网站
 
 
