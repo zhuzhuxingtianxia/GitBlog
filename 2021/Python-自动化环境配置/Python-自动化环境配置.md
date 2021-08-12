@@ -193,4 +193,44 @@ class UIAuto:
 
 运行即可看到打开百度网站，10s后浏览器窗口关闭。
 
+### 元素定位
+
+元素定位可通过一下几种方法：
+
+* ID
+* XPATH
+* LINK_TEXT
+* PARTIAL_LINK_TEXT
+* NAME
+* TAG_NAME
+* CLASS_NAME
+* CSS_SELECTOR
+
+他们有一个公共的方法`find_element(self, by=By.ID, value=None)`,也有自己独立的方法，例如`XPATH`对应的是`find_element_by_xpath`。
+
+下面我们要找到百度首页的搜索框，输入内容，点击百度一下。
+在`wait_exit`方法上面添加代码：
+```
+def load_wait_by_located(self):
+    # xpath获取百度搜索输入框
+    inputXpath = "//input[@id='kw']"
+    wait = WebDriverWait(self.driver, 20)
+    try:
+        wait.until(self.driver.find_element(By.XPATH, inputXpath))
+    except Exception as e:
+        print(e)
+    # 输入框获取焦点
+    self.driver.find_element_by_xpath(inputXpath).click()
+    # 输入数据
+    self.driver.find_element_by_xpath(inputXpath).send_keys('python应用开发')
+    # 暂停一秒
+    time.sleep(1)
+    # 点击百度搜索按钮
+    self.driver.find_element_by_id('su').click()
+    
+```
+
+### 生成结果报告
+
+## 程序封装
 
