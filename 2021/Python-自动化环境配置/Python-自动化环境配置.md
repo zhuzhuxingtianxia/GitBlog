@@ -206,6 +206,14 @@ class UIAuto:
 * CLASS_NAME
 * CSS_SELECTOR
 
+XPath用法举例：
+
+* `//div[@class="button" and text()="确定"]` : 获取class为`button`并且文本为`确定`的div元素
+* `//span[normalize-space(text())="xxx"]` :获取元素中含有文本和其他元素
+* `//span[@id="kw"]/parent::div` : 获取id为kw的span元素的div父元素
+* `//div[contains(@class,"header")]`: 获取class中包含`header`字符的div元素
+* `//div[@class="table"]//tbody`: 以class为table的`div`元素为根元素的tbody元素
+
 他们有一个公共的方法`find_element(self, by=By.ID, value=None)`,也有自己独立的方法，例如`XPATH`对应的是`find_element_by_xpath`。
 
 下面我们要找到百度首页的搜索框，输入内容，点击百度一下。
