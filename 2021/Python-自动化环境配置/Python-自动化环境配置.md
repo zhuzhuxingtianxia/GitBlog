@@ -233,12 +233,17 @@ def load_wait_by_located(self):
     self.driver.find_element_by_xpath(inputXpath).send_keys('python应用开发')
     # 暂停一秒
     time.sleep(1)
+    # 获取元素的value属性值，并打印出来
+    value = self.driver.find_element_by_xpath(inputXpath).get_attribute('value')
+	  print('value:%s' % value)
+
     # 点击百度搜索按钮
     self.driver.find_element_by_id('su').click()
     
 ```
 
 ### 生成结果报告
+
 
 ## 程序封装
 
