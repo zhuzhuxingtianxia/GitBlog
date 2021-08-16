@@ -213,6 +213,7 @@ XPath用法举例：
 * `//span[@id="kw"]/parent::div` : 获取id为kw的span元素的div父元素
 * `//div[contains(@class,"header")]`: 获取class中包含`header`字符的div元素
 * `//div[@class="table"]//tbody`: 以class为table的`div`元素为根元素的tbody元素
+* `//div[@class="table"]//*[text()="%s"] % name` : 根据name值动态匹配获取元素
 
 他们有一个公共的方法`find_element(self, by=By.ID, value=None)`,也有自己独立的方法，例如`XPATH`对应的是`find_element_by_xpath`。
 
