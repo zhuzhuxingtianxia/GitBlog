@@ -244,7 +244,17 @@ def load_wait_by_located(self):
 ```
 
 ### 生成结果报告
-
+打开项目终端，安装用于生成报告的工具`BeautifulReport`:
+```
+pip3 install BeautifulReport
+```
+如何使用：
+```
+//1.实例化报告对象的执行者
+suites = unittest.TestSuite()
+//2.实例化报告对象
+report = BeautifulReport(suites)
+```
 
 ## 程序封装
 
