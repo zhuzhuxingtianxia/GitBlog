@@ -166,6 +166,9 @@ class UIAuto:
     def __init__(self):
         self.get_driver_instance()
         self.open_url('http://www.baidu.com')
+        # self.load_wait_by_located()
+        # self.save_screenshot_to_file("百度截屏")
+        # self.test_output_report()
         self.wait_exit()
 
     def get_driver_instance(self):
@@ -244,8 +247,26 @@ def load_wait_by_located(self):
     self.driver.find_element_by_id('su').click()
     
 ```
+### 生成网站截图
 
-### 生成结果报告
+调用方法`self.save_screenshot_to_file("百度截屏")`:
+
+```
+def save_screenshot_to_file(self, img_name):
+    """
+    生成一个名字为img_name的图片截屏，并保存到指定的文件路径下
+    :param img_name:
+    :return:
+    """
+    filename = img_name if img_name.endswith('.png') else img_name + '.png'
+    shots_dir_path = os.path.dirname(__file__) + "/Screenshots"
+    if os.path.exists(shots_dir_path) is not True:
+        os.mkdir(shots_dir_path)
+    filepath = os.path.join(shots_dir_path, filename)
+    self.driver.get_screenshot_as_file(filepath)
+```
+
+### 生成测试报告
 打开项目终端，安装用于生成报告的工具`BeautifulReport`:
 ```
 pip3 install BeautifulReport
@@ -253,7 +274,7 @@ pip3 install BeautifulReport
 如何使用：
 ```
 def test_output_report(self):
-    """生成报告"""
+    """导出测试报告"""
     # 1.实例化报告对象的执行者
     suites = unittest.TestSuite()
     # 2.实例化报告对象
