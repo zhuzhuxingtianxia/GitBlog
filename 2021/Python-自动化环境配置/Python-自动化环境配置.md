@@ -95,7 +95,8 @@ PyCharm创建工程后不像其他前端工具一样会生成一个`package.json
 
 同时安装多个pip包时，只需将它们以空格分隔传递可以：
 ```
-pip install wsgiref boto 
+//ddt和测试框架unittest一起使用，用于管理测试数据
+pip install wsgiref boto ddt
 ```
 
 ## 下载ChromeDriver
@@ -250,16 +251,17 @@ pip3 install BeautifulReport
 ```
 如何使用：
 ```
-//1.实例化报告对象的执行者
-suites = unittest.TestSuite()
-//2.实例化报告对象
-reportInstance = BeautifulReport(suites)
-//3.生成报告
-reportInstance.report(
-	description="自动化测试报告",
-	filename="reportName",
-	report_dir=os.path.dirname(__file__),
-	theme="theme_cyan")
+def test_output_report(self):
+	//1.实例化报告对象的执行者
+	suites = unittest.TestSuite()
+	//2.实例化报告对象
+	reportInstance = BeautifulReport(suites)
+	//3.生成报告
+	reportInstance.report(
+		description="自动化测试报告",
+		filename="reportName",
+		report_dir=os.path.dirname(__file__),
+		theme="theme_cyan")
 ```
 
 ## 程序封装
