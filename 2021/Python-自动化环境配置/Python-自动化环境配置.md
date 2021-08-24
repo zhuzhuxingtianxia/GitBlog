@@ -187,9 +187,10 @@ class UIAuto:
         while runLoop:
             runLoop -= 1
             time.sleep(1)
-        self.driver.quit()
-        self.driver = None
-        sys.exit()
+        if self.driver is not None:
+        		self.driver.quit()
+        		self.driver = None
+        		sys.exit()
 ```
 
 运行即可看到打开百度网站，10s后浏览器窗口关闭。
@@ -252,17 +253,22 @@ pip3 install BeautifulReport
 如何使用：
 ```
 def test_output_report(self):
-	//1.实例化报告对象的执行者
-	suites = unittest.TestSuite()
-	//2.实例化报告对象
-	reportInstance = BeautifulReport(suites)
-	//3.生成报告
-	reportInstance.report(
-		description="自动化测试报告",
-		filename="reportName",
-		report_dir=os.path.dirname(__file__),
-		theme="theme_cyan")
+    """生成报告"""
+    # 1.实例化报告对象的执行者
+    suites = unittest.TestSuite()
+    # 2.实例化报告对象
+    reportInstance = BeautifulReport(suites)
+    # 3.生成报告
+    reportInstance.report(
+        description="自动化测试报告",
+        filename="reportName",
+        report_dir=os.path.dirname(__file__),
+        theme="theme_cyan")
+
 ```
+
+![report](./report.png)
+
 
 ## 程序封装
 
