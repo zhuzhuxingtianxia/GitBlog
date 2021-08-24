@@ -249,7 +249,7 @@ def load_wait_by_located(self):
 ```
 ### 生成网站截图
 
-调用方法`self.save_screenshot_to_file("百度截屏")`:
+调用方法`self.save_screenshot_to_file("百度截屏" + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))`:
 
 ```
 def save_screenshot_to_file(self, img_name):
