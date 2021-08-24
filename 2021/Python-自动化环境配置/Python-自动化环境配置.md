@@ -253,7 +253,13 @@ pip3 install BeautifulReport
 //1.实例化报告对象的执行者
 suites = unittest.TestSuite()
 //2.实例化报告对象
-report = BeautifulReport(suites)
+reportInstance = BeautifulReport(suites)
+//3.生成报告
+reportInstance.report(
+	description="自动化测试报告",
+	filename="reportName",
+	report_dir=os.path.dirname(__file__),
+	theme="theme_cyan")
 ```
 
 ## 程序封装
