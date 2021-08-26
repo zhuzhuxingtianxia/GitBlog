@@ -51,15 +51,8 @@ Swift Package Manager - Swift 5.3.0
 如果你要更新SPM中的依赖，选择 `File -> Swift Packages -> Update to Latest Package Versions` 即可。
 
 如果想要修改某个第三方库的版本策略，可以双击第三方库即可出现修改面板进行相应的修改。
-
-## SPM文件及配置
-
-![dep_config](./dep_config.png)
-
-* `Source`文件夹: 第三方库源码位置路径文件
-* `Package.swift`: SPM配置文件
   
-## 创建Swift Package 库
+## 创建本地Swift Package库
 
 我们新建一个`Swift Package`,打开我们上面用到的项目`SPMTest`后选择`File`->`New`->`Swift package...`,把这个包命名为ZZPackage,并添加到现有的项目中。 
 
@@ -90,5 +83,72 @@ extension View {
     
 }
 ```
+
+直接编译报错了:
+
+![comp_error](./comp_error.png)
+
+可以看到要求iOS13及以上，因为我们加入的是swiftUI代码，所以需要在`Package.swift`中添加`platforms: [.iOS(.v13)],`或在扩展代码上面添加`@available(iOS 13.0, *)`。
+
+这两种方式编译都可以成功！
+
+运行看下结果吧：
+
+![run_result](./run_result.png)
+
+
+### 发布你的 Swift Package
+
+找到SPMTest文件夹下的`ZZPackage`文件夹，上传库到云端(github, gitee 或者其他托管服务器)。
+然后设置`Tag`版本号就可以了。删除本地Package，就可以通过仓库地址加载远程Package了。
+
+
+## SPM文件及配置
+
+![dep_config](./dep_config.png)
+
+* `Source`文件夹: 第三方库源码位置路径文件
+* `Package.swift`: SPM配置文件
+我们来看下`Package.swift`这个文件:
+
+```
+// swift-tools-version:5.3
+
+import PackageDescription
+
+let package = Package(
+    name: "ZZPackage",
+    platforms: [.iOS(.v13)],
+    products: [
+        // Products define the executables and libraries a package produces, and make them visible to other packages.
+        .library(
+            name: "ZZPackage",
+            targets: ["ZZPackage"]),
+    ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        // .package(url: /* package url */, from: "1.0.0"),
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        .target(
+            name: "ZZPackage",
+            dependencies: []),
+        .testTarget(
+            name: "ZZPackageTests",
+            dependencies: ["ZZPackage"]),
+    ]
+)
+
+```
+第一行始终是Swift Tools的版本,这里是swift5.3版本。这行注释说明了构建swift package所需最低的swift版本号。然后我们导入了PackageDescription,这个库提供了我们需要配置swift package所需的API。
+
+* name: 包名
+* platforms: 支持的平台及对应平台的最低版本
+* targets: 包含多个target目标，我们指定target的名字为`ZZPackage`，xcode会自动把`Sources/ZZPackage`目录下的所有文件添加到package中。如果你想再新建一个target, 需要在`Sources/`目录下新建一个文件夹，然后再targets数组中添加新的target.
+* products: 导出`target`产物，使得其他`target`能够使用它们。如果不写会编译报错
+* dependencies: 添加包所依赖的其他第三方package包
+* swiftLanguageVersions: 支持的swift版本
 
 
