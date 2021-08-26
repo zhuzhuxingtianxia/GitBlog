@@ -13,11 +13,11 @@ $ swift package --version
 Swift Package Manager - Swift 5.3.0
 ```
 
-新建项目`SPMTest`,添加SPM依赖,File -> Swift Package -> Add Package Dependency... 
+新建项目`SPMTest`,添加SPM依赖,`File` -> `Swift Package` -> `Add Package Dependency...`
 
 ![add_spm](./add_spm.png)
 
-或者点击到 PROJECT -> Swift Packages 点击加号添加依赖
+或者点击到 `PROJECT` -> `Swift Packages` 点击加号添加依赖
 
 ![add_spm1](./add_spm1.png)
 
@@ -51,4 +51,44 @@ Swift Package Manager - Swift 5.3.0
 如果你要更新SPM中的依赖，选择 `File -> Swift Packages -> Update to Latest Package Versions` 即可。
 
 如果想要修改某个第三方库的版本策略，可以双击第三方库即可出现修改面板进行相应的修改。
+
+## SPM文件及配置
+
+![dep_config](./dep_config.png)
+
+* `Source`文件夹: 第三方库源码位置路径文件
+* `Package.swift`: SPM配置文件
+  
+## 创建Swift Package 库
+
+我们新建一个`Swift Package`,打开我们上面用到的项目`SPMTest`后选择`File`->`New`->`Swift package...`,把这个包命名为ZZPackage,并添加到现有的项目中。 
+
+![create_spm](./create_spm.png)
+
+新建完成后可以看到在项目工程中包含了`ZZPackage`这个Package,
+
+![show_zzjpackage](./show_zzjpackage.png)
+
+### 如何引入`ZZPackage`到工程中并使用其中的功能模块呢？
+
+`Targets` ->`General` -> `Frameworks..`部分，点击`+`号,添加`ZZPackage`
+
+![link_package](./link_package.png)
+
+到这里我们就把`ZZPackage`引入到我们的项目中了。在`ZZPackage`下的 `Sources/ZZPackage` 目录下新建`ExView.swift`,然后在工程中使用到这个文件中的方法:
+```
+import SwiftUI
+
+extension View {
+  //module对外的访问权限设为public
+   public func printLog(_ value:Any) -> some View {
+        #if DEBUG
+        print(value)
+        #endif
+        return self
+    }
+    
+}
+```
+
 
