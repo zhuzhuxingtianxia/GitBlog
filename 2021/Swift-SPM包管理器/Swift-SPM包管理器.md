@@ -3,7 +3,7 @@
 <!--- https://www.jianshu.com/p/b9ba7154f4c2 --->
 <!--- https://juejin.cn/post/6855440272424173576 --->
 
-**SPM**,Swift Package Manager（swift包管理器）,管理Swift代码分发的工具,用于处理模块代码的下载、编译和依赖关系。类似`CocoaPods`,不过比`CocoaPods`更简洁，代码的侵入性更小，也不需要额外安装工具。
+**SPM**：Swift Package Manager（swift包管理器）,管理Swift代码分发的工具,用于处理模块代码的下载、编译和依赖关系。类似`CocoaPods`,不过比`CocoaPods`更简洁，代码的侵入性更小，也不需要额外安装工具。
 
 ## SPM依赖安装
 
@@ -32,15 +32,15 @@ Swift Package Manager - Swift 5.3.0
 
 有三个选项：
 
-	* Version: 对应库的Release版本, 这里可选择版本规则，它会自动下载这个规则内最新的版本
+* Version: 对应库的Release版本, 这里可选择版本规则，它会自动下载这个规则内最新的版本
 		
-		* Up to Next Major: 指定一个主要版本的范围，例如：5.4.2~6.0.0
-		* Up to Next Minor: 指定一个小版本范围,例如：5.4.2~5.5.0
-		* Range: 指定一个版本范围, 例如：5.4.1～5.5.1
-		* Exact: 指定一个确切的版本，例如：5.4.1
+	* Up to Next Major: 指定一个主要版本的范围，例如：5.4.2~6.0.0
+	* Up to Next Minor: 指定一个小版本范围,例如：5.4.2~5.5.0
+	* Range: 指定一个版本范围, 例如：5.4.1～5.5.1
+	* Exact: 指定一个确切的版本，例如：5.4.1
 		
-	* Branch: 直接下载某个分支的代码
-	* Commit: 根据某一次提交记录的 Id下载
+* Branch: 直接下载某个分支的代码
+* Commit: 根据某一次提交记录的 Id下载
 
 添加完成之后，项目中会出现`Swift Package Dependencies`这样一个目录：
 
