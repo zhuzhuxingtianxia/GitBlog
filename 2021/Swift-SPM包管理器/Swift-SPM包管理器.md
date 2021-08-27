@@ -1,8 +1,5 @@
 # Swift: SPM包管理器
 
-<!--- https://www.jianshu.com/p/b9ba7154f4c2 --->
-<!--- https://juejin.cn/post/6855440272424173576 --->
-
 **SPM**：Swift Package Manager（swift包管理器）,管理Swift代码分发的工具,用于处理模块代码的下载、编译和依赖关系。类似`CocoaPods`,不过比`CocoaPods`更简洁，代码的侵入性更小，也不需要额外安装工具。
 
 ## SPM依赖安装
@@ -144,17 +141,25 @@ let package = Package(
 ```
 第一行始终是Swift Tools的版本,这里是swift5.3版本。这行注释说明了构建swift package所需最低的swift版本号。然后我们导入了PackageDescription,这个库提供了我们需要配置swift package所需的API。
 
-* name: 包名
+* name: 包的项目名称
 * platforms: 支持的平台及对应平台的最低版本
-* targets: 包含多个target目标，我们指定target的名字为`ZZPackage`，xcode会自动把`Sources/ZZPackage`目录下的所有文件添加到package中。如果你想再新建一个target, 需要在`Sources/`目录下新建一个文件夹，然后再targets数组中添加新的target。
-
+* targets: 包含多个target的集合，我们指定target的名字为`ZZPackage`，xcode会自动把`Sources/ZZPackage`目录下的所有文件添加到package中。如果你想再新建一个target, 需要在`Sources/`目录下新建一个文件夹，然后再targets数组中添加新的target。
+	.target是`PackageDescription.Target`实例类，参数说明：
+	* name: target名字
+	* dependencies: target的依赖，主要指定Package添加的依赖module的名字
+	* path: target的路径，如果自定义文件夹需要设置此参数
+	* exclude: target path中不希望被包含的path
+	* sources: 资源文件路径
+	* publicHeadersPath: 公共header文件路径
+	
+            
+* products: 对外公开导出`target`产物，使得其他`target`能够使用它们。如果不写会编译报错
 	* .library(
             name: "ZZPackage",
             type: .static,
             targets: ["ZZPackage"]) : 可指定静态库或动态库，默认静态库
             
-* products: 导出`target`产物，使得其他`target`能够使用它们。如果不写会编译报错
-* dependencies: 添加包所依赖的其他第三方package包
+* dependencies: 添加包所依赖的其他第三方package包的集合
 
 	* .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.0.0"),
 	* .package(url: "https://github.com/SnapKit/SnapKit.git", from: .init(5, 0, 1)),
@@ -164,4 +169,20 @@ let package = Package(
 	
 * swiftLanguageVersions: 支持的swift版本
 
+
+SPM**不支持混合**语言开发，在同一个target中无法使用多语言，否则编译报错。
+
+## 如何实现混合
+
+可参考这个[文章](http://ankit.im/swift/2016/05/21/creating-objc-cpp-packages-with-swift-package-manager/)。
+
+这里是个Swift和OC混编的示例，每种语言一个target，单个target内不可使用多语言:
+
+![spm_objc](./spm_objc.png)
+
+对外导出的`.h`头文件，默认放在`include`文件中。如果要自定义导出文件需要设置`publicHeadersPath`导出的公共头文件夹路径。这里我们把原来的`include`文件名改为`header`，如下所示：
+
+![custom_path](./custom_path.png)
+
+然后把这个OC的包添加依赖到需要使用的Swift的包里，就可以正常使用了！！
 
