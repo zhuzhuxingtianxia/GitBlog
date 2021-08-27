@@ -146,9 +146,22 @@ let package = Package(
 
 * name: 包名
 * platforms: 支持的平台及对应平台的最低版本
-* targets: 包含多个target目标，我们指定target的名字为`ZZPackage`，xcode会自动把`Sources/ZZPackage`目录下的所有文件添加到package中。如果你想再新建一个target, 需要在`Sources/`目录下新建一个文件夹，然后再targets数组中添加新的target.
+* targets: 包含多个target目标，我们指定target的名字为`ZZPackage`，xcode会自动把`Sources/ZZPackage`目录下的所有文件添加到package中。如果你想再新建一个target, 需要在`Sources/`目录下新建一个文件夹，然后再targets数组中添加新的target。
+
+	* .library(
+            name: "ZZPackage",
+            type: .static,
+            targets: ["ZZPackage"]) : 可指定静态库或动态库，默认静态库
+            
 * products: 导出`target`产物，使得其他`target`能够使用它们。如果不写会编译报错
 * dependencies: 添加包所依赖的其他第三方package包
+
+	* .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.0.0"),
+	* .package(url: "https://github.com/SnapKit/SnapKit.git", from: .init(5, 0, 1)),
+	* .package(url: "https://github.com/SnapKit/SnapKit.git", from: .init(stringLiteral: "5.0.1")),
+	* .package(url: "https://github.com/SnapKit/SnapKit.git", Package.Dependency.Requirement.branch("master")), : 指定分支，如果第三方不支持spm的话可以使用这种方式
+	* .package(path: "../ZZPackage") : 关联本地的SPM库
+	
 * swiftLanguageVersions: 支持的swift版本
 
 
