@@ -170,9 +170,9 @@ let package = Package(
 * swiftLanguageVersions: 支持的swift版本
 
 ### resources 添加资源文件
-在`.target`下，我们可以添加资源文件字段`resources`,例如添加图片资源：
+在`.target`下，我们可以添加资源文件字段`resources`,例如添加图片资源自定义文件夹`imgs`：
 
-![resources](./resources.png)
+![resources_imgs](./resources_imgs.png)
 
 如果资源或路径添加不对，编译报错！
 
@@ -196,6 +196,38 @@ let package = Package(
         
     }
 ```
+
+在`.target`下，我们可以添加资源文件字段`resources`,使用默认文件夹`Resources`,**推荐使用**这种:
+
+![resources](./resources.png)
+
+这种方式可以直接在`process`中指定文件夹`Resources`，使用的时候也无需引用该路径。swift在编译的时候不会添加Resources路径。
+
+```
+    public func bgImgUrl() -> some View {
+        
+        let path = Bundle.module.url(forResource: "wechat@2x", withExtension: "png")
+        guard let data = try? Data(contentsOf: path!),
+              let uiimage = UIImage.init(data: data)
+        else {
+            fatalError("image load path error: \(path as Any)")
+        }
+        let img = Image(uiImage: uiimage)
+        return self
+            .background(img)
+        
+    }
+```
+
+这里也有一个第三方使用`resources`的案例：
+
+![NutritionFacts](./NutritionFacts.png)
+
+在`Assets.xcassets`中添加的图片资源不需要使用路径方式,使用方式如下:
+```
+Image("imageName", bundle: .module)
+```
+
 
 SPM**不支持混合**语言开发，在同一个target中无法使用多语言，否则编译报错。
 
