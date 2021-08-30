@@ -169,6 +169,33 @@ let package = Package(
 	
 * swiftLanguageVersions: 支持的swift版本
 
+### resources 添加资源文件
+在`.target`下，我们可以添加资源文件字段`resources`,例如添加图片资源：
+
+![resources](./resources.png)
+
+如果资源或路径添加不对，编译报错！
+
+对于`resources`属性，有两个静态方法： `process()` 和 `copy()` 。
+
+* copy会直接拷贝，保存目录结构,可直接copy文件夹
+* process是推荐的方式，它所配置的文件会根据具体使用的平台和内置规则进行适当的优化,但好像只能针对单个文件，而不能处理整个文件夹下的资源
+
+```
+	//调用举例
+    public func bgImg() -> some View {
+
+        let path = Bundle.module.path(forResource: "imgs/wechat@2x.png", ofType: nil)
+        
+        guard let uiimage = UIImage.init(contentsOfFile:path!) else {
+            fatalError("image load path error: \(path as Any)")
+        }
+        let img = Image(uiImage: uiimage)
+        return self
+            .background(img)
+        
+    }
+```
 
 SPM**不支持混合**语言开发，在同一个target中无法使用多语言，否则编译报错。
 
