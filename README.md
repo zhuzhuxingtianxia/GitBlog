@@ -31,6 +31,8 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
+* [Swift:SPM包管理器](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/Swift-SPM%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/Swift-SPM%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8.md)
+
 * [SwiftUI：如何控制safeAreaInset](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6safeAreaInset/SwiftUI-%E5%A6%82%E4%BD%95%E6%8E%A7%E5%88%B6safeAreaInset.md)
 
 * [SwiftUI：Introspect](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-Introspect/SwiftUI-Introspect.md)
