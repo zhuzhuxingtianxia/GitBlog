@@ -96,4 +96,188 @@ Button(action: {
 ## 创建Popup
 现在我们要创建一个显示5颗星组的弹出窗口。我们将重用之前创建的`StarIcon`。
 
+1. 在`RatingButton`视图中，像这样在`Button`的顶部添加一个覆盖层。
+
+```
+Button(action: {
+    // Empty for now...
+}) {
+    VStack(alignment: .center, spacing: 8) {
+        //Star Icon and Label Here...
+        StarIcon()
+        Text("Rate This")
+            .foregroundColor(Color.black)
+            .font(Font.system(size: 11, weight: .semibold, design: .rounded))
+    }
+}.overlay( /* Star Icons Here */ )
+```
+
+2. 使用`HStack`将五个`StarIcons`放在一起。确保对齐方式为`center`，并且`HStack`使用的`spacing`值为4。
+
+```
+.overlay(
+    HStack(alignment: .center, spacing: 4) {
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+    }
+)
+```
+
+3. 现在让我们给弹出框添加一些样式`padding` `background` `cornerRadius` `shadow`
+
+```
+.overlay(
+    HStack(alignment: .center, spacing: 4) {
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+        RatingIcon(filled: false)
+    } // Start styling the popup...
+    .padding(.all, 12)
+    .background(Color.white)
+    .cornerRadius(10)
+    .shadow(color: Color.black.opacity(0.1), radius: 20, x: 0, y: 0)
+)
+```
+
+4. 现在将弹出窗口向上偏移，这样它就不会直接位于按钮的顶部。
+ ```
+ .overlay(
+   HStack(alignment: .center, spacing: 4) {
+       RatingIcon(filled: false)
+       RatingIcon(filled: false)
+       RatingIcon(filled: false)
+       RatingIcon(filled: false)
+       RatingIcon(filled: false)
+   }
+   .padding(.all, 12)
+   .background(Color.white)
+   .cornerRadius(10)
+   .shadow(color: Color.black.opacity(0.1), radius: 20, x: 0, y: 0)
+   .offset(x: 0, y: -70) // Move the view above the button
+)
+```
+
+![ReviewButton_Popup](./ReviewButton_Popup.png)
+
+
+## 显示弹出框
+
+接下来，我们需要隐藏弹出窗口，直到点击按钮。为`ReviewButton`添加`bool`属性，用于控制弹出窗口的状态。
+```
+@State var popupOpen:Bool = false
+```
+
+现在回到我们之前声明的`Button`。将此代码片段添加到`action`参数中。
+
+```
+Button(action: {
+    withAnimation { self.popupOpen = !self.popupOpen }
+})
+```
+
+然后将这些代码添加到`overlay`覆盖层内的`HStack`中，以调整不透明度`opacity`。你应该把它放在我们设置覆盖的偏移量的下面。
+
+```
+.opacity(popupOpen ? 1.0 : 0)
+```
+
+现在让我们尝试一下吧！
+
+![ReviewButton_Popup_SwiftUI](./ReviewButton_Popup_SwiftUI.png)
+
+## 添加评论功能
+
+接下来，我们需要根据用户评价开始给星星上色。为了跟踪这一点，添加一个属性来跟踪星级评级。
+
+```
+@State var stars:Int = 0
+```
+我们将使用这个属性给按钮和弹出框上的星号改变颜色。让我们修改代码来反映这一点。
+
+1. 如果当前星级评分大于`0`，则将按钮内的`StarIcon`更改为黄色。
+```
+// Inside the Button
+VStack(alignment: .center, spacing: 8) {
+    //Star Icon and Label Here...
+    StarIcon(filled: stars > 0)
+    // "Rate This" Label Below
+```
+2. 也可以修改弹出窗口覆盖层内的`StarIcon`s来改变颜色。
+
+```
+HStack(alignment: .center, spacing: 4) {
+    RatingIcon(filled: stars > 0)
+    RatingIcon(filled: stars > 1)
+    RatingIcon(filled: stars > 2)
+    RatingIcon(filled: stars > 3)
+    RatingIcon(filled: stars > 4)
+}
+```
+既然`StarIcon`s将随着评级的变化而改变颜色，我们需要允许用户选择评级。我们会使用`DragGesture`来实现这个。
+
+在我们声明`popupOpen`和`stars`属性的下面，创建一个`DragGesture`。将`minimumDistance`设置为`0`，将`coordinateSpace`设置为`.local`。
+
+```
+var gesture: some Gesture {
+    return DragGesture(minimumDistance: 0, coordinateSpace: .local)
+        .onChanged({ val in
+            // Update Rating Here
+        })
+        .onEnded { val in
+           // Update Rating Here
+        }
+}
+```
+最后，要做的最后一件事是根据用户的点击或拖动的`x`位置计算已经选择了多少颗星星。
+
+在上面声明一个闭包，返回`DragGesture`，并让它接受`x`位置的`CGFloat`。然后，我们将快速计算确定用户选择了哪个`StarIcon`并更新状态。
+
+```
+let updateRating: (CGFloat)->() = { x in
+    let percent = max((x / 110.0), 0.0)
+    self.stars = min(Int(percent * 5.0) + 1, 5)
+}
+```
+
+然后调用我们之前设置的`onChanged`和`onEnded`函数。
+
+```
+return DragGesture(minimumDistance: 0, coordinateSpace: .local)
+.onChanged({ val in
+    updateRating(val.location.x)
+})
+.onEnded { val in
+    updateRating(val.location.x)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        withAnimation {
+            self.popupOpen = false
+        }
+    }
+}
+```
+
+最后要做的是在弹出框中添加手势!只需在`HStack`之后直接添加这段代码。
+
+```
+HStack(alignment: .center, spacing: 4) {
+    RatingIcon(filled: stars > 0)
+    RatingIcon(filled: stars > 1)
+    RatingIcon(filled: stars > 2)
+    RatingIcon(filled: stars > 3)
+    RatingIcon(filled: stars > 4)
+}
+.gesture(dragGesture)
+```
+
+## 最终效果
+
+![ReviewButton_SwiftUI_Final](.ReviewButton_SwiftUI_Final/gif)
+
+
+
 
