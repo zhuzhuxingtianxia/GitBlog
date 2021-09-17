@@ -238,9 +238,9 @@ var gesture: some Gesture {
 在上面声明一个闭包，返回`DragGesture`，并让它接受`x`位置的`CGFloat`。然后，我们将快速计算确定用户选择了哪个`StarIcon`并更新状态。
 
 ```
-let updateRating: (CGFloat)->() = { x in
+let updateRating: (CGFloat,RatingButton)->() = { x,this in
     let percent = max((x / 110.0), 0.0)
-    self.stars = min(Int(percent * 5.0) + 1, 5)
+    this.stars = min(Int(percent * 5.0) + 1, 5)
 }
 ```
 
@@ -249,10 +249,10 @@ let updateRating: (CGFloat)->() = { x in
 ```
 return DragGesture(minimumDistance: 0, coordinateSpace: .local)
 .onChanged({ val in
-    updateRating(val.location.x)
+    updateRating(val.location.x,self)
 })
 .onEnded { val in
-    updateRating(val.location.x)
+    updateRating(val.location.x,self)
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
         withAnimation {
             self.popupOpen = false
@@ -271,7 +271,7 @@ HStack(alignment: .center, spacing: 4) {
     RatingIcon(filled: stars > 3)
     RatingIcon(filled: stars > 4)
 }
-.gesture(dragGesture)
+.gesture(gesture)
 ```
 
 ## 最终效果
@@ -280,6 +280,73 @@ HStack(alignment: .center, spacing: 4) {
 
 完整代码如下：
 ```
+struct RatingIcon: View {
+    var filled: Bool = false
+    
+    var body: some View {
+        Image(systemName: filled ? "star.fill" : "star")
+            .foregroundColor(filled ? Color.yellow : Color.black.opacity(0.6))
+    }
+}
+
+struct ReviewButton: View {
+    @State var popupOpen:Bool = false
+    @State var stars:Int = 0
+    
+    let updateRating: (CGFloat,ReviewButton)->() = { x,this in
+        let percent = max((x / 110.0), 0.0)
+        this.stars = min(Int(percent * 5.0) + 1, 5)
+    }
+    
+    var gesture: some Gesture {
+        return DragGesture(minimumDistance: 0, coordinateSpace: .local)
+            .onChanged({ val in
+                // Update Rating Here
+                updateRating(val.location.x,self)
+            })
+            .onEnded { val in
+               // Update Rating Here
+                updateRating(val.location.x,self)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation {
+                            self.popupOpen = false
+                        }
+                    }
+            }
+    }
+    
+    var body: some View {
+        Button(action: {
+            withAnimation { self.popupOpen = !self.popupOpen }
+        }) {
+            VStack(alignment: .center, spacing: 8) {
+                //Star Icon and Label Here...
+                RatingIcon(filled: stars > 0)
+                    .frame(width: 50, height: 50)
+                Text("Rate This")
+                    .foregroundColor(Color.black)
+                    .font(Font.system(size: 11, weight: .semibold, design: .rounded))
+            }
+        }
+        .overlay(
+            HStack(alignment: .center, spacing: 4) {
+                    RatingIcon(filled: stars > 0)
+                    RatingIcon(filled: stars > 1)
+                    RatingIcon(filled: stars > 2)
+                    RatingIcon(filled: stars > 3)
+                    RatingIcon(filled: stars > 4)
+                }
+                .padding(.all, 12)
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.1), radius: 20, x: 0, y: 0)
+                .offset(x: 0, y: -70)
+                .opacity(popupOpen ? 1.0 : 0)
+                .gesture(gesture)
+        )
+    }
+}
+
 ```
 
 
