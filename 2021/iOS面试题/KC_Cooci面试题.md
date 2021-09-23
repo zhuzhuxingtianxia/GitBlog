@@ -56,3 +56,276 @@ LGTeacher *t = [[LGTeacher alloc] init];
 答案：**C**
 分析：
 
+> 3. 下面代码执行,控制台输出结果是什么 (  )
+
+```
+NSObject *objc = [NSObject new];
+NSLog(@"%ld",CFGetRetainCount((__bridge CFTypeRef)(objc)));
+
+void(^block1)(void) = ^{
+    NSLog(@"---%ld",CFGetRetainCount((__bridge CFTypeRef)(objc)));
+};
+block1();
+
+void(^__weak block2)(void) = ^{
+    NSLog(@"---%ld",CFGetRetainCount((__bridge CFTypeRef)(objc)));
+};
+block2();
+
+void(^block3)(void) = [block2 copy];
+block3();
+
+__block NSObject *obj = [NSObject new];
+void(^block4)(void) = ^{
+    NSLog(@"---%ld",CFGetRetainCount((__bridge CFTypeRef)(obj)));
+};
+block4();
+
+```
+
+* A: 1 2 2 2 2
+* B: 1 2 3 3 2
+* C: 1 3 3 4 1
+* D: 1 3 4 5 1
+
+答案：**D**
+分析：
+
+> 4. 下面代码执行,控制台输出结果是什么 (  )
+
+```
+- (void)MTDemo{
+    while (self.num < 5) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            self.num++;
+        });
+    }
+    NSLog(@"KC : %d",self.num);
+}
+
+- (void)KSDemo{
+
+    for (int i= 0; i<10000; i++) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            self.num++;
+        });
+    }
+    NSLog(@"Cooci : %d",self.num);
+}
+```
+
+* A: 0 , 10000
+* B: 0 , <10000
+* C: <=5 , <10000
+* D: >=5 , <10000
+
+答案：**D**
+分析：`MTDemo`中`dispatch_async`为异步执行，while循环执行一次后，异步执行`self.num++`的有可能还没有完成，这样while循环执行的次数是大于5次的。
+
+`KSDemo`中for循环执行10000次，然后打印，此时异步处理结果还没有完成，即打印时`self.num++`执行的次数小于10000次
+
+> 5.下面代码执行,控制台输出结果是什么 (  )
+
+```
+- (void)textDemo2{
+    dispatch_queue_t queue = dispatch_queue_create("cooci", DISPATCH_QUEUE_CONCURRENT);
+    NSLog(@"1");
+    dispatch_async(queue, ^{
+        NSLog(@"2");
+        dispatch_sync(queue, ^{
+            NSLog(@"3");
+        });
+        NSLog(@"4");
+    });
+    NSLog(@"5");
+}
+
+- (void)textDemo1{
+
+    dispatch_queue_t queue = dispatch_queue_create("cooci", NULL);
+    NSLog(@"1");
+    dispatch_async(queue, ^{
+        NSLog(@"2");
+        dispatch_sync(queue, ^{
+            NSLog(@"3");
+        });
+        NSLog(@"4");
+    });
+    NSLog(@"5");
+}
+```
+
+* A: 1 5 2 3 4 , 1 5 2
+* B: 1 5 2 4 3 , 死锁奔溃
+* C: 1 5 2 3 4 , 死锁奔溃
+* D: 1 5 2 3 , 死锁奔溃
+
+答案：**C**
+分析：`textDemo2`队列为异步并行执行，4会等待3同步执行完成后执行。
+		`textDemo1`队列为异步串行执行，由于队列的先进先出原则，`dispatch_sync`会等待`dispatch_async`串行执行完成后执行，而`dispatch_sync`又会阻塞`dispatch_async`串行执行，从而造成死锁。
+
+> 6.下面代码执行,控制台输出结果是什么 (  )
+
+```
+@property (nonatomic, strong) NSMutableArray      *mArray;
+
+- (NSMutableArray *)mArray{
+    if (!_mArray) _mArray = [NSMutableArray arrayWithCapacity:1];
+    return _mArray;
+}
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    NSMutableArray *arr = [NSMutableArray arrayWithObjects:@"1",@"2", nil];
+    self.mArray = arr;
+
+    void (^kcBlock)(void) = ^{
+        [arr addObject:@"3"];
+        [self.mArray addObject:@"a"];
+        NSLog(@"KC %@",arr);
+        NSLog(@"Cooci: %@",self.mArray);
+    };
+    [arr addObject:@"4"];
+    [self.mArray addObject:@"5"];
+
+    arr = nil;
+    self.mArray = nil;
+
+    kcBlock();
+}
+```
+
+* A: 1 2 4 5 3 , nil
+* B: 1 2 4 5 3 , a
+* C: 1 2 4 5 3 , 1 2 4 5 3 a
+* D: 1 2 4 5 3 a , 1 2 4 5 3 a
+
+答案：**B**
+分析：
+
+## 二、判断题
+
+> 1.可变数组线程是安全 (  )
+
+* 对
+* 错
+
+答案：**错**
+分析：在 iOS Objective-C 开发中，可变数组或字典 NSMutableArray/NSMutableDictionary 不是线程安全的，即在两个或以上线程对内部元素同时进行写入、读取、新增、删除等操作时，会出现异常或者超出预期的结果(result is unexpected)，而不可变数组 NSArray/NSDictionary 因其不可变性可以在多线程下进行读取
+
+> 2.主队列搭配同步函数就会产生死锁 (  )
+
+* 对
+* 错
+
+答案：**对**
+分析：同步对于任务是立刻执行的，那么当把任务放进主队列时，它就会立马执行,只有执行完这个任务，函数方法才会继续向下执行。
+而函数方法和任务都是在主队列上的，由于队列的先进先出原则，任务又需等待函数方法执行完毕后才能继续执行，函数方法和这个任务就形成了相互循环等待，就造成了死锁。
+
+> 3.下面代码执行不会报错 (  )
+
+```
+int a = 0;
+void(^ __weak weakBlock)(void) = ^{
+    NSLog(@"-----%d", a);
+};
+
+struct _LGBlock *blc = (__bridge struct _LGBlock *)weakBlock;
+id __strong strongBlock = [weakBlock copy];
+blc->invoke = nil;
+void(^strongBlock1)(void) = strongBlock;
+strongBlock1();
+```
+
+* 对
+* 错
+
+答案：**对**
+分析：把block中的`__weak`关键字去掉，`blc`和`strongBlock`,都会强持有block对象，而`blc->invoke = nil`则把block置为nil，此时strongBlock也为nil,运行就会crash。
+
+> 4.下面代码执行不会报错 (  )
+
+```
+NSObject *a = [NSObject alloc];
+void(^__weak block1)(void) = nil;
+{
+    void(^block2)(void) = ^{
+        NSLog(@"---%@", a);
+    };
+    block1 = block2;
+    NSLog(@"1 - %@ - %@",block1,block2);
+}
+block1();
+```
+
+* 对
+* 错
+
+答案：**错**
+分析：
+
+> 5.下面代码会产生循环引用 (  ) 
+
+```
+__weak typeof(self) weakSelf = self;
+self.doWork = ^{
+    __strong typeof(self) strongSelf = weakSelf;
+    weakSelf.doStudent = ^{
+        NSLog(@"%@", strongSelf);
+    };
+   weakSelf.doStudent();
+};
+self.doWork();
+```
+
+* 对
+* 错
+
+答案：**对**
+分析：
+
+> 6.下面代码是否有问题 (  )
+
+```
+- (void)demo3{
+    dispatch_queue_t concurrentQueue = dispatch_get_global_queue(0, 0);
+
+    for (int i = 0; i<5000; i++) {
+        dispatch_async(concurrentQueue, ^{
+            NSString *imageName = [NSString stringWithFormat:@"%d.jpg", (i % 10)];
+            NSURL *url = [[NSBundle mainBundle] URLForResource:imageName withExtension:nil];
+            NSData *data = [NSData dataWithContentsOfURL:url];
+            UIImage *image = [UIImage imageWithData:data];
+
+            dispatch_barrier_async(concurrentQueue, ^{
+                [self.mArray addObject:image];
+            });
+
+        });
+    }
+}
+```
+
+* 对
+* 错
+
+答案：**错**
+分析：
+
+> 7.下面代码不会产生循环引用 (  )
+
+```
+static ViewController *staticSelf_;
+
+- (void)blockWeak_static {
+    __weak typeof(self) weakSelf = self;
+    staticSelf_ = weakSelf;
+}
+```
+
+* 对
+* 错
+
+答案：**错**
+分析：
+
