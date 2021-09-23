@@ -265,9 +265,38 @@ watchpoint set expression &_name
 就想知道某个属性的值是在什么时候改变的，应该怎么办呢？因为很多的时候，某个属性的改变会发生在很多的地方，那如何做到统一的跟踪呢？ 在很多年前我是这样做的：重写 `set` 方法，然后在 `set` 方法中打一个断点。这样做是很优秀的，但是也是最不雅观的。因为重写了 `set` 方法之后，还需要再次删除，太 TM 繁琐了。何尝不弄一个断点呢？再者说，如果去跟踪系统属性的变动呢？接下来就介绍一个比较牛逼的方法。以监听 `-[UILabel setText:]` 方法为例。
 第一步就是盘她： 
 
+![lldb_sym](./lldb_sym.png)
 
+然后再这样的盘她：
+
+![lldb_symbol](./lldb_symbol.png)
+
+`-[UILabel setText:]` 这一句大家都能看懂。之后是这样子的：
+
+![settext](./settext.png)
+
+这样之后，会惊奇的发现，什么也没有干，这个断点就触发了：
+
+![lldb_debugger](./lldb_debugger.png)
+
+是的，这是汇编代码。本来 UILabel 中的系统方法都是没有暴露实现的，跳到这样的界面也是很正常的。这到底是怎么回事呢？我们可以简单的来一波下面的操作：
+
+![lldb_arg](./lldb_arg.png)
+
+从上面的这张图中，就能看出端倪。在看到这样强大的断点方式的同时，也带来了很多的思考。这样打断点就显得有点流氓了，只要是这个方法被触发的地方都会被断点到。那么就看一下下面这张图：
+
+![obseverChange](./obseverChange.png)
+
+我只想监听在 `btn1` 方法中被触发的 `-[UILabel setText:]` ，应该怎么办？在实际的开发中， 可能 `btn1` 方法会很复杂。直接给出最终的处理方案：
+
+![lldb_debugger_command](./lldb_debugger_command.png)
+
+这张图似曾相识。其中关键的命令是这样的 `breakpoint set -one-shot true --name "-[UILabel setText:]"` 这句命令的大意是如果在 `btn1` 方法中有 `-[UILabel setText:]` 操作的话，会被自动触发跟踪。
+ 
 
 ## 其他相关优秀文章
+
+熟悉一些常见的 LLDB 调试技巧之后，在实际的开发中可以节省我们一大堆的调试时间。
 
 1. [与调试器共舞 - LLDB](https://objccn.io/issue-19-2/)
 2. [戴铭：Xcode调试之LLDB](https://github.com/ming1016/study/wiki/Xcode%E8%B0%83%E8%AF%95%E4%B9%8BLLDB)
