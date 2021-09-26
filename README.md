@@ -31,6 +31,8 @@ Mac终端输入：`sudo vi /etc/hosts`
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
+* [Xcode 常用 LLDB 指令](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/Xcode%20%E5%B8%B8%E7%94%A8%20LLDB%20%E6%8C%87%E4%BB%A4/Xcode%20%E5%B8%B8%E7%94%A8%20LLDB%20%E6%8C%87%E4%BB%A4.md)
+
 * [SwiftUI: 制作评价按钮](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/SwiftUI-%E5%88%B6%E4%BD%9C%E8%AF%84%E4%BB%B7%E6%8C%89%E9%92%AE/SwiftUI-%E5%88%B6%E4%BD%9C%E8%AF%84%E4%BB%B7%E6%8C%89%E9%92%AE.md)
 
 * [Swift:SPM包管理器](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/Swift-SPM%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8/Swift-SPM%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8.md)
