@@ -203,6 +203,49 @@ block4();
 答案：**B**
 分析：
 
+> 7.下面代码的结果
+
+```
+BOOL res1 = [[NSObject class] isKindOfClass:[NSObject class]];
+BOOL res2 = [[NSObject class] isMemberOfClass:[NSObject class]];
+    
+BOOL res3 = [[LGTeacher class] isKindOfClass:[LGTeacher class]];
+BOOL res4 = [[LGTeacher class] isMemberOfClass:[LGTeacher class]];
+    
+BOOL res5 = [[[LGTeacher alloc]init] isKindOfClass:[LGTeacher class]];
+BOOL res6 = [[[LGTeacher alloc]init] isMemberOfClass:[LGTeacher class]];
+```
+
+答案：Yes, NO, NO, NO, YES, YES
+
+> 8. 下面代码执行会？
+
+```
+@interface NSObject (Person)
++ (void)run;
+@end
+
+@implementation NSObject (Person)
+- (void)run {
+    NSLog(@"IMP: [NSObject(Person) run]");
+}
+@end
+
+//执行1
+[NSObject run];
+//执行2
+[[NSObject new] run];
+
+```
+
+* A: 编译报错
+* B: 运行崩溃
+* C: 正常运行
+* D: 能不能自己运行一下不就知道,非要问我
+
+答案：1.C 2.A
+分析：
+
 ## 二、判断题
 
 > 1.可变数组线程是安全 (  )
