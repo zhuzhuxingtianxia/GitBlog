@@ -34,7 +34,8 @@
 """
 @Project: ${PROJECT_NAME}
 @File: ${NAME}.py
-@CreateTime: ${DATE}
+@Time: ${DATE}
+@Author: ${USER}
 @Desc: 
 ~~~~~~~~~~~~~~~~~~~~~~~~
 """
