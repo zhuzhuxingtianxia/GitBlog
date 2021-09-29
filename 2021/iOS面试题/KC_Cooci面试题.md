@@ -246,6 +246,56 @@ BOOL res6 = [[[LGTeacher alloc]init] isMemberOfClass:[LGTeacher class]];
 答案：1.C 2.A
 分析：
 
+> 9. 下面block代码,所在的堆栈类型
+
+```
+	void(^block1)(void) = ^{
+        NSLog(@"block1--");
+    };
+    block1();
+    NSLog(@"block1:%@",block1);
+    
+    int a = 10;
+    void(^block2)(void) = ^{
+        NSLog(@"block2 -- %d",a);
+    };
+    block2();
+    NSLog(@"block2:%@",block2);
+    
+    void(^ __weak block3)(void) = ^{
+        NSLog(@"block3 -- %d",a);
+    };
+    block3();
+    NSLog(@"block3:%@",block3);
+    
+    __weak void(^block4)(void) = ^{
+        NSLog(@"block4 -- %d",a);
+    };
+    block4();
+    NSLog(@"block4:%@",block4);
+    
+    void(^block_4)(void) = [block4 copy];
+    block_4();
+    NSLog(@"block_4:%@",block_4);
+    
+    __block int b = 10;
+    void(^block5)(void) = ^{
+        NSLog(@"block5 -- %d",++b);
+    };
+    block5();
+    NSLog(@"block5:%@",block5);
+```
+答案：
+
+* block1: NSGlobalBlock,
+* block2: NSMallocBlock,
+* block3: NSStackBlock,
+* block4: NSStackBlock,
+* block_4: NSMallocBlock,
+* block5: NSMallocBlock
+
+> 10. 
+
 ## 二、判断题
 
 > 1.可变数组线程是安全 (  )
