@@ -1,4 +1,4 @@
-# KC_Cooci老师的面试题
+# 面试题锦集
 
 ## 一、选择题
 > 1. LGTeacher 继承于 LGPerson, 下面代码输出为什么 (  ) 
@@ -424,5 +424,32 @@ static ViewController *staticSelf_;
 
 ## 3.问答题
 
-> 1. 
+> 1. 下面程序输入什么？
+
+```
+func makeIncrementer() -> () -> Int {
+    var runningTotal = 10
+    
+    func incrementer() -> Int {
+        runningTotal += 1
+        
+        return runningTotal
+    }
+    
+    return incrementer
+}
+
+var t = makeIncrementer()
+print(t())
+print(t())
+print(t())
+
+var t1 = makeIncrementer
+print(t1()())
+print(t1()())
+print(t1()())
+```
+
+答案：11、12、13
+		11、11、11
 
