@@ -32,11 +32,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
 
-* [iOS面试题](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021/iOS%E9%9D%A2%E8%AF%95%E9%A2%98)
-
-	* [面试题锦集](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/iOS%E9%9D%A2%E8%AF%95%E9%A2%98/KC_Cooci%E9%9D%A2%E8%AF%95%E9%A2%98.md)
-	* [性能优化分析](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/iOS%E9%9D%A2%E8%AF%95%E9%A2%98/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%88%86%E6%9E%90.md)
-	* [数据结构与算法](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/iOS%E9%9D%A2%E8%AF%95%E9%A2%98/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95.md)
+<!--* [iOS面试题](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021/iOS%E9%9D%A2%E8%AF%95%E9%A2%98)-->
 
 * [Xcode 常用 LLDB 指令](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2021/Xcode%20%E5%B8%B8%E7%94%A8%20LLDB%20%E6%8C%87%E4%BB%A4/Xcode%20%E5%B8%B8%E7%94%A8%20LLDB%20%E6%8C%87%E4%BB%A4.md)
 
