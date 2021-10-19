@@ -1,6 +1,6 @@
 # SwiftUI:View mask
 
-在[SwiftUI:View clipped](../SwiftUI-View clipped/SwiftUI-View clipped)中，我们已经探索了所有可以将剪辑蒙版应用到视图的方法。虽然剪辑功能强大，但它有两个显著的限制:
+在[SwiftUI:View clipped](../SwiftUI-View%20clipped/SwiftUI-View%20clipped.md)中，我们已经探索了所有可以将剪辑蒙版应用到视图的方法。虽然剪辑功能强大，但它有两个显著的限制:
 
 * 它要求`shape`作为`mask`
 * 内容要么被遮罩，要么被修剪掉;没有灰色地带
