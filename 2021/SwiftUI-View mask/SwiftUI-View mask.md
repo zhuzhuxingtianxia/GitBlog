@@ -41,4 +41,91 @@ extension View {
 
 ## Mask alignment
 
+当蒙版和原始视图有不同的尺寸时，对齐参数特别有用。在下面的例子中，蒙版是它应用到的视图的30%大小:
+
+![alignment](./alignment.gif)
+
+```
+struct FSView: View {
+  private let alignments: [Alignment] = [
+    .center, .leading, .trailing, .top, .bottom, .topLeading, .topTrailing, .bottomLeading, .bottomTrailing
+  ]
+  @State var alignment: Alignment = .center
+
+  var body: some View {
+    VStack {
+      Color.yellow
+        .frame(width: 200, height: 200)
+        .mask(alignment: alignment) {
+          Rectangle()
+            .frame(width: 60, height: 60) // 👈🏻 60 x 60 is smaller than 200x200
+        }
+        .border(.red)
+
+      Button("Random alignment") {
+        withAnimation {
+          alignment = alignments.filter { $0 != alignment } .randomElement()!
+        }
+      }
+    }
+  }
+}
+```
+红色边框显示了原始视图的边界，以提供视觉帮助:否则，我们只能看到一个小矩形。
+
+## 视图作为蒙版
+
+clipping剪辑修饰符的真正力量在于有机会使用任何`View`视图作为遮罩。比如说`Text`呢?
+
+![text](./text.png)
+
+```
+Color.yellow
+  .frame(width: 200, height: 200)
+  .mask {
+    Text("MASK")
+      .fontWeight(.black)
+      .font(.system(size: 60))
+  }
+  .border(Color.red)
+```
+不像`shape`形状，视图不会停留在它们所应用的视图的自然大小内。因此，遮罩会导致内容溢出。
+
+在下面的例子中:
+
+* 视图内容扩展到300x300的矩形
+* 视图大小设置200x200
+* 应用的遮罩超出了视图边界，允许内容溢出
+
+![bleed](./bleed.png)
+
+```
+Color.yellow
+  .frame(width: 300, height: 300)
+  .frame(width: 200, height: 200)
+  .mask {
+    Text("MASK")
+      .fontWeight(.black)
+      .font(.system(size: 80))
+      .fixedSize() // 👈🏻 忽略建议的200x200的大小
+  }
+  .border(Color.red)
+```
+
+## Opacity
+
+`mask(alignment:_:)`使用蒙版不透明度来确定从原始视图中显示的内容，例如:
+
+![gradient](./gradient.png)
+
+```
+Color.yellow
+  .frame(width: 200, height: 200)
+  .mask {
+    LinearGradient(colors: [.clear, .black, .clear], startPoint: .leading, endPoint: .trailing)
+  }
+  .border(Color.red)
+```
+
+在这里，我们使用带有三个颜色的线性梯度。中间的渐变颜色并不重要。它的颜色不透明度:我们可以用`.white`，`.red`等等来替换。结果是一样的。
 
