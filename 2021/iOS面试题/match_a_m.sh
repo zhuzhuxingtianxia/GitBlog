@@ -36,14 +36,19 @@ while [ "${target_file_path##*.}"x != "a"x ];do
     read target_file_path
 done
 
+# 判断文件路径是否包含空格
+#if [[ "$target_file_path" =~ ( |\') ]];then
+#    echo "件路径包含空格,无法处理"
+#    exit
+#fi
 
 # 定义数组
 Deice_Archs=("arm64" "armv7" "i386" "x86_64")
 # 获取数组的长度
 # echo "Deice_Archs:${#Deice_Archs[*]}"
 
-#1. 查看文件包含的架构
-arch_info=`lipo -info $target_file_path`
+#1. 查看文件包含的架构,"$target_file_path"防止路径中包含空格
+arch_info=`lipo -info "$target_file_path"`
 #echo $arch_info
 
 Target_Archs=()
@@ -85,14 +90,14 @@ temp_sdk_name=${temp_sdk_path##*/}.a
 echo "temp_sdk_name:${temp_sdk_name}"
 
 #移除文件
-rm -rf $temp_sdk_path && mkdir $temp_sdk_path
+rm -rf "$temp_sdk_path" && mkdir "$temp_sdk_path"
 
-lipo -thin $arm_name $target_file_path -output $temp_sdk_path/${temp_sdk_name}
+lipo -thin $arm_name "$target_file_path" -output "$temp_sdk_path"/${temp_sdk_name}
 
 echo "------------------------------分离架构成功-----------------------------------"
 
 #3. 抽离.a文件中的.o文件
-cd $temp_sdk_path && ar -x ${temp_sdk_name} && rm -rf ${temp_sdk_name}
+cd "$temp_sdk_path" && ar -x ${temp_sdk_name} && rm -rf ${temp_sdk_name}
 
 echo "------------------------------抽离转化.o成功-----------------------------------"
 
@@ -102,16 +107,16 @@ traverse_dir()
 {
     filepath=$temp_sdk_path
     
-    for file in `ls -a $filepath`
+    for file in `ls -a "$filepath"`
     do
-        if [ -d ${filepath}/$file ] ;then
+        if [ -d "${filepath}"/$file ] ;then
             if [[ "$file" != '.' ]] && [[ "$file" != '..' ]] ;then
                 #递归
-                traverse_dir ${filepath}/$file
+                traverse_dir "${filepath}"/$file
             fi
         else
             #调用查找指定后缀文件
-            check_suffix ${filepath}/$file
+            check_suffix "${filepath}"/$file
         fi
     done
 }
@@ -125,16 +130,17 @@ check_suffix()
         file_name=${file##*/}
         m_file_name=${file_name%.*}.m
         echo $m_file_name
-        nm $file > $reult_sdk_path/$m_file_name
+        nm "$file" > "$reult_sdk_path"/$m_file_name
         
     fi
 }
 
 # 创建输出结果文件
-rm -rf $reult_sdk_path && mkdir $reult_sdk_path
+rm -rf "$reult_sdk_path" && mkdir "$reult_sdk_path"
 # 调用函数
 traverse_dir
 # 清除临时文件
-rm -rf ${temp_sdk_path}
+rm -rf "${temp_sdk_path}"
 
-echo "--------转化完成！！--------"
+echo "===========.o文件转.m文件完成！！=========="
+echo "输出文件到如下路径：\n$reult_sdk_path\n"
