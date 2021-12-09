@@ -29,6 +29,18 @@ Mac终端输入：`sudo vi /etc/hosts`
 ```
 点击`esc`键，然后输入`:wq` 保存退出即可。刷新github
 
+<!--- 
+有关网站
+swiftUI: https://www.fivestars.blog/
+			https://trailingclosure.com/
+			https://www.appcoda.com/tag/swiftui/
+			https://swiftwithmajid.com/
+			https://www.mozzafiller.com/
+			https://daddycoding.com/
+			https://schwiftyui.com/
+swift: https://www.hackingwithswift.com/articles
+--->
+
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
 
