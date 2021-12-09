@@ -41,6 +41,8 @@ swiftUI: https://www.fivestars.blog/
 swift: https://www.hackingwithswift.com/articles
 --->
 
+<!--- 音视频编解码：http://www.javashuo.com/article/p-dcvdlqxp-dq.html  ---->
+
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
 
