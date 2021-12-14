@@ -43,14 +43,33 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 
 打开报错：“Openfire”偏好设置存在错误。
 原因：JAVA_HOME配置错误
-解决：`/usr/libexec/java_home -V`查看JAVA_HOME路径，找到JDK安装目录`/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home`
-		打开`/usr/local/openfire/bin`目录下的`openfire.sh`文件
-		将`JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home`替换为`JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home`
+解决：
 
-然后终端执行`bash /usr/local/openfire/bin/openfire.sh`启动Openfire。
-遗留问题：start fire 启动依然会报错，只能通过脚本启动。
+1. `/usr/libexec/java_home -V`查看JAVA_HOME路径，找到JDK安装目录`/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home`
+2. 打开`/usr/local/openfire/bin`目录下的`openfire.sh`文件copy至桌面
+3. 将桌面的openfire.sh文件中的`JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home`替换为`JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home`
+4. 用桌面的`openfire.sh`替换`/usr/local/openfire/bin`目录下的`openfire.sh`
+5. 在`/Users/xxx/.zshrc`添加环境变量
+	```
+	export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home
+	```
+	
+
+6. 然后终端执行`sudo bash /usr/local/openfire/bin/openfire.sh`启动Openfire。
+遗留问题：start Openfire 启动依然会报错，只能通过脚本启动。
+
+卸载指令：
+```
+sudo rm-rf/Library/PreferencePanes/Openfire.prefPane
+sudo rm -rf /usr/local/openfire
+sudo rm-rf/Library/LaunchDaemons/org.jivesoftware.openfire.plist
+
+```
 
 安装后打开，点击`Open Admin Console`
+若报错：定义openfire安装目录或新建或增加openfire_init.xml文件到类路径
+没找到解决方法重新卸载安装。
+
 
 1. 服务器设置：设置域名(例如：exsamle.test.cn)和端口(默认9090)
 2. 数据库设置：标准数据库连接，使用外部连接。数据库驱动选择MySQL,
