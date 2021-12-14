@@ -68,10 +68,91 @@ sudo rm-rf/Library/LaunchDaemons/org.jivesoftware.openfire.plist
 
 安装后打开，点击`Open Admin Console`
 若报错：定义openfire安装目录或新建或增加openfire_init.xml文件到类路径
-没找到解决方法重新卸载安装。
+是没有操作权限导致的，在执行脚本时添加`sudo`
 
 
 1. 服务器设置：设置域名(例如：exsamle.test.cn)和端口(默认9090)
 2. 数据库设置：标准数据库连接，使用外部连接。数据库驱动选择MySQL,
 
+![database_url](./database_url.png)
+
+![database_username](./database_username.png)
+
+连接数据库的时候报错：
+```
+A connection to the database could not be made. View the error message by opening the "/logs/error.log" log file, then go back to fix the problem. 
+```
+原因：我的是数据库名字设置错了，我用的gui工具连接是可以分组的，我写成了分组的名字
+
+3. 外形设置
+ 
+ ![ex-setting](./ex-setting.png)
+
+4. 管理员设置
+
+![admin_set](./admin_set.png)
+
+此处我们设置密码为：admin和管理员账号一样，然后跳转到后台登录
+
+![login_page](./login_page.png)
+
+openfire是开源的，基础功能如下,我们可以通过添加插件的方式来扩展其功能
+
+![fire_page](./fire_page.png)
+
+
+## 服务器介绍
+
+#### 服务器端口
+
+服务器可用的端口号
+![nonal_port](./nonal_port.png)
+
+例如：`telnet 127.0.0.1 5222` 发送消息但是并不会得到回应
+
+#### 用户
+
+![create_user](./create_user.png)
+
+![user_list](./user_list.png)
+
+#### 会话
+
+![public_msg](./public_msg.png)
+
+#### 分组聊天
+
+![group_msg](./group_msg.png)
+
+## 客户端安装
+
+下载安装[Spark](https://www.igniterealtime.org/downloads/)一个客户端软件
+
+![spark_login](./spark_login.png)
+
+使用服务器已有的账户进行登录。
+
+登录报错如下
+
+![login_cer](./login_cer.png)
+
+设置禁用证书主机名验证
+
+![login_disable_verifi](./login_disable_verifi.png)
+
+登录成功后刷新后台用户列表可以看到用户为在线状态。
+
+## JID
+
+JID即JabberID,一个合法的jid是: username@hostname.extra组成(例如：zhangsan@im.qiu.com)
+
+从上面可以看出来jid分为三段
+
+* username: 用户名
+* hostname: 主机域名
+* extra: 可选,设备名或资源名（用于多设备登录）
+
+添加好友
+
+![add_friend](./add_friend.png)
 
