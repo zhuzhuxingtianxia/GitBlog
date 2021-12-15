@@ -144,13 +144,16 @@ openfire是开源的，基础功能如下,我们可以通过添加插件的方�
 
 ## JID
 
-JID即JabberID,一个合法的jid是: username@hostname.extra组成(例如：zhangsan@im.qiu.com)
+JID即JabberID,一个合法的jid是: username@hostname/extra组成(例如：zhangsan@im.qiu.com)
 
-从上面可以看出来jid分为三段
+* jid(JabberID)对象分为三段:
 
-* username: 用户名
-* hostname: 主机域名
-* extra: 可选,设备名或资源名（用于多设备登录）
+1. username: 用户名
+2. hostname: 主机域名
+3. extra: 可选,设备名或资源名（用于多设备登录）
+
+* bare只包含用户名和本地域的NSString,缺少资源类型
+* full完整的jid的NSString,包含资源类型
 
 添加好友
 
