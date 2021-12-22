@@ -58,6 +58,11 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 6. 然后终端执行`sudo bash /usr/local/openfire/bin/openfire.sh`启动Openfire。
 遗留问题：start Openfire 启动依然会报错，只能通过脚本启动。
 
+7. stop Openfire也不起作用了，终端执行关闭Openfire
+ ```
+ sudo kill -s TERM `ps auxww | grep -v wrapper | awk '/openfire/ && !/awk/ {print $2}'`
+ ```
+
 卸载指令：
 ```
 sudo rm-rf/Library/PreferencePanes/Openfire.prefPane
