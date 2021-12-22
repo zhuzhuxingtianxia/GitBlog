@@ -76,7 +76,7 @@ sudo rm -rf /Library/LaunchDaemons/org.jivesoftware.openfire.plist
 是没有操作权限导致的，在执行脚本时添加`sudo`
 
 
-1. 服务器设置：设置域名(例如：exsamle.test.cn)和端口(默认9090)
+1. 服务器设置：设置域名(例如：**im.michat.cn**)和端口(默认9090)
 2. 数据库设置：标准数据库连接，使用外部连接。数据库驱动选择MySQL,
 
 ![database_url](./database_url.png)
