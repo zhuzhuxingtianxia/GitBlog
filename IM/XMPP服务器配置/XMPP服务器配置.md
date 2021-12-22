@@ -65,9 +65,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 25.181-b13, mixed mode)
 
 卸载指令：
 ```
-sudo rm-rf/Library/PreferencePanes/Openfire.prefPane
+sudo rm -rf /Library/PreferencePanes/Openfire.prefPane
 sudo rm -rf /usr/local/openfire
-sudo rm-rf/Library/LaunchDaemons/org.jivesoftware.openfire.plist
+sudo rm -rf /Library/LaunchDaemons/org.jivesoftware.openfire.plist
 
 ```
 
