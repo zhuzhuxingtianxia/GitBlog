@@ -31,7 +31,8 @@ case "`uname`" in
           ;;
 esac
 echo ${JAVA_HOME}
-exit 1
+
+#exit 1
 #if openfire home is not set or is not a directory
 if [ -z "$OPENFIRE_HOME" -o ! -d "$OPENFIRE_HOME" ]; then
 

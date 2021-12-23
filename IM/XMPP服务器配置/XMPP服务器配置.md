@@ -77,6 +77,9 @@ sudo rm -rf /Library/LaunchDaemons/org.jivesoftware.openfire.plist
 
 
 1. 服务器设置：设置域名(例如：**im.michat.cn**)和端口(默认9090)
+
+![domain_host](./domain_host.png)
+
 2. 数据库设置：标准数据库连接，使用外部连接。数据库驱动选择MySQL,
 
 ![database_url](./database_url.png)
