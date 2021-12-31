@@ -42,6 +42,7 @@ swift: https://www.hackingwithswift.com/articles
 --->
 
 <!--- 音视频编解码：http://www.javashuo.com/article/p-dcvdlqxp-dq.html  ---->
+<!--- 视频播放框架：https://mp.weixin.qq.com/s/duLk1mNLdcqRlfzpnh2LEA --->
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
 
