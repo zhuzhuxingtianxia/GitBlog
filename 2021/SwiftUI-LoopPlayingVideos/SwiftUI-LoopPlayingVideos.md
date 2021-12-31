@@ -158,3 +158,5 @@ class LoopingPlayerUIView: UIView {
 
 注意:如果你使用`AVPlayer`而不是`AVQueuePlayer`方法，你可能仍然会遇到不连贯。然而，这会减少很多。
 
+<!--- https://schwiftyui.com/swiftui/playing-videos-on-a-loop-in-swiftui/ ---->
+
