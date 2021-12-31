@@ -55,23 +55,23 @@ class PlayerUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        // Load the resource
+        // 获取资源路径
         let fileUrl = Bundle.main.url(forResource: "VideoWithBlock", withExtension: "mov")!
         
-        // Setup the player
+        // 初始化 player
         let player = AVPlayer(url: fileUrl)
         playerLayer.player = player
         playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
         
-        // Setup looping
+        // 设置循环
         player.actionAtItemEnd = .none
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(playerItemDidReachEnd(notification:)),
                                                name: .AVPlayerItemDidPlayToEndTime,
                                                object: player.currentItem)
 
-        // Start the movie
+        // 开始播放movie
         player.play()
     }
     
@@ -123,21 +123,21 @@ class LoopingPlayerUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        // Load the resource
+        // 加载资源路径
         let fileUrl = Bundle.main.url(forResource: "VideoWithBlock", withExtension: "mov")!
         let asset = AVAsset(url: fileUrl)
         let item = AVPlayerItem(asset: asset)
         
-        // Setup the player
+        // 初始化player
         let player = AVQueuePlayer()
         playerLayer.player = player
         playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
          
-        // Create a new player looper with the queue player and template item
+        // 使用队列播放器和模板项创建一个新的播放器循环器
         playerLooper = AVPlayerLooper(player: player, templateItem: item)
 
-        // Start the movie
+        // 开始播放
         player.play()
     }
 
