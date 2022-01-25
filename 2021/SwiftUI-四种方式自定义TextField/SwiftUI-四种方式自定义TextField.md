@@ -200,6 +200,25 @@ public struct FSTextField: View {
 
 这是可以真正的自定义一个`TextField`。没有办法改变占位符文本的颜色，或者设置不同文本的字体的大小：我们可以通过使用外部文本甚至在跟踪TextField状态时应用掩码来绕过一些限制，但是我们会很快遇到其他的困境，例如键盘操作相关的一些内容。
 
+在ios15之后，你可以通过使用`FocusState`属性包装器消除SwiftUI上的键盘:
+```
+@FocusState private var textFieldFocused: Bool
+
+VStack {
+    if showName {
+        Text("Your name is \(name)")
+    }
+    TextField("Name", text: $name)
+        .submitLabel(.next)
+        .focused($textFieldFocused)
+
+    Button("Submit") {
+        showName = true
+        textFieldFocused = false
+    }
+}.padding()
+```
+
 
 ## 方式2: 桥接UIKit方式
 
