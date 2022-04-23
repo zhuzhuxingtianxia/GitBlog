@@ -97,8 +97,12 @@ bazel是一个多平台编译和构建工具。使用bazel构建项目，在项�
 
 Bazel把代码划分成package包,package包可以理解为一个目录，这个目录里面包含了源文件和一个描述文件，描述文件就是`BUILD`文件。一个包需包含一个`BUILD`描述文件。
 
-构建应用：`bazel build //app:hello-world`
+构建应用：`bazel build //app:hello-world` 
+构建应用指定架构：`bazel build -c opt --config=ios_arm64 //app:hello-world`
+运行应用：`bazel run //app:hello-world`
+
 `//`: 表示根目录，上面指令表示构建根目录中app文件目录`BUILD`的name为hello-world的应用或包。
+`visibility:public` 表示我们的可见域
 
 模拟器构建：`bazel build --features=apple.skip_codesign_simulator_bundles //your/target`
 注意：需要使用受权限保护的API，则不能使用模拟器构建，也需要签名打包才可以。
@@ -190,8 +194,115 @@ ios_application(
     deps = [":Lib"],
 )
 ```
-`visibility:public` 表示我们的可见域
+打包应用是需要对应的配置文件，从开发者中心下载通用的`profile.mobileprovision`配置文件,
+例如:
+`profile.mobileprovision`对应的bunld_id是`com.companyname.*`,
+则需要打开`mediapipe/examples/ios/bundle_id.bzl`文件
+将`BUNDLE_ID_PREFIX = "*SEE_IOS_INSTRUCTIONS*.mediapipe.examples"`修改为`BUNDLE_ID_PREFIX = "com.companyname"`
 
+然后将您的配置文件符号链接或复制到`mediapipe/mediapipe`路径下，下载的文件在`~/Downloads
+`目录下，文件名为`Profile_common.mobileprovision`。则执行命令把它做一个符号链接：
+```
+cd mediapipe
+ln -s ~/Downloads/Profile_common.mobileprovision mediapipe/provisioning_profile.mobileprovision
+```
+
+## MediaPipe On iOS
+在官方的`Hello World! On iOS`的[事例](https://google.github.io/mediapipe/getting_started/hello_world_ios.html)中，添加相关依赖时，在`BUILD`文件`data`中添加：
+```
+"//mediapipe/graphs/edge_detection:mobile_gpu_binary_graph",
+```
+改为：
+```
+ "//mediapipe/graphs/edge_detection:mobile_gpu.binarypb",
+```
 
 ## 搞了那么多还是搞不定，怎么打frameWork？
+首先将`mediapipe/objc`目录下的BUILD文件`package(default_visibility = ["//visibility:public"])`中的`private`改为`public`。
+要打包的BUILD文件:
+```
+# bazel build -c opt --config=ios_arm64 mediapipe/examples/ios/myfacemesh:FaceMeshSDK
+
+load(
+    "@build_bazel_rules_apple//apple:ios.bzl",
+    "ios_framework",
+)
+
+MIN_IOS_VERSION = "10.0"
+
+ios_framework(
+    name = "FaceMeshSDK",
+    hdrs = [
+        "FaceMesh.h",
+    ] + select({
+        "//mediapipe:ios": [
+            "//mediapipe/objc:MPPInputSource.h",
+            "//mediapipe/objc:MPPCameraInputSource.h",
+            "//mediapipe/objc:MPPPlayerInputSource.h",
+            "//mediapipe/objc:MPPGLViewRenderer.h",
+            "//mediapipe/objc:MPPLayerRenderer.h",
+        ],
+        "//conditions:default": [],
+    }),
+    bundle_id = "com.btn.hf.FaceMeshSDK",
+    families = [
+        "iphone",
+        "ipad",
+    ],
+    infoplists = [
+        "Info.plist",
+    ],
+    minimum_os_version = MIN_IOS_VERSION,
+    deps = [
+        ":FaceMeshLib",
+        "@ios_opencv//:OpencvFramework",
+    ],
+)
+
+objc_library(
+    name = "FaceMeshLib",
+    srcs = [
+        "FaceMesh.mm",
+    ],
+    hdrs = [
+        "FaceMesh.h",
+    ],
+    copts = ["-std=c++17"],
+    visibility = ["//mediapipe:__subpackages__"],
+    sdk_frameworks = [
+        "AVFoundation",
+        "CoreGraphics",
+        "CoreMedia",
+        "CoreVideo",
+    ],
+    data = [
+        "//mediapipe/graphs/face_mesh:face_mesh_mobile_gpu.binarypb",
+        "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
+        "//mediapipe/modules/face_landmark:face_landmark_with_attention.tflite",
+    ],
+    deps = [
+        "//mediapipe/objc:mediapipe_framework_ios",
+        "//mediapipe/objc:mediapipe_input_sources_ios",
+        "//mediapipe/objc:mediapipe_layer_renderer",
+    ] + select({
+        "//mediapipe:ios_i386": [],
+        "//mediapipe:ios_x86_64": [],
+        "//conditions:default": [
+            "//mediapipe/graphs/face_mesh:mobile_calculators",
+            "//mediapipe/framework/formats:landmark_cc_proto",
+        ],
+    })
+
+)
+
+```
+
+
+## 相关参考文章
+
+[Mediapipe – 全身包含身体、手部、面部所有关键点标注位置对应图](https://www.stubbornhuang.com/1916/)
+
+[Mediapipe - 将Mediapipe handtracking封装成动态链接库dll/so,实现在桌面应用中嵌入手势识别功能](https://blog.csdn.net/HW140701/article/details/119675282)
+
+
 
