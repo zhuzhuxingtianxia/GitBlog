@@ -38,6 +38,29 @@ brew uninstall --ignore-dependencies glog
 查看opencv的版本及信息`brew info opencv@3`:
 opencv@3: stable 3.4.16 (bottled) [keg-only]
 
+opencv@3初始化后产生的日志如下：
+```
+==> Summary
+🍺  /usr/local/Cellar/opencv@3/3.4.16_3: 675 files, 211MB
+==> Running `brew cleanup opencv@3`...
+Disable this behaviour by setting HOMEBREW_NO_INSTALL_CLEANUP.
+Hide these hints with HOMEBREW_NO_ENV_HINTS (see `man brew`).
+==> Caveats
+==> opencv@3
+opencv@3 is keg-only, which means it was not symlinked into /usr/local,
+because this is an alternate version of another formula.
+
+If you need to have opencv@3 first in your PATH, run:
+  echo 'export PATH="/usr/local/opt/opencv@3/bin:$PATH"' >> ~/.zshrc
+
+For compilers to find opencv@3 you may need to set:
+  export LDFLAGS="-L/usr/local/opt/opencv@3/lib"
+  export CPPFLAGS="-I/usr/local/opt/opencv@3/include"
+
+For pkg-config to find opencv@3 you may need to set:
+  export PKG_CONFIG_PATH="/usr/local/opt/opencv@3/lib/pkgconfig"
+```
+
 * 查看python版本`python -V`,将python3设置为默认的python版本，并安装`six`库，这是**TensorFlow**的需要：
  ```
  pip3 install --user six
