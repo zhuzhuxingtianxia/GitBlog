@@ -67,6 +67,7 @@ For pkg-config to find opencv@3 you may need to set:
  ```
 
 * 查看安装结果：
+cd 到mediapipe所在的目录，执行
 ```
 export GLOG_logtostderr=1
 // 需要bazel设置环境变量'MEDIAPIPE_DISABLE_GPU=1'，因为桌面GPU当前不受支持
@@ -104,6 +105,7 @@ ERROR: The project you're trying to build requires Bazel 5.0.0 (specified in /Us
 ```
 (cd "/usr/local/Cellar/bazel/5.1.1/libexec/bin" && curl -fLO https://releases.bazel.build/5.0.0/release/bazel-5.0.0-darwin-x86_64 && chmod +x bazel-5.0.0-darwin-x86_64)
 ```
+或修改`.bazelversion`文件中的版本号
 
 * 安装TensorFlow依赖的Python库**six**: `pip3 install --user six`
 * 克隆**MediaPipe**库：`git clone https://github.com/google/mediapipe.git`
@@ -147,6 +149,19 @@ sh build_and_run.sh
 * 使用`Tulsi.app`打开`mediapipe/Mediapipe.tulsiproj`。注意：如果`Tulsi`显示错误说“Bazel could not be found”,在选项中点击“Bazel…”按钮，选择`bazel`执行在homebrew `/bin/`文件中。
 * 在配置选项卡中选择MediaPipe配置，然后按下下面的`Generate`生成按钮。
 * 输入项目名称，为项目选择`WORKSPACE`文件。
+ 
+ `Tulsi.app`执行时报错：
+ ```
+ [21:34:54](0): Failed to query information about the Bazel workspace. Bazel exited with code 1 [Details]: 
+ [21:34:54](3): Bazel command info:
+/usr/local/bin/bazel --max_idle_secs=60 query '--override_repository=tulsi=/Users/jion/Library/Application Support/Tulsi/0.20220209.88/Bazel' --announce_rc --noimplicit_deps --order_output=no --noshow_loading_progress --noshow_progress 'kind(rule, mediapipe/examples/ios/facemeshgpu:all)' --output xml
+Exited with code 1
+ ```
+ 根据日志信息终端执行：
+ ```
+ /usr/local/bin/bazel --max_idle_secs=60 query '--override_repository=tulsi=/Users/jion/Library/Application Support/Tulsi/0.20220209.88/Bazel' --announce_rc --noimplicit_deps --order_output=no --noshow_loading_progress --noshow_progress 'kind(rule, mediapipe/examples/ios/facemeshgpu:all)' --output xml
+
+ ```
  
  WORKSPACE文件：
  
