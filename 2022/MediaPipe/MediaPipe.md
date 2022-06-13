@@ -105,7 +105,7 @@ ERROR: The project you're trying to build requires Bazel 5.0.0 (specified in /Us
 ```
 (cd "/usr/local/Cellar/bazel/5.1.1/libexec/bin" && curl -fLO https://releases.bazel.build/5.0.0/release/bazel-5.0.0-darwin-x86_64 && chmod +x bazel-5.0.0-darwin-x86_64)
 ```
-或修改`.bazelversion`文件中的版本号
+或修改`.bazelversion`文件中的版本号，但这样可能会出现问题。
 
 * 安装TensorFlow依赖的Python库**six**: `pip3 install --user six`
 * 克隆**MediaPipe**库：`git clone https://github.com/google/mediapipe.git`
@@ -150,18 +150,12 @@ sh build_and_run.sh
 * 在配置选项卡中选择MediaPipe配置，然后按下下面的`Generate`生成按钮。
 * 输入项目名称，为项目选择`WORKSPACE`文件。
  
- `Tulsi.app`执行时报错：
- ```
- [21:34:54](0): Failed to query information about the Bazel workspace. Bazel exited with code 1 [Details]: 
- [21:34:54](3): Bazel command info:
-/usr/local/bin/bazel --max_idle_secs=60 query '--override_repository=tulsi=/Users/jion/Library/Application Support/Tulsi/0.20220209.88/Bazel' --announce_rc --noimplicit_deps --order_output=no --noshow_loading_progress --noshow_progress 'kind(rule, mediapipe/examples/ios/facemeshgpu:all)' --output xml
-Exited with code 1
- ```
- 根据日志信息终端执行：
- ```
- /usr/local/bin/bazel --max_idle_secs=60 query '--override_repository=tulsi=/Users/jion/Library/Application Support/Tulsi/0.20220209.88/Bazel' --announce_rc --noimplicit_deps --order_output=no --noshow_loading_progress --noshow_progress 'kind(rule, mediapipe/examples/ios/facemeshgpu:all)' --output xml
-
- ```
+  `Tulsi.app`执行时报错如图：
+ 
+ [tulsierror](./tulsierror.png)
+ 
+ 解决方案：1. 执行`brew info opencv@3`，查看所有依赖是否安装
+ 2. 检查bazel版本是否符合要求，因下载了最新的bazel版本且把`.bazelversion`文件中的版本号修改为了最新版本。修改回来后，按照错误提示执行脚本，就解决了问题
  
  WORKSPACE文件：
  
