@@ -3,6 +3,16 @@
 [MediaPipe](https://google.github.io/mediapipe/getting_started/install.html#installing-on-macos)是谷歌开源的机器学习框架，用于处理视频、音频等时间序列数据。
 MediaPipe Solutions提供了16个Solutions: 人脸检测、Face Mesh(面部网格)、虹膜、手势、姿态、人体、人物分割、头发分割、目标检测、Box Tracking、Instant Motion Tracking、3D目标检测、特征匹配等。
 
+## JAVA
+提前安装Java JDK8,查看：
+```
+java -version
+```
+**报错**：Ignoring JAVA_HOME, because it must point to a JDK, not a JRE.
+可能是JAVA_HOME路径问题，如果确定路径没问题，可执行：
+```
+source .bash_profile
+```
 
 ## 环境安装
 
