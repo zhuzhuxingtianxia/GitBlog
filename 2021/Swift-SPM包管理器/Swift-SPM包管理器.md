@@ -51,7 +51,15 @@ Swift Package Manager - Swift 5.3.0
   
 ## 创建本地Swift Package库
 
-我们新建一个`Swift Package`,打开我们上面用到的项目`SPMTest`后选择`File`->`New`->`Swift package...`,把这个包命名为ZZPackage,并添加到现有的项目中。 
+使用终端新建Package：
+```
+mkdir SPMDemo
+cd SPMDemo
+swift package init
+
+```
+
+或者使用Xcode新建一个`Swift Package`,打开我们上面用到的项目`SPMTest`后选择`File`->`New`->`Swift package...`,把这个包命名为ZZPackage,并添加到现有的项目中。 
 
 ![create_spm](./create_spm.png)
 
