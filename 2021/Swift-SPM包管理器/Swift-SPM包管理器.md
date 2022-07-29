@@ -116,7 +116,7 @@ extension View {
 
 ![local_depend](./local_depend.png)
 
-* 此时的项目接口如下：
+* 此时的项目结构如下：
 
 ![project_struct](./project_struct.png)
 
