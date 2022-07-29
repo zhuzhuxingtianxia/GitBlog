@@ -107,6 +107,28 @@ extension View {
 找到SPMTest文件夹下的`ZZPackage`文件夹，上传库到云端(github, gitee 或者其他托管服务器)。
 然后设置`Tag`版本号就可以了。删除本地Package，就可以通过仓库地址加载远程Package了。
 
+## 发布后远程加载
+
+打tag发布到GitHub后，`File > Add Packages` 在搜索中输入地址，这个时候可能一直搜索加载报错。这并不是你的包有问题。换一种方式加载，创建本地Package关联项目，然后添加远程依赖项目，这样加载比较快了
+
+* File > New > Package
+* 选择把新建的 Swift Package 添加已有的项目中去,Package保存为`Library`
+
+![local_depend](./local_depend.png)
+
+* 此时的项目接口如下：
+
+![project_struct](./project_struct.png)
+
+* `Targets` ->`General` -> `Frameworks..`部分，点击`+`号,添加`Library` 然后编译一下
+* 添加其他远程依赖库,例如添加[STNavigationController](https://github.com/zhuzhuxingtianxia/STNavigationController)：
+
+![dep_others](./dep_others.png)
+
+* 它会自动加载依赖，加载成功后就可以在项目中使用依赖的库了
+
+![dep_results](./dep_results.png)
+
 
 ## SPM文件及配置
 
