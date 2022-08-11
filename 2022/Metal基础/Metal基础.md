@@ -2,7 +2,7 @@
 
 ## Metal Shader Language
 
-MSL基于C++的语法,与OpenGL的GLSL语法作用一样，都是用于编写顶点着色器和片元着色器。
+MSL基于C++的语法,与OpenGL的GLSL语法作用一样，都是用于编写顶点着色器和片元着色器。与OpenGL着色器不同，Metal是在编译项目时编译的，这比动态编译更有效,提升了运行效率。
 
 ### 函数修饰符
 
