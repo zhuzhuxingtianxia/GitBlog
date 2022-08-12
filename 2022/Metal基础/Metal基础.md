@@ -45,7 +45,7 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
 *  `[[threadgroup(x)]]`: 限定符表明该参数需要使用`threadgroup`空间修饰符修饰
 
 * `[[vertext_id]]`: 顶点着色器是在渲染每个顶点的时候都会执行该函数。因此这个vertex_id是当前的顶点下标（因为我们所有的顶点是一个数组）
-* `[[stage_in]]`: 在片元着色器中的表示该参数是由顶点着色器传入进来的。即顶点着色器会return一个数据，而这个数据会根据stage_in限定符传入到片元着色器中；
+* `[[stage_in]]`: 在片元着色器中的表示该参数是由顶点着色器传入进来的。即顶点着色器会return一个数据，而这个数据会根据stage_in限定符传入到片元着色器中；在顶点函数中，系统则会根据stage_in限定符自动获取当前索引，并解包为当前索引处的顶点缓存的(即传入的参数结构)数据结构
 * `[[instance_id]]`: 这个限定符用于多次绘制时的不同实例，对应`renderCommandEncoder.drawIndexedPrimitives`方法的`instanceCount`参数
 
 ### 采样器Sampler配置参数
