@@ -89,7 +89,7 @@ float smoothstep(float edge0, float edge1, float x){
 
 * length: 计算向量或矩阵的长度；
 * distance: 计算两个向量之间的距离；
-
+* normalize: 将数据归一化至同一个值域区间(单位圆内)；
 
 
 使用方式：
@@ -137,5 +137,8 @@ let step: SIMD2<Float> = step(.init(x: 1, y: 4), edge: .init(x: 2, y: 3))
  let d = distance(SIMD2<Float>(0,1), SIMD2<Float>(0,3.3))
  print(d) // 2.3
  
+ ///normalize
+ let norm = normalize(SIMD2<Float>(1,1))
+ print(norm) // SIMD2<Float>(0.7071067, 0.7071067)
 ```
 
