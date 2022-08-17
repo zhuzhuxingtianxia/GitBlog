@@ -67,7 +67,7 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
 
 * sin：正弦函数;
 * cos：余弦函数;
-* atan/atan2: 反正切函数,求的角度值，`atan2(y2-y1, x2-x1)` 比`atan((y2-y1)/(x2-x1))`更稳定，取值范围是[-PI/2, PI/2];
+* atan/atan2: 反正切函数,求的角度值，`atan((y2-y1)/(x2-x1))`取值范围是[-PI/2, PI/2],`atan2(y2-y1, x2-x1)`取值范围是[-PI, PI];
 * fract: 函数返回一个值的小数部分;
 * dot: 函数返回两个向量乘积的标量结果即`(x1,y1)*(x2,y2) = x1*x2 + y1*y2`;
 * pow：幂函数,例如： pow(2,3) = 2 * 2 * 2 = 8;
@@ -91,7 +91,8 @@ float smoothstep(float edge0, float edge1, float x){
 * length: 计算向量或矩阵的长度；
 * distance: 计算两个向量之间的距离；
 * normalize: 将数据归一化至同一个值域区间(单位圆内)；
-* floor: 向下取整
+* floor: 向下取整;
+* exp: 指数曲线函数,是以自然常数e为底的指数函数；
 
 
 使用方式：
