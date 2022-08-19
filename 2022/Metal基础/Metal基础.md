@@ -17,10 +17,10 @@ MSL基于C++的语法,与OpenGL的GLSL语法作用一样，都是用于编写顶
 ### 地址空间修饰符
 Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或者参数被分配到哪块内存区域，所有的着色函数(`vertex`,`fragment`,`kernel`)的参数,如果是指针或者是引用,都必须带有地址空间修饰符号。
 
-* `device`: 设备地址空间
-* `threadgroup`: 线程组地址空间
-* `constant`: 常量地址空间
-* `thread`: thread 地址空间
+* `device`: 设备地址空间,支持读写，并且没有大小的限制;
+* `constant`: 常量地址空间,只读，并且限定大小;
+* `threadgroup`: 线程组地址空间;
+* `thread`: thread 地址空间;
 
 对于图形着色器函数，其指针或者引用类型的参数必须定义为`device` 或者 `constant`地址空间；对于并行计算着色函数,其指针或者引用类型的参数必须为`device` 或者 `threadgroup` 或者 `constant` 地址空间；
 
@@ -32,7 +32,7 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
 
 *  `[[buffer(x)]]`: 限定符表明该参数需要使用`device/constant`空间修饰符修饰，是数据交互commandEncoder中调用`setVertexBuffer`写入的数据。而这里x就是在调用`setVertexBuffer`方法时的index值（不是offset）；
 
-*  `[[texture(x)]]`: 限定符表明该参数需要使用`texture`空间修饰符修饰，是一个纹理数据, x是`setVertexTexture`方法中的index值
+*  `[[texture(x)]]`: 限定符表明该参数需要使用`texture`空间修饰符修饰，是一个纹理数据, x是`setVertexTexture`方法中的index值;
 
 *  `[[sampler(x)]]`: 限定符表明该参数需要使用`sampler`空间修饰符修饰，x是`setVertexSamplerState`方法中的index值。
    在Metal程序中sampler作为变量时，初始化必须使用`constexpr`关键字修饰;
@@ -42,11 +42,12 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
  constexpr sampler quadSampler(coord::pixel, filter::linear, mip_filter::nearest)
  ```
 
-*  `[[threadgroup(x)]]`: 限定符表明该参数需要使用`threadgroup`空间修饰符修饰
+*  `[[threadgroup(x)]]`: 限定符表明该参数需要使用`threadgroup`空间修饰符修饰;
 
-*  `[[vertext_id]]`: 顶点着色器是在渲染每个顶点的时候都会执行该函数。因此这个vertex_id是当前的顶点下标（因为我们所有的顶点是一个数组）
-*  `[[stage_in]]`: 在片元着色器中的表示该参数是由顶点着色器传入进来的。即顶点着色器会return一个数据，而这个数据会根据stage_in限定符传入到片元着色器中；在顶点函数中，系统则会根据stage_in限定符自动获取当前索引，并解包为当前索引处的顶点缓存的(即传入的参数结构)数据结构，而不再需要vertext_id限定符修饰的参数
-*  `[[instance_id]]`: 这个限定符用于多次绘制时的不同实例，对应`renderCommandEncoder.drawIndexedPrimitives`方法的`instanceCount`参数
+*  `[[vertext_id]]`: 顶点着色器是在渲染每个顶点的时候都会执行该函数。因此这个vertex_id是当前的顶点下标（因为我们所有的顶点是一个数组）;
+*  `[[stage_in]]`: 在片元着色器中的表示该参数是由顶点着色器传入进来的。即顶点着色器会return一个数据，而这个数据会根据stage_in限定符传入到片元着色器中；在顶点函数中，系统则会根据stage_in限定符自动获取当前索引，并解包为当前索引处的顶点缓存的(即传入的参数结构)数据结构，而不再需要vertext_id限定符修饰的参数;
+*  `[[instance_id]]`: 这个限定符用于多次绘制时的不同实例，对应`renderCommandEncoder.drawIndexedPrimitives`方法的`instanceCount`参数;
+*  `[[early_fragment_tests]]`: 允许在像素着色器运行之前运行深度测试,如果一个像素被覆盖，则会放弃渲染。使用方式是在fragment关键字前面加上[[early_fragment_tests]],使用前置深度测试的要求是不能在fragment shader对深度进行写操作;
 
 ### 采样器Sampler配置参数
 
