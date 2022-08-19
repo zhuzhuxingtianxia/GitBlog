@@ -63,6 +63,13 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
 | `mip_filter`                        | `none`,`nearest`,`linear`                | 设置纹理的采样minmap过滤方式                  |
 | `compare_func`                      | `none`,`less`,`less_qual`,`greater`,`greate_qual`,`equal`,`not_equal` | 设置比较测试逻辑,这个状态值的设置只能在Metal着色语言程序中完成 |
 
+### 坐标系
+
+iOS开发坐标系原点`(0,0)`在左上角；
+Metal和OpenGLES的世界坐标系范围[-1,1],原点`(0,0)`在正中间，类似数学单位坐标系；
+纹理坐标系取值范围[0,1]，原点在左下角;
+
+
 ### 内置数学函数
 
 * sin：正弦函数;
