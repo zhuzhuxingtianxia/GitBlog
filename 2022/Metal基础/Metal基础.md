@@ -69,7 +69,8 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
 * cos：余弦函数;
 * atan/atan2: 反正切函数,求的角度值，`atan((y2-y1)/(x2-x1))`取值范围是[-PI/2, PI/2],`atan2(y2-y1, x2-x1)`取值范围是[-PI, PI];
 * fract: 函数返回一个值的小数部分;
-* dot: 函数返回两个向量乘积的标量结果即`(x1,y1)*(x2,y2) = x1*x2 + y1*y2`;
+* dot: 点乘函数返回两个向量乘积的标量结果即`(x1,y1)*(x2,y2) = x1*x2 + y1*y2`;
+* cross: 叉乘函数,其功能是计算向量积,得到垂直与该面的向量。表达式为: `A x B = [(x1 * y2) - (y1 * x2), (x2 * y0) - (y2 * x0), (x0 * y1) - (y0 * x1)]`;
 * pow：幂函数,例如： pow(2,3) = 2 * 2 * 2 = 8;
 * sqrt: 开平方函数，例如：sqrt(16) = 4;
 * abs: 函数只返回绝对值,任何值都会丢失其符号并始终返回非负值;
@@ -79,12 +80,12 @@ Metal着色器语言使用*地址空间修饰符*来表示一个函数变量或�
 * normalize: 将数据归一化至同一个值域区间(单位圆内)；
 * floor: 向下取整;
 * exp: 指数曲线函数,是以自然常数e为底的指数函数；
-* reflect: [反射函数](https://zhuanlan.zhihu.com/p/152561125)，通过给定的入射光线与法向量求取反射向量
-* refract: 折射函数，折射与材质有关
+* reflect: [反射函数](https://zhuanlan.zhihu.com/p/152561125)，通过给定的入射光线与法向量求取反射向量;
+* refract: 折射函数，折射与材质有关;
 * clamp: 函数将点移动到最接近的可用值。 如果小于它，则输入采用`min`的值，如果大于它，则输入`max`的值，并且如果介于两者之间则保持其值;
-* mix: 混入函数，使用它们之间的权重来执行`x`和`y`之间的线性插值,返回值计算为`x *（1-t）+ y * t`,t为0结果为x, t为1结果为y; 扩展`(x1,y1)*(1-t) + (x2,y2) * t = (x1*(1-t)+x2*t, y1*(1-t)+y2*t)`
-* step: 函数x小于edge为0，否则为1
-* smoothstep: 函数将实数x作为输入，如果x小于`edge0`边缘则输出0,如果x大于`edge1`边缘则输出1，否则实现区间[edge0，edge1]中0和1之间的三次插值，计算为：
+* mix: 混入函数，使用它们之间的权重来执行`x`和`y`之间的线性插值,返回值计算表达式为:`x *（1-t）+ y * t`,t为0结果为x, t为1结果为y; 展开表达式为:`(x1,y1)*(1-t) + (x2,y2) * t = (x1*(1-t)+x2*t, y1*(1-t)+y2*t)`;
+* step: 函数x小于edge为0，否则为1;
+* smoothstep: 函数将实数x作为输入，如果x小于`edge0`边缘则输出0,如果x大于`edge1`边缘则输出1，否则实现区间[edge0，edge1]中0和1之间的三次插值，计算表达式为：
 
 ```
 //[edge0 < x < edge1]
@@ -117,6 +118,21 @@ print(pow)
 let fmod: Float = fmodf(2.5, 0.2)
 print(fmod.formatted()) // 0.1
 
+/// length
+ let length: Float = length(SIMD2<Float>([1,1]))
+ print(length) // 1.414214
+ /// distance
+ let d = distance(SIMD2<Float>(0,1), SIMD2<Float>(0,3.3))
+ print(d) // 2.3
+ 
+ ///normalize
+ let norm = normalize(SIMD2<Float>(1,1))
+ print(norm) // SIMD2<Float>(0.7071067, 0.7071067)
+ 
+ /// floor
+ let f = floor(SIMD2<Float>.init(x: 4.3, y: 5.8))
+ print(f) // SIMD2<Float>(4.0, 5.0)
+
 /// clamp
 let clamp: SIMD2<Float> = clamp(.init(x: 1.0, y: 4.0), min: 2.0, max: 5.0)
 print(clamp) // SIMD2<Float>(2.0, 4.0)
@@ -133,21 +149,6 @@ let step: SIMD2<Float> = step(.init(x: 1, y: 4), edge: .init(x: 2, y: 3))
  /// smoothstep
  let smooth: SIMD2<Float> = smoothstep([5,3], edge0: [1,2], edge1: [8,8])
  print(smooth) // SIMD2<Float>(0.606414, 0.07407408)
- 
- /// length
- let length: Float = length(SIMD2<Float>([1,1]))
- print(length) // 1.414214
- /// distance
- let d = distance(SIMD2<Float>(0,1), SIMD2<Float>(0,3.3))
- print(d) // 2.3
- 
- ///normalize
- let norm = normalize(SIMD2<Float>(1,1))
- print(norm) // SIMD2<Float>(0.7071067, 0.7071067)
- 
- /// floor
- let f = floor(SIMD2<Float>.init(x: 4.3, y: 5.8))
- print(f) // SIMD2<Float>(4.0, 5.0)
  
 ```
 
