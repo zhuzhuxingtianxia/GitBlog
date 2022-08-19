@@ -111,6 +111,10 @@ print(f) //SIMD2<Float>(0.1, 0.4)
 /// dot
 let dot: Float = dot(.init(x: 0.5, y: 0.5), .init(x: 0.5, y: 1))
 print(dot) // 0.75
+/// cross
+let cr:SIMD3<Float> = cross(SIMD2<Float>(1,0), SIMD2<Float>(0,1))
+print(cr) // SIMD3<Float>(0.0, 0.0, 1.0) 得到垂直于xy平面的z向量
+
 /// pow
 let pow: SIMD2<Float> = pow(.init(2,2), .init(3,3))
 print(pow)
