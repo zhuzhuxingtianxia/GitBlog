@@ -90,6 +90,7 @@ Metal和OpenGLES的世界坐标系范围[-1,1],原点`(0,0)`在正中间，类�
 * exp: 指数曲线函数,是以自然常数e为底的指数函数；
 * reflect: [反射函数](https://zhuanlan.zhihu.com/p/152561125)，通过给定的入射光线与法向量求取反射向量;
 * refract: 折射函数，折射与材质有关;
+* atomic_fetch_add_explicit: 用于在[多线程进行数据操作](https://en.cppreference.com/w/c/atomic/memory_order);
 * clamp: 函数将点移动到最接近的可用值。 如果小于它，则输入采用`min`的值，如果大于它，则输入`max`的值，并且如果介于两者之间则保持其值;
 * mix: 混入函数，使用它们之间的权重来执行`x`和`y`之间的线性插值,返回值计算表达式为:`x *（1-t）+ y * t`,t为0结果为x, t为1结果为y; 展开表达式为:`(x1,y1)*(1-t) + (x2,y2) * t = (x1*(1-t)+x2*t, y1*(1-t)+y2*t)`;
 * step: 函数x小于edge为0，否则为1;
