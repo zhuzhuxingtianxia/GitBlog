@@ -1,18 +1,15 @@
 # MediaPipe学习
 
-[MediaPipe](https://google.github.io/mediapipe/getting_started/install.html#installing-on-macos)是谷歌开源的机器学习框架，用于处理视频、音频等时间序列数据。
+[MediaPipe](https://google.github.io/mediapipe/getting_started/install.html#installing-on-macos)是谷歌在2019年开源的机器学习框架，用于处理视频、音频等时间序列数据。
 MediaPipe Solutions提供了16个Solutions: 人脸检测、Face Mesh(面部网格)、虹膜、手势、姿态、人体、人物分割、头发分割、目标检测、Box Tracking、Instant Motion Tracking、3D目标检测、特征匹配等。
 
 ## JAVA
-提前安装Java JDK8,查看：
+提前安装Java JDK11,之前安装jdk8没问题，升级后就不行了，[查看说需要jdk11](https://wiki.archlinux.org/title/Bazel)。
+查看：
 ```
 java -version
 ```
-**报错**：Ignoring JAVA_HOME, because it must point to a JDK, not a JRE.
-可能是JAVA_HOME路径问题，如果确定路径没问题，可执行：
-```
-source .bash_profile
-```
+
 
 ## 环境安装
 
@@ -21,7 +18,10 @@ source .bash_profile
 ```
 /bin/bash -c "$(curl -fsSL \
 https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+//国内用户可用一键安装脚本:
+/bin/zsh -c"$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"
 ```
+
 * 安装Xcode及命令行工具`xcode-select --install`
 * 安装Bazelisk，`brew install bazelisk`
 * 克隆**MediaPipe**库文件
