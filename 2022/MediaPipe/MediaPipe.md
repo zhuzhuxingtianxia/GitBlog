@@ -346,5 +346,5 @@ objc_library(
 
 [Mediapipe - 将Mediapipe handtracking封装成动态链接库dll/so,实现在桌面应用中嵌入手势识别功能](https://blog.csdn.net/HW140701/article/details/119675282)
 
-
+[MediaPipe教程：查找与您的面部表情匹配的模因](https://fenollp.github.io/mediapipe-memes-matching-your-facial-expression)
 
