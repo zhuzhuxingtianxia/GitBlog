@@ -233,8 +233,71 @@ Navigator.pushNamed(context, '/details/102')
 ```
 
 ### fluro路由
+这是一个第三方路由，用法可[参考这里](https://pub.dev/packages/fluro)
 
+1. 编写路由配置文件`routes.dart`
 
+```
+import 'package:fluro/fluro.dart'
+
+class Routes {
+	// 1. 定义路由名称
+	static String home='/';
+	static String login='/login';
+	static String detail='/detail/:id';
+	
+	// 2. 定义路由处理函数
+	static Handler _homeHandler = Handler(handlerFunc:(context, params){
+		return HomePage();
+	});
+	static Handler _loginHandler = Handler(handlerFunc:(context, params){
+		return LoginPage();
+	});
+	static Handler _detailHandler = Handler(handlerFunc:(context, params){
+		return DetailPage(id: params['id'][0]);
+	});
+	static Handler _notFoundHandler = Handler(handlerFunc:(context, params){
+		return NotFoundPage();
+	});
+	
+	// 3. 编写函数configureRoutes关联路由名称和处理函数
+	static void configureRoutes(FluroRouter router){
+		router.define(home, handler: _homeHandler);
+		router.define(login, handler: _loginHandler);
+		router.define(detail, handler: _detailHandler);
+		
+		router.notFoundHandler = _notFoundHandler;
+	}
+	
+}
+
+```
+
+2. 路由关联
+
+```
+class Application extends StatelessWidget {
+	Application({Key key}): super(key: key);
+	
+	@override
+	Widget build(BuildContext context) {
+		FluroRouter router = FluroRouter();
+		FluroRouter.configureRoutes(router);
+		return MaterialApp(
+			home: LoginPage();
+			onGenerateRoute: router.generator,
+		);
+	}
+	
+}
+```
+
+3. 路由跳转
+```
+Navigator.pushNamed(context, Routes.home);
+// 或
+Navigator.pushNamed(context, '/detail/102');
+```
 
 ## 第三方插件
 
