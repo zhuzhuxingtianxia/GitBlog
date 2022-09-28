@@ -23,7 +23,108 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 * deactivate(): 组件对象在元素树中暂时移除时,例如导航操作
 * dispose(): 组件对象从元素树中永远移除时
 
-## provider
+## InheritedWidget
+
+* 提供了沿树向下，共享数据的功能即子组件可以获取父组件(InheritedWidget的子类)的数据。
+* 不依赖于构造函数的方式传递数据，可以更好的跨组件数据传输
+
+![Inherited](./Inherited.jpeg)
+
+构建数据共享类
+```
+class ShareDataWidget extends InheritedWidget {
+	final int num; // 共享的数据
+	final Widget child;
+	ShareDataWidget(Key key, this.child, @required this.num): super(Key key, child: child);
+	
+	static ShareDataWidget of(BuildContext context) {
+		return context.dependOnInheritedWidgetOfExactType<ShareDataWidget>();
+	}
+	
+	@override
+	bool updateShouldNotify(ShareDataWidget oldWidget){
+		// 根据需求是否需要刷新
+		return true;
+	}
+	
+}
+```
+设置共享组件，使用`ShareDataWidget`包裹根组件：
+```
+@override
+Widget build(BuildContext context) {
+	return ShareDataWidget(
+		num: _num,
+		child: 根组件(),
+	);
+}
+```
+
+获取共享数据：
+```
+int num = ShareDataWidget.of(context).num;
+```
+
+
+## Provider
+Provider是一个三方库，是对InheritedWidget的封装，使用了懒加载，优化可资源的分配与处理。
+
+![provider](./provider.png)
+
+* ChangeNotifier: 被观察者，数据模型，类似MVC中的Model
+* Provider: 观察者，监听数据变化,类似MVC中的ViewModel
+* Producer: 生成者，生成新数据即触发数据的变化,类似MVC中的View
+* Listener: 消费者，数据发生变化触发UI刷新,类似MVC中的View
+
+Producer产生新数据 -> 被Provider监控到变化 -> ChangeNotifier更新数据模型数据 -> 更新所有使用数据的子组件Listener
+
+**使用Provider:**
+
+* 安装Provider
+* 创建数据模型 (T extends ChangeNotifier)
+* 创建Provider，并注册数据模型
+	* Provider(): 不会被要求随着变动而变动
+	* ChangeNotifierProvider(): 随着某些数据改变而被通知更新
+* 子组件获取数据模型并更细UI
+	* 可通过context上下文获取
+	* 也可通过静态方法(`Provider.of<T>(context)`)获取
+
+```
+// 1. 创建数据模型
+class AppModel extends ChangeNotifier {
+	int _counter = 0;
+	int get counter => _counter;
+	
+	incrementCounter() {
+		_counter++;
+		// 通知UI更新
+		notifyListeners();
+	}
+	
+}
+
+// 2. 创建Provider，注册数据模型
+@override
+Widget build(BuildContext context) {
+	// 后代组件均可获取数据模型
+	return ChangeNotifierProvider(
+		create: (BuildContext context) => AppModel(),
+		child: Scaffold(
+			appBar: ...
+			body: ...
+		),
+	);
+}
+
+// 3. Provider子组件获取数据模型
+Text('${context.watch<AppModel>().counter}')
+// 4. 触发操作
+TextButton(
+	onPressed: Provider.of<AppModel>(context).incrementCounter,
+	child: Icon(Icons.thumb_up)
+)
+
+```
 
 
 ## 路由
@@ -39,15 +140,22 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 
 * push(跳转到指定组件)
 ```
-Navigator.push(
-context,
-MaterialPageRoute(builder: (context) => 组件名称())
+Navigator.push(context,
+	MaterialPageRoute(builder: (context) => 组件名称())
 )
+```
+传参：
+```
+Navigator.push(context,
+	MaterialPageRoute(builder: (context){
+		return Detail(id: item['id'])
+	})
+);
 ```
 
 * pop(回退)
 ```
-Navigator.pop(context)
+Navigator.pop(context);
 ```
 
 ### 命名路由
@@ -57,7 +165,9 @@ Navigator.pop(context)
 	* initialRoute(初始路由)
 	* onUnknownRoute(未知路由-404)
 * 跳转到命名路由
-	* Navigator.pushNamed(context, '路由名称')
+	* 无参数： Navigator.pushNamed(context, '路由名称')
+	* 有参数：Navigator.pushNamed(context, routename, {arguments})
+	* 接收参数：ModalRoute.of(context).settings.arguments
 
 例子：
 ```
@@ -77,11 +187,53 @@ MaterialApp(
 跳转:
 ```
 Navigator.pushNamed(context, 'second')
+//或 跳转传参
+Navigator.pushNamed(context, 'second', 
+	arguments: {'title': '传递的参数'}
+)
 //返回
 Navigator.pop(context)
 ```
 
+接收参数：
+```
+class SecondPage extends StatelessWidget {
+	// 获取参数
+	final Map arguments = ModalRoute.of(context).settings.arguments;
+	String title = arguments['title'];
+}
+```
+
 ### 动态路由
+
+```
+MaterialApp(
+	//通过onGenerateRoute生成动态路由
+	onGenerateRoute: (settings) {
+		// 匹配处理
+		if(settings.name == '/') {
+			return MaterialPageRoute(builder: (context) => HomeScreen());
+		}
+		// 处理详情 '/details/:id'
+		var uri = Uri.parse(settings.name);
+		if(uri.pathSegments.length == 2 && uri.pathSegments.first == 'details') {
+			var id = uri.pathSegments[1];
+			return MaterialPageRoute(builder: (context) => DetailScreen(id: id));
+		}
+		
+		// 未知路由
+		return MaterialPageRoute(builder: (context) => UnknownScreen());
+		
+	},
+);
+```
+跳转传参：
+```
+Navigator.pushNamed(context, '/details/102')
+```
+
+### fluro路由
+
 
 
 ## 第三方插件
@@ -101,6 +253,7 @@ Navigator.pop(context)
 * image_picker: 图片选择库
 * cached_network_image: 图片缓存库
 * fluttertoast: toast弹框
+* cupertino_icons: iOS样式的icons
 
 
 
