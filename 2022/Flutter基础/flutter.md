@@ -10,6 +10,23 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 * 引擎层：该层主要是C++实现，其中包括了Skia引擎(3.3版本使用渲染引擎Impeller取代Skia)、Dart运行时、文字排版引擎等。在代码调用 `dart:ui`库时，调用最终会走到引擎层，然后实现真正的绘制和显示。
 * 嵌入层: Flutter最终渲染、交互是要依赖其所在平台的操作系统API，嵌入层主要是将Flutter引擎采用当前平台的语言编写 ”安装“ 到特定平台上。嵌入层可以方便扩展支持新的平台
 
+## Flutter安装遇到的问题
+
+执行`flutter doctor -v`报错：
+
+`HTTP host https://maven.google.com/ is not reachable`
+`HTTP host https://cloud.google.com/ is not reachable`
+
+1. 找到`fultter/packages/flutter_tools/lib/src/http_host_validator.dart`文件，把
+   `if (!platform.environment.containsKey(kEnvCloudUrl))
+      'https://maven.google.com/',`
+      修改为
+	`if (!platform.environment.containsKey(kEnvCloudUrl))
+	      'https://maven.aliyun.com/repository/google/',
+	`
+2. 把文件中的`const String kgCloudHttpHost = 'https://cloud.google.com/';`修改为`const String kgCloudHttpHost = 'https://storage.flutter-io.cn/';`
+3. 删除fultter/bin/cache文件；
+4. 重新运行`flutter doctor -v`
 
 ## Flutter生命周期
 
