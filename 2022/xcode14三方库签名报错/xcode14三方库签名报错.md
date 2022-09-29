@@ -1,12 +1,15 @@
 # Xcode14三方库签名报错
 
 今天更新升级了一下Xcode14，打开项目运行居然报错了:
+
 `Signing for "ESPullToRefresh-ESPullToRefresh" requires a development team. Select a development team in the Signing & Capabilities editor.`
+
 这是什么情况，三方库也需要设置一个开发团队了。
 
 ## 如何解决
 
 **解决方案1:**
+
 修改Podfile文件，在Podfile中添加如下内容：
 
 ```
@@ -41,10 +44,8 @@ end
  	```
  	gem 'cocoapods-pod-sign'
 	gem 'cocoapods'
-	
  	```
- 	
- 	![Gemfile](./Gemfile.png)
+ ![Gemfile](./Gemfile.png)
 
 4. 执行`bundle install`,让文件的修改生效
 5. cd 到项目目录执行`pod install --verbose`
