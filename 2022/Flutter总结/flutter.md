@@ -14,16 +14,20 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 
 执行`flutter doctor -v`报错：
 
-`HTTP host https://maven.google.com/ is not reachable`
-`HTTP host https://cloud.google.com/ is not reachable`
+**HTTP host https://maven.google.com/ is not reachable**
+ **HTTP host https://cloud.google.com/ is not reachabl**
 
-1. 找到`fultter/packages/flutter_tools/lib/src/http_host_validator.dart`文件，把
-   `if (!platform.environment.containsKey(kEnvCloudUrl))
-      'https://maven.google.com/',`
-      修改为
-	`if (!platform.environment.containsKey(kEnvCloudUrl))
-	      'https://maven.aliyun.com/repository/google/',
-	`
+1. 找到`fultter/packages/flutter_tools/lib/src/http_host_validator.dart`文件,把
+
+   ```
+   if (!platform.environment.containsKey(kEnvCloudUrl))
+      'https://maven.google.com/',
+  ```
+  修改为
+	```
+	if (!platform.environment.containsKey(kEnvCloudUrl))
+	      'https://maven.aliyun.com/repository/google/',      
+```
 2. 把文件中的`const String kgCloudHttpHost = 'https://cloud.google.com/';`修改为`const String kgCloudHttpHost = 'https://storage.flutter-io.cn/';`
 3. 删除fultter/bin/cache文件；
 4. 重新运行`flutter doctor -v`
