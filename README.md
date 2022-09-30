@@ -50,6 +50,12 @@ iOS VoIP电话: https://blog.csdn.net/weixin_38912070/article/details/93856988
 ## [2022](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2022)
 <!--* [iOS面试题](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/iOS%E9%9D%A2%E8%AF%95%E9%A2%98)-->
 
+* [Flutter总结]
+
+* [xcode14三方库签名报错]
+
+* [Metal基础]
+
 * [SwiftUI: Searchable](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2022/SwiftUI-Searchable/SwiftUI-Searchable.md)
 
 ## [2021](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2021)
