@@ -12,7 +12,7 @@
 
 这是我们正在构建的应用程序。
 
-![demo_end](./demo_end)
+![demo_end](./demo_end.png)
 
 ## 机器学习模型管线
 
@@ -118,15 +118,15 @@ Tulsi可用于生成Xcode应用程序项目，Bazel可用于从命令行编译iO
  DotDot.swift
  FacialSearchViewController.swift
  ```
- 5. 编辑app的Info.plist：添加key为`NSCameraUsageDescription`, 值为`此应用程序使用摄像头演示实时视频处理`
- 6. 编辑Main.storyboard，将自定义类设置为FacialSearchViewController
- 7. 构建iOS framework：
+  5. 编辑app的Info.plist：添加key为`NSCameraUsageDescription`, 值为`此应用程序使用摄像头演示实时视频处理`
+  6. 编辑Main.storyboard，将自定义类设置为FacialSearchViewController
+  7. 构建iOS framework：
   ```
   bazel build — copt=-fembed-bitcode — apple_bitcode=embedded — config=ios_arm64 mediapipe/examples/facial_search/ios:FacialSearch
   ```
   可能会出现一些关于全局C++符号的链接器警告。设置标志`— copt=-fembed-bitcode — apple_bitcode=embedded`开启bitcode
- 
- 8. 修复Bazel生产，以便正确导入：
+
+  8. 修复Bazel生产，以便正确导入：
  ```
  ./mediapipe/examples/facial_search/ios/patch_ios_framework.sh bazel-bin/mediapipe/examples/facial_search/ios/FacialSearch.zip ObjcppLib.h
  ```
