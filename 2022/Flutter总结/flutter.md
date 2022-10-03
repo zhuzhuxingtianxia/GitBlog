@@ -147,6 +147,8 @@ TextButton(
 
 ```
 
+## 修改模型对象数据
+不可变对象如果需要支持修改，可以实现copyWith方法
 
 ## 路由
 
@@ -328,7 +330,7 @@ Navigator.pushNamed(context, '/detail/102');
 * flutter_swiper: 轮播组件库(star1.6k)
 * carousel_slider: 轮播库(star3.5k)
 * shared_preferences: 数据存储库
-* redux: 状态管理库
+* redux: 状态管理库,管理全局性或需要持久化的状态
 	* redux_logging: 打印Action日志
 	* redux_persist: 持久化状态
 	* redux_thunk: 支持异步操作
