@@ -340,6 +340,7 @@ Navigator.pushNamed(context, '/detail/102');
 * cached_network_image: 图片缓存库
 * fluttertoast: toast弹框
 * cupertino_icons: iOS样式的icons
+* injector: 是一个简单易用的轻量级dart依赖注入库
 
 
 
