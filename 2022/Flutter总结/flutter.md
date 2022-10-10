@@ -356,7 +356,7 @@ Navigator.pushNamed(context, Routes.home);
 Navigator.pushNamed(context, '/detail/102');
 ```
 
-## 第三方插件
+## 第三方插件[pub.dev](https://pub.flutter-io.cn/)
 
 * fluro: 路由框架
 * provider: 数据共享库
@@ -370,9 +370,23 @@ Navigator.pushNamed(context, '/detail/102');
   * redux_thunk: 支持异步操作
   * flutter_redux: 其提供StoreConnector组件来获取状态和监听状态修改，也可使用StoreProvider来直接获取store对象
 * video_player: 视频播放库
-* image_picker: 图片选择库
+* audioplayers: 音频播放
+* image_picker: 图片选择库(图片多选不可限制)
+* camera: 相机组件
 * cached_network_image: 图片缓存库
+* flutter_datetime_picker: 日历
+* city_pickers: 城市选择器
+* address_picker: 地址选择器
+* event_bus: 组件通信(父子、兄弟）
+* connectivity:网络监测
 * fluttertoast: toast弹框
+* oktoast: 加载弹窗
+* permission_handler: 权限
+* qrscan: 扫码功能
+* location: 定位包，用于精度要求不高的场景
+* geocode: 地理编码包（很久没更新了），用于精度要求不高的场景
+* geolocator: 地理位置插件，用于精度要求不高的场景
+* amap_location: 高德地图定位，对精度要求较高的场景
 * json_annotation: 模型转换库，需配合dev_dependencies下的
 	* build_runner: 构建模型转化脚步库，构建脚本`flutter pub run build_runner build`
 	* json_serializable: 序列化库
