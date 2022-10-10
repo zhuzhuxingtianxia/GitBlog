@@ -19,18 +19,21 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 
 1. 找到`fultter/packages/flutter_tools/lib/src/http_host_validator.dart`文件,把
 
-   ```
+  ```
    if (!platform.environment.containsKey(kEnvCloudUrl))
       'https://maven.google.com/',
   ```
   修改为
-	```
-	if (!platform.environment.containsKey(kEnvCloudUrl))
-	      'https://maven.aliyun.com/repository/google/',      
-```
+  ```
+  if (!platform.environment.containsKey(kEnvCloudUrl))
+        'https://maven.aliyun.com/repository/google/',      
+  ```
 2. 把文件中的`const String kgCloudHttpHost = 'https://cloud.google.com/';`修改为`const String kgCloudHttpHost = 'https://storage.flutter-io.cn/';`
 3. 删除fultter/bin/cache文件；
 4. 重新运行`flutter doctor -v`
+
+### CustomScrollView
+
 
 ## Flutter生命周期
 
@@ -67,7 +70,7 @@ class ShareDataWidget extends InheritedWidget {
 		// 根据需求是否需要刷新
 		return true;
 	}
-	
+
 }
 ```
 设置共享组件，使用`ShareDataWidget`包裹根组件：
@@ -104,11 +107,11 @@ Producer产生新数据 -> 被Provider监控到变化 -> ChangeNotifier更新数
 * 安装Provider
 * 创建数据模型 (T extends ChangeNotifier)
 * 创建Provider，并注册数据模型
-	* Provider(): 不会被要求随着变动而变动
-	* ChangeNotifierProvider(): 随着某些数据改变而被通知更新
+  * Provider(): 不会被要求随着变动而变动
+  * ChangeNotifierProvider(): 随着某些数据改变而被通知更新
 * 子组件获取数据模型并更细UI
-	* 可通过context上下文获取
-	* 也可通过静态方法(`Provider.of<T>(context)`)获取
+  * 可通过context上下文获取
+  * 也可通过静态方法(`Provider.of<T>(context)`)获取
 
 ```
 // 1. 创建数据模型
@@ -121,7 +124,7 @@ class AppModel extends ChangeNotifier {
 		// 通知UI更新
 		notifyListeners();
 	}
-	
+
 }
 
 // 2. 创建Provider，注册数据模型
@@ -154,10 +157,10 @@ TextButton(
 
 * Route: 一个路由是一个屏幕或页面的抽象
 * Navigator: 管理路由组件，通过路由的入栈和出栈来实现页面之间的跳转
-	* initialRoute: 初始路由，即默认页面
-	* onGenerateRoute: 动态路由，根据规则匹配动态路由
-	* onUnknownRoute: 未知路由即404的情况
-	* routes: 路由集合
+  * initialRoute: 初始路由，即默认页面
+  * onGenerateRoute: 动态路由，根据规则匹配动态路由
+  * onUnknownRoute: 未知路由即404的情况
+  * routes: 路由集合
 
 ### 匿名路由
 
@@ -184,13 +187,13 @@ Navigator.pop(context);
 ### 命名路由
 
 * 声明路由
-	* routes路由表（Map类型）
-	* initialRoute(初始路由)
-	* onUnknownRoute(未知路由-404)
+  * routes路由表（Map类型）
+  * initialRoute(初始路由)
+  * onUnknownRoute(未知路由-404)
 * 跳转到命名路由
-	* 无参数： Navigator.pushNamed(context, '路由名称')
-	* 有参数：Navigator.pushNamed(context, routename, {arguments})
-	* 接收参数：ModalRoute.of(context).settings.arguments
+  * 无参数： Navigator.pushNamed(context, '路由名称')
+  * 有参数：Navigator.pushNamed(context, routename, {arguments})
+  * 接收参数：ModalRoute.of(context).settings.arguments
 
 例子：
 ```
@@ -291,7 +294,7 @@ class Routes {
 		
 		router.notFoundHandler = _notFoundHandler;
 	}
-	
+
 }
 
 ```
@@ -301,7 +304,7 @@ class Routes {
 ```
 class Application extends StatelessWidget {
 	Application({Key key}): super(key: key);
-	
+
 	@override
 	Widget build(BuildContext context) {
 		FluroRouter router = FluroRouter();
@@ -311,7 +314,7 @@ class Application extends StatelessWidget {
 			onGenerateRoute: router.generator,
 		);
 	}
-	
+
 }
 ```
 
@@ -331,10 +334,10 @@ Navigator.pushNamed(context, '/detail/102');
 * carousel_slider: 轮播库(star3.5k)
 * shared_preferences: 数据存储库
 * redux: 状态管理库,管理全局性或需要持久化的状态
-	* redux_logging: 打印Action日志
-	* redux_persist: 持久化状态
-	* redux_thunk: 支持异步操作
-	* flutter_redux: 其提供StoreConnector组件来获取状态和监听状态修改，也可使用StoreProvider来直接获取store对象
+  * redux_logging: 打印Action日志
+  * redux_persist: 持久化状态
+  * redux_thunk: 支持异步操作
+  * flutter_redux: 其提供StoreConnector组件来获取状态和监听状态修改，也可使用StoreProvider来直接获取store对象
 * video_player: 视频播放库
 * image_picker: 图片选择库
 * cached_network_image: 图片缓存库
@@ -345,3 +348,7 @@ Navigator.pushNamed(context, '/detail/102');
 
 
 
+
+```
+
+```
