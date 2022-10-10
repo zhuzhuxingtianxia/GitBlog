@@ -373,6 +373,9 @@ Navigator.pushNamed(context, '/detail/102');
 * image_picker: 图片选择库
 * cached_network_image: 图片缓存库
 * fluttertoast: toast弹框
+* json_annotation: 模型转换库，需配合dev_dependencies下的
+	* build_runner: 构建模型转化脚步库，构建脚本`flutter pub run build_runner build`
+	* json_serializable: 序列化库
 * cupertino_icons: iOS样式的icons
 * injector: 是一个简单易用的轻量级dart依赖注入库
 
