@@ -34,6 +34,36 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 
 ### CustomScrollView
 
+slivers中的组件必须是RenderObjectWidget及其子类对象
+
+```
+CustomScrollView(
+  key: const PageStorageKey<String>('storage_key'),
+  physics: const AlwaysScrollableScrollPhysics(),
+  slivers: <Widget>[
+    SliverOverlapInjector(
+      handle:
+          NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+    ),
+    SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) => Widget(),
+        childCount: widget.datas.length,
+      ),
+    ),
+    SliverToBoxAdapter(
+      child: Visibility(
+        visible: _isLoading,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    ),
+  ],
+),
+
+```
+
 
 ## Flutter生命周期
 
@@ -91,7 +121,7 @@ int num = ShareDataWidget.of(context).num;
 
 
 ## Provider
-Provider是一个三方库，是对InheritedWidget的封装，使用了懒加载，优化可资源的分配与处理。
+Provider是一个三方库，是对InheritedWidget的封装，使用了懒加载，优化了资源的分配与处理。
 
 ![provider](./provider.png)
 
@@ -261,7 +291,7 @@ Navigator.pushNamed(context, '/details/102')
 ### fluro路由
 这是一个第三方路由，用法可[参考这里](https://pub.dev/packages/fluro)
 
-1. 编写路由配置文件`routes.dart`
+* 编写路由配置文件`routes.dart`
 
 ```
 import 'package:fluro/fluro.dart'
@@ -299,7 +329,7 @@ class Routes {
 
 ```
 
-2. 路由关联
+* 路由关联
 
 ```
 class Application extends StatelessWidget {
@@ -318,7 +348,8 @@ class Application extends StatelessWidget {
 }
 ```
 
-3. 路由跳转
+* 路由跳转
+ 
 ```
 Navigator.pushNamed(context, Routes.home);
 // 或
@@ -345,10 +376,7 @@ Navigator.pushNamed(context, '/detail/102');
 * cupertino_icons: iOS样式的icons
 * injector: 是一个简单易用的轻量级dart依赖注入库
 
-
-
-
-
 ```
 
 ```
+
