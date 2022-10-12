@@ -1,5 +1,8 @@
 # Swift
 
+* [x]
+* [ ]
+
 ## throws 和 rethrows
 Swift中 throws 和 rethrows 关键字用于异常处理（Error handling)，都是用在函数中
 
@@ -64,6 +67,20 @@ lazy关键词的作用：指定延迟加载（懒加载），懒加载存储属�
 9. swift支持命名空间
 10. swift支持默认参数
 11. swift比oc代码更加简洁
+
+## 沙盒数据
+
+* 应用重启沙盒目录**tmp**下的文件被会丢弃
+* 沙盒**Documents**目录下的所有文件，都可以通过iTunes进行备份和恢复
+* 离线数据，图片视频文件缓存文件放在沙盒**Library/Caches**目录下
+* **Library**目录下除了**Caches**目录外，都可以通过iTunes进行备份
+* **keychain**是独立于每个App的沙盒之外的，即使App被删掉后，**keychain**里面的信息依然存在
+
+
+
+
+
+
 
 
 
