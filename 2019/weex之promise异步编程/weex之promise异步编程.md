@@ -11,9 +11,9 @@ promise是异步编程的一种解决方法,比传统的回调函数和事件更
 
 * Promise对象可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
 * Promise的缺点：<br/>
- 1. 首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
- 2. 其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
- 3. 第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+  1. 首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
+  2. 其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
+  3. 第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
 
 ## Promise实例
 使用构造函数创建一个promise对象实例
@@ -230,5 +230,91 @@ this.post(API,body).then(data => {
 
 ```
 
+
+## 自实现Promise
+
+* 定义Promise类，并定义状态state(初始状态为pending)
+* 该类接收一个函数`fn`作为参数,该函数接收`resolve`和`reject`两个函数作为参数，参数为非必传项
+* `fn`立即执行
+* Promise类还存在一个`then`方法回调，包含`succeed`和`fail`
+* 定义存储then回调的数组`callbacks`,每次调用then函数，都将收到的`succeed`和`fail`函数传入存储数组中
+* 当`resolve`的时候，Promise内部的状态就变为了`fulfilled`，且只能从`pending`状态变为`fulfilled`
+* `callbacks`里存储的都是回调，调用的时候需要进行异步处理
+* `reject`的处理方式和`resolve`相同
+* then链式调用处理
+
+```
+class MyPromise {
+	state = 'pending'
+	
+	callbacks = []
+	
+	resolve = (res)=> {
+		if(this.state !== 'pending') return
+		this.state = 'fulfilled'
+		//异步调用
+		setTimeout(()=>{
+			this.callbacks.forEach(handle => {
+				let _res;
+				if(typeof handle.succeed == 'function') {
+				try {
+					_res = handle.succeed(res)
+				} 
+				catch(error) {
+					return handle.promise.reject(error)
+				}
+					
+				}
+				handle.promise.resolve(_res)
+			})
+		}, 0)
+	}
+	
+	reject = (res) => {
+		if(this.state !== 'pending') return
+		this.state = 'rejected'
+		setTimeout(()=>{
+			this.callbacks.forEach(handle => {
+				let _res;
+				if(typeof handle.fail == 'function') {
+				try {
+					_res = handle.fail(res)
+				} 
+				catch(error) {
+					return handle.promise.reject(error)
+				}
+					
+				}
+				handle.promise.resolve(_res)
+			})
+		}, 0)
+	}
+	
+	constructor(fn) {
+		if(typeof fn !== 'function') {
+			throw new Error('参数必须是一个函数')
+		}
+		// fn立即执行
+		fn(this.resolve, this.reject)
+	}
+	
+	then = (succeed?, fail?) => {
+		const handle = {}
+		if(typeof succeed === 'function') {
+			handle.succeed = succeed
+		}
+		if(typeof fail === 'function') {
+			handle.fail = fail
+		}
+		
+		handle.promise = new MyPromise(()=>{})
+		
+		this.callbacks.push(handle)
+		
+		return handle.promise
+	}
+	
+}
+```
 
 
