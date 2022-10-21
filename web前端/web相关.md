@@ -142,7 +142,8 @@ redux伪代码
 ```
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore, applyMiddleware, 
+import { createStore, 
+		applyMiddleware, 
 		combineReducers
  } from 'redux'
 import { Provider } from 'react-redux'
@@ -156,25 +157,42 @@ if (process.env.NODE_ENV !== 'production') {
 // 1.创建store
 const store = createStore(
   reducer,
+ {
+ /*state初始化数据*/
+ 	data:'',
+ },
+ // 设置中间件
   applyMiddleware(...middleware)
 )
 // 2. 构建reducer方法
 const reducer = combineReducers({
-  action,
+  changeState,
 })
-// 3. action
-const action = (state = {}, action) => {
+// 3. reducer对应的实际操作
+const changeState = (state, action) => {
   switch (action.type) {
     case "xxx":
-      return action.products.map(product => product.id)
+      return {
+      	...state,
+      	...action.payload
+      }
     default:
       return state
   }
 }
-
+// 4. action
+const action = () => {
+	return {
+		type: 'xxx',
+		payload: {
+			data:'redux'
+		}
+	}
+}
 
 const onClick = ()=> {
-	
+	//5. 触发数据变化
+	store.dispatch(action)
 }
 
 // 2. store挂载到根元素
@@ -185,6 +203,9 @@ render(
   document.getElementById('root')
 )
 
+// 6. 获取
+store.getState()
+// data:'redux'
 ```
 
 ## Webpack打包优化
@@ -550,7 +571,7 @@ npm i image-webpack-loader --save-dev
 是指在事件被触发 n 秒后再执行回调，如果在这n 秒内事件又被触发，则重新计时。这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。
 
 **节流：**
-是指规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。
+是指规定一个单位时间，在这个单位时间内，只能触发一次事件回调函数的执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。
 
 函数防抖的实现
 ```
@@ -628,6 +649,17 @@ function debounce(fn, wait) {
 
 
 [面试题](https://www.php.cn/toutiao-493353.html) 用于学习
+
+## call()和apply()的区别
+
+1. call，apply都属于Function.prototype的一个方法，是JS引擎内实现的
+2. call和apply方法的作用相同：都可以调用函数,改变this指向
+3. 传的参数类型不同,第一个都是this, call后面的参数是传入的Function的参数，apply参数是传入Funtion的参数组成的数组
+```
+fn.call(this, ...arguments)
+fn.apply(this, [...arguments])
+```
+
 
 ## require与import的区别和使用
 
