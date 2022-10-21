@@ -35,6 +35,23 @@ useEffect(()=>{
   // 监听参数变化
 ])
 ```
+### 父子组件周期调用顺序
+
+**class:**
+
+1. 父constructor
+2. 父componentWillMount
+3. 父render
+4. 子constructor
+5. 子componentWillMount
+6. 子render
+7. 子componentDidMount
+8. 父componentDidMount
+
+**Hooks:**
+
+1. 子effect
+2. 父effect
 
 ##	Hooks与Class的区别
 
@@ -88,11 +105,13 @@ const FormComponent = () => {
 
 ```
 
-## React数据共享
-
-1. 通过Redux或Mobx插件
-2. Provider，Redux也提供了相同的组件
+## React数据传递
+1. 通过props,父子组件数据传递
+2. 子传父通过回调函数的方式
 3. Context是React官方提供的一个管理数据的方法，他可以让我们避免一级一级地把数据沿着组件树传下来
+4. 使用postMessage, EventEmitter，或Publish/Subscribe 的广播形式
+5. 通过Redux或Mobx插件
+6. Provider，Redux也提供了相同的组件
 
 ##	数据共享方案，redux和mobx的区别，如何使用context
 
@@ -107,6 +126,14 @@ const FormComponent = () => {
 * 一个状态只有一个可靠的数据来源
 * 操作更新的方式是统一的，并且是可控的
 * 都支持store与react组件，如react-redux,mobx-react;
+
+**对比总结:**
+
+1. redux将数据保存在单一的store中，而mobx将数据保存在分散的多个store中
+2. redux使用plain object保存数据，需要手动处理变化后的操作，mobx使用observable保存数据，数据变化后自动处理响应的操作。
+3. redux使用的是不可变状态，意味着状态是只读的，不能直接去修改它，而是应该返回一个新的状态，同时使用纯函数；mobx中的状态是可变的，可以直接对其进行修改。
+4. mobx相对来说比较简单，在其中有很多的抽象，mobx使用的更多的是面向对象的思维，redux会比较复杂，采用的是函数式编程思想，同时需要借助一系列的中间件来处理异步和副作用。
+5. mobx中有更多的抽象和封装，所以调试起来会更加复杂，同时结果也更难以预测，而redux提供可以进行时间回溯的开发工具，同时其纯函数以及更少的抽象，让调试变得更加容易。
 
 **Redux:**
 是一个JavaScript库，通过action（一个对象，包含type，和payload属性）中的type判断需要处理的数据是什么，通过payload进行数据负载，Reducer是一个纯函数，用来通过对应每一个action中的type去进行对应的store中的数据进行操作，有两个参数，第一个是store的初始值，第二个是action。
@@ -124,14 +151,6 @@ Mobx是一个函数响应式编程的状态管理库,它使得状态管理简单
 
 - Mobx在action中定义改变状态的动作函数，包括如何变更状态
 - Mobx在store中集中管理状态(state)和动作(action)
-
-**对比总结:**
-
-1. redux将数据保存在单一的store中，而mobx将数据保存在分散的多个store中
-2. redux使用plain object保存数据，需要手动处理变化后的操作，mobx使用observable保存数据，数据变化后自动处理响应的操作。
-3. redux使用的是不可变状态，意味着状态是只读的，不能直接去修改它，而是应该返回一个新的状态，同时使用纯函数；mobx中的状态是可变的，可以直接对其进行修改。
-4. mobx相对来说比较简单，在其中有很多的抽象，mobx使用的更多的是面向对象的思维，redux会比较复杂，采用的是函数式编程思想，同时需要借助一系列的中间件来处理异步和副作用。
-5. mobx中有更多的抽象和封装，所以调试起来会更加复杂，同时结果也更难以预测，而redux提供可以进行时间回溯的开发工具，同时其纯函数以及更少的抽象，让调试变得更加容易。
 
 **mobx:**
 面向对象思维、多个store、observable自动响应变化操作、mobx状态可变，直接修改、更多的抽象和封装，调试复杂，结果难以预测。
@@ -208,6 +227,11 @@ store.getState()
 // data:'redux'
 ```
 
+## setState异步还是同步？
+
+* 在react的生命周期函数或者作用域下为异步
+* 在原生事件或setTimeout/setIntaval中是同步
+
 ## 防抖和节流
 
 **防抖：**
@@ -221,7 +245,7 @@ store.getState()
 function debounce(fn, wait) {            
 	var timer = null;            
 	return function () {                
-		var context = this,
+		var context = this;
 		// arguments是function里特定的对象之一，指的是function的参数对象                    
 		args = [...arguments];                 
 		 
@@ -233,9 +257,9 @@ function debounce(fn, wait) {
 		//设计定时器，使事件间隔指定时间后执行                
 		timer = setTimeout(() => {                    
 			fn.apply(context, args);                
-			}, wait)            
-		}        
+		}, wait)            
 	}        
+}        
 	
 	function sayHi() {            
 		console.log("防抖成功");        
@@ -249,7 +273,8 @@ function debounce(fn, wait) {
 函数节流的实现
 ```
  //时间戳版        
- function throttle(fn, delay) {            
+ function throttle(fn, delay) { 
+ 	// 毫秒级时间戳           
  	var preTime = Date.now();            
  	return function () {                
  		var context = this, 
@@ -288,7 +313,7 @@ function debounce(fn, wait) {
 ## 数据类型的判断
 
 * typeof：判断基本数据类型、值类型；
-* instanceof：判断对象类型、引用类型
+* instanceof：判断对象类型、引用类型,例如`[] instanceof Array`返回true
 
 
 [面试题](https://www.php.cn/toutiao-493353.html) 用于学习
@@ -306,8 +331,8 @@ fn.apply(this, [...arguments])
 
 ## require与import的区别和使用
 
-1. import是ES6中的语法标准也是用来加载模块文件的，import函数可以读取并执行一个JavaScript文件，然后返回该模块的export命令指定输出的代码。export与export default均可用于导出常量、函数、文件、模块，export可以有多个，export default只能有一个。
-2. require 定义模块：module变量代表当前模块，它的exports属性是对外的接口。通过exports可以将模块从模块中导出，其他文件加载该模块实际上就是读取module.exports变量，他们可以是变量、函数、对象等。在node中如果用exports进行导出的话系统会系统帮您转成module.exports的，只是导出需要定义导出名。
+1. import是ES6中的语法标准也是用来加载模块文件的，import函数可以读取并执行一个JS文件，然后返回该模块的export命令指定输出的代码。export与export default均可用于导出常量、函数、文件、模块，export可以有多个，export default只能有一个。
+2. require 定义模块：module变量代表当前模块，它的exports属性是对外的接口。通过exports可以将对象从模块中导出，其他文件加载该模块实际上就是读取module.exports变量，他们可以是变量、函数、对象等。在node中如果用exports进行导出的话系统会帮您转成module.exports的，只是导出需要定义导出名。
 
 **require与import的区别**
 
@@ -327,8 +352,13 @@ js在调⽤函数的时候经常会遇到this作⽤域的问题，ES6则提供�
 4. 箭头函数通过call()或apply()调用一个函数,只传入了一个参数,对this并没有影响.
 5. 箭头函数没有prototype(原型)，所以箭头函数本身没有this
 6. 箭头函数不能当做Generator函数,不能使用yield关键字、
-7. 写法不同，箭头函数把function省略掉了 （）=> 也可以把return 省略调 写法更简洁
-8. 箭头函数不能通过call（）、apply（）、bind（）方法直接修改它的this指向。
+7. 写法不同，箭头函数把function省略掉了 ()=> 也可以把return 省略调 写法更简洁
+8. 箭头函数不能通过call()、apply()、bind()方法直接修改它的this指向。
+
+## prototype(原型)和proto
+
+* prototype是每个函数都会具备的一个属性，它是一个指针，指向一个对象，只有函数才有;
+* proto是主流浏览器上在除null以外的每个对象上都支持的一个属性，它能够指向该对象的原型，用来将对象与该对象的原型相连的属性
 
 ## Promise.all
 多个promise执行的解决方案，promise.all中任何一个promise出现错误都会执行reject，导致其他正常返回的数据无法使用
