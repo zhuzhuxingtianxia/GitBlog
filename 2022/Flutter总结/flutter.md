@@ -363,7 +363,7 @@ Navigator.pushNamed(context, '/detail/102');
 * dio: 网络库
 * flutter_swiper: 轮播组件库(star1.6k)
 * carousel_slider: 轮播库(star3.5k)
-* shared_preferences: 数据存储库
+* shared_preferences: 数据存储库，类似iOS的UserDefaults
 * redux: 状态管理库,管理全局性或需要持久化的状态
   * redux_logging: 打印Action日志
   * redux_persist: 持久化状态
@@ -380,7 +380,9 @@ Navigator.pushNamed(context, '/detail/102');
 * event_bus: 组件通信(父子、兄弟）
 * connectivity:网络监测
 * fluttertoast: toast弹框
+* flutter_easyloading: loading插件
 * oktoast: 加载弹窗
+* bot_toast: toast和loading插件
 * permission_handler: 权限
 * qrscan: 扫码功能
 * location: 定位包，用于精度要求不高的场景
@@ -392,8 +394,15 @@ Navigator.pushNamed(context, '/detail/102');
 	* json_serializable: 序列化库
 * cupertino_icons: iOS样式的icons
 * injector: 是一个简单易用的轻量级dart依赖注入库
+* SQFlite: 数据库类似CoreData
+* firebase_messaging: Flutter官方推送的插件
 
 ```
 
 ```
+
+<!---- 
+			https://github.com/xumengqiang/flutter-coach-clock
+			https://github.com/Danonlylane/goodhouse
+ ---->
 

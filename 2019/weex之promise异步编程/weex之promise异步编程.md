@@ -249,6 +249,14 @@ class MyPromise {
 	
 	callbacks = []
 	
+	constructor(fn) {
+		if(typeof fn !== 'function') {
+			throw new Error('参数必须是一个函数')
+		}
+		// fn立即执行
+		fn(this.resolve, this.reject)
+	}
+	
 	resolve = (res)=> {
 		if(this.state !== 'pending') return
 		this.state = 'fulfilled'
@@ -290,14 +298,6 @@ class MyPromise {
 		}, 0)
 	}
 	
-	constructor(fn) {
-		if(typeof fn !== 'function') {
-			throw new Error('参数必须是一个函数')
-		}
-		// fn立即执行
-		fn(this.resolve, this.reject)
-	}
-	
 	then = (succeed?, fail?) => {
 		const handle = {}
 		if(typeof succeed === 'function') {
@@ -315,6 +315,23 @@ class MyPromise {
 	}
 	
 }
+```
+
+测试：
+```
+new MyPromise((resolve, reject) => {
+	let value = 'value'
+	if (value) {
+      reject(value);
+	}else {
+      reject('ERROR');
+	}
+	
+})
+.then(result => {
+	console.log(result)
+})
+
 ```
 
 
