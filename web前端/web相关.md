@@ -1,5 +1,192 @@
 # Web相关
 
+## 创建react项目
+```
+npx create-react-app react-demo
+```
+ts：
+```
+npx create-react-app ts-demo --template typescript
+```
+
+## React生命周期
+
+**Class:**
+
+1. constructor创建构造函数并做state数据初始化
+2. componentWillMount()-组件将要加载，但还没有加载出来，js逻辑已经可以执行, 异步方法可以放在这里执行
+3. render()- 组件渲染
+4. componentDidMount()-组件加载完成
+5. componentWillUpdate()-组件将要更新
+6. componentDidUpdate()-组件更新完成
+7. componentWillReceiveProps()-接收父组件传递过来的参数props时触发
+8. shouldComponentUpdate()-判断组件是否需要更新, 它需要一个返回值，默认为true，若为false则组件不更新
+9. componentWillUnmount()-组件将要被销毁
+
+**Hooks**
+
+```
+useEffect(()=>{
+  // 加载处理
+  return ()=> {
+    //销毁操作
+  }
+},[
+  // 监听参数变化
+])
+```
+
+##	Hooks与Class的区别
+
+1. hooks的写法比class简洁，class组件中生命周期较为复杂；
+2. hooks的业务代码比class更加聚合,useEffect聚合了多个生命周期函数；
+3. hooks逻辑复用方便
+
+##	useMemo与useCallback的区别
+
+1. `useMemo`和`useCallback`都会在组件第一次渲染的时候执行；
+2. 用法基本相同，都会在其依赖的变量发生改变时再次执行，主要用于减少组件的更新次数、优化组件性能
+3. `useMemo` 返回缓存的 **变量**值，
+4. `useCallback` 返回缓存的 **函数**, state的变化整个组件都会被重新刷新,对于没必要刷新的函数则使用缓存来提高性能
+
+他们是提升性能的一种手段，但不可乱用。
+
+##	如何自定义hook方法
+
+自定义hook可以理解为一个使用Hooks构建的自定义函数,use开头：
+```
+const useInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue)
+
+  return {
+    value,
+    onChange: e => setValue(e.target.value)
+  }
+}
+
+//使用
+const FormComponent = () => {
+
+  const username = useInput('admin')
+
+  const password = useInput('')
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    // 获取表单值
+    console.log(username.value, password.value);
+  }
+
+  return (
+    <form onSubmit={onSubmit} >
+      <input type="text" {...username} />
+      <input type="password" {...password} />
+      <button type="submit">提交</button>
+    </form>
+  );
+}
+
+```
+
+## React数据共享
+
+1. 通过Redux或Mobx插件
+2. Provider，Redux也提供了相同的组件
+3. Context是React官方提供的一个管理数据的方法，他可以让我们避免一级一级地把数据沿着组件树传下来
+
+##	数据共享方案，redux和mobx的区别，如何使用context
+
+1. 通过context共享，子组件使用`useContext`可以更加方便的获取上层组件提供的数据，这种方式容易增加组件的耦合性
+2. redux和mobx都可以实现数据共享的目的
+
+### redux和mobx的区别：
+
+**共同点:**
+
+* 都是状态管理应用的工具
+* 一个状态只有一个可靠的数据来源
+* 操作更新的方式是统一的，并且是可控的
+* 都支持store与react组件，如react-redux,mobx-react;
+
+**Redux:**
+是一个JavaScript库，通过action（一个对象，包含type，和payload属性）中的type判断需要处理的数据是什么，通过payload进行数据负载，Reducer是一个纯函数，用来通过对应每一个action中的type去进行对应的store中的数据进行操作，有两个参数，第一个是store的初始值，第二个是action。
+store提供三个功能：
+
+1. getstate()获取数据
+2. dispatch(action)监听action的分发进行数据更新
+3. 支持订阅store的变更
+当组件中使用store，可以通过getstate()获取到数据，通过dispatch(action)进行数据的更新，通过subscribe监听到数据，当对应的store中的数据也被修改时，组件中的数据也会相应改变。
+
+在redux中存在异步流，由于Redux对所有的store数据的变更，都应该通过action触发，异步任务（通常是业务或者是获取数据任务）也不例外，而为了不将业务或数据相关的任务混入react组件中，就需要使用其它框架配合管理异步流程，如redux-thunk，redux-presist,redux-logger。
+
+**Mobx:**
+Mobx是一个函数响应式编程的状态管理库,它使得状态管理简单可压缩.
+
+- Mobx在action中定义改变状态的动作函数，包括如何变更状态
+- Mobx在store中集中管理状态(state)和动作(action)
+
+**对比总结:**
+
+1. redux将数据保存在单一的store中，而mobx将数据保存在分散的多个store中
+2. redux使用plain object保存数据，需要手动处理变化后的操作，mobx使用observable保存数据，数据变化后自动处理响应的操作。
+3. redux使用的是不可变状态，意味着状态只是只读的，不能直接去修改它，而是应该返回一个新的状态，同时使用纯函数；mobx中的状态是可变的，可以直接对其进行修改。
+4. mobx相对来说比较简单，在其中有很多的抽象，mobx使用的更多的是面向对象的思维，redux会比较复杂，因为其中的函数式编程思想掌握起来不是那么容易，同时需要借助一系列的中间件来处理异步和副作用。
+5. mobx中有更多的抽象和封装，所以调试起来会更加复杂，同时结果也更难以预测，而redux提供可以进行时间回溯的开发工具，同时其纯函数以及更少的抽象，让调试变得更加容易。
+
+**mobx:**
+面向对象思维、多个store、observable自动响应变化操作、mobx状态可变，直接修改、更多的抽象和封装，调试复杂，结果难以预测。
+**redux:**
+函数式编程思想、单一store，plan object保存数据，手动处理变化后的操作、使用不可变状态，意味着状态只读，使用纯函数修改，返回的是一个新的状态、提供时间回溯的开发工具
+
+redux伪代码
+```
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore, applyMiddleware, 
+		combineReducers
+ } from 'redux'
+import { Provider } from 'react-redux'
+import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
+
+const middleware = [ thunk ];
+if (process.env.NODE_ENV !== 'production') {
+  middleware.push(createLogger());
+}
+// 1.创建store
+const store = createStore(
+  reducer,
+  applyMiddleware(...middleware)
+)
+// 2. 构建reducer方法
+const reducer = combineReducers({
+  action,
+})
+// 3. action
+const action = (state = {}, action) => {
+  switch (action.type) {
+    case "xxx":
+      return action.products.map(product => product.id)
+    default:
+      return state
+  }
+}
+
+
+const onClick = ()=> {
+	
+}
+
+// 2. store挂载到根元素
+render(
+  <Provider store={store}>
+    <App onClick=()=>onClick/>
+  </Provider>,
+  document.getElementById('root')
+)
+
+```
+
 ## Webpack打包优化
 
 #### 打包过程
@@ -38,14 +225,14 @@ module.exports = {
 
 * 优化Loader: 
 
-	* 对于Loader来说，首先优化的当然是babel了，babel会将代码转成字符串并生成AST，然后继续转化成新的代码，转换的代码越多，效率就越低。
-	* 缓存已编译过的文件: 可以将babel编译过文件缓存起来，以此加快打包时间，主要在于设置cacheDirectory。`loader: 'babel-loader?cacheDirectory=true'`
+  * 对于Loader来说，首先优化的当然是babel了，babel会将代码转成字符串并生成AST，然后继续转化成新的代码，转换的代码越多，效率就越低。
+  * 缓存已编译过的文件: 可以将babel编译过文件缓存起来，以此加快打包时间，主要在于设置cacheDirectory。`loader: 'babel-loader?cacheDirectory=true'`
 
 * HappyPack
-	因为受限于Node的单线程运行，所以webpack的打包也是单线程的，使用HappyPack可以将Loader的同步执行转为并行，从而提高Loader的编译等待时间。
+  因为受限于Node的单线程运行，所以webpack的打包也是单线程的，使用HappyPack可以将Loader的同步执行转为并行，从而提高Loader的编译等待时间。
 
 * DllPlugin
-	该插件可以将特定的类库提前打包然后引入，这种方式可以极大的减少类库的打包次数，只有当类库有更新版本时才会重新打包，并且也实现了将公共代码抽离成单独文件的优化方案。
+  该插件可以将特定的类库提前打包然后引入，这种方式可以极大的减少类库的打包次数，只有当类库有更新版本时才会重新打包，并且也实现了将公共代码抽离成单独文件的优化方案。
 
 #### 代码压缩相关
 
@@ -96,7 +283,7 @@ new webpack.optimize.UglifyJsPlugin({
 #### 减少包大小
 
 * 按需加载
-	首页加载文件越小越好，将每个页面单独打包为一个文件，（同样对于loadsh类库也可以使用按需加载），原理即是使用的时候再去下载对应的文件，返回一个promise，当promise成功后再去执行回调。
+  首页加载文件越小越好，将每个页面单独打包为一个文件，（同样对于loadsh类库也可以使用按需加载），原理即是使用的时候再去下载对应的文件，返回一个promise，当promise成功后再去执行回调。
 
 * 配置optimization属性，使用splitChunks（分割代码块）字段对一个体积大的chunk进行分割，从而达到减少boundle体积的目的。主要对splitChunks进行配置（配置字段较多），并且也可以配置第三方库的缓存设置
 
@@ -109,13 +296,13 @@ new webpack.optimize.UglifyJsPlugin({
 2. 更改mode,生产环境的`mode:production`,开发环境的`mode:development`
 3. 将output中的path路径改下 `path: path.resolve(__dirname, "../dist")`,
 4. 可以将外部的package.json,package-lock.json及node_modules文件复制到当前的项目下，并在package.json中配置启动的服务:
-	
-	```
-	"scripts": {
-		"start": "webpack serve -c ./config/webpack.config.dev.js",
-		"build": "webpack serve -c ./config/webpack.config.prod.js"
-	},
-	```
+
+  ```
+  "scripts": {
+  	"start": "webpack serve -c ./config/webpack.config.dev.js",
+  	"build": "webpack serve -c ./config/webpack.config.prod.js"
+  },
+  ```
 
 #### 提取公共配置，合并配置文件
 由于生产和开发环境中的webpack.config.js有大量的代码重复，我们可以提取公共的配置。
@@ -325,8 +512,8 @@ module.exports = {
 主要是有选择的压缩图片资源，webpack对图片的处理常用的有`url-loader`、`file-loader`、`image-webpack-loader`，各个加载器都在打包过程中有着自己的功能职责。
 
 *	file-loader: 将项目中定义加载的图片通过webpack编译打包，并返回一个编码后的公共的url路径。
-*	url-loader: url-loader作用和file-loader的作用基本是一致的，不同点是url-loader可以通过配置一个limit值来决定图片是要像file-loader一样返回一个公共的url路径，或者直接把图片进行base64编码，写入到对应的路径中去。
-*	image-webpack-loader: 用来对编译过后的文件进行压缩处理，在不损失图片质量的情况下减小图片的体积大小
+  *url-loader: url-loader作用和file-loader的作用基本是一致的，不同点是url-loader可以通过配置一个limit值来决定图片是要像file-loader一样返回一个公共的url路径，或者直接把图片进行base64编码，写入到对应的路径中去。
+  *image-webpack-loader: 用来对编译过后的文件进行压缩处理，在不损失图片质量的情况下减小图片的体积大小
 
 安装：
 ```
@@ -355,5 +542,264 @@ npm i image-webpack-loader --save-dev
 }
 ```
 这样超出1M的图片就会交给image-webpack-loader 去处理，打包时就会发现vendor.js文件大小减少了很多
+
+
+## 防抖和节流
+
+**防抖：**
+是指在事件被触发 n 秒后再执行回调，如果在这n 秒内事件又被触发，则重新计时。这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。
+
+**节流：**
+是指规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。
+
+函数防抖的实现
+```
+function debounce(fn, wait) {            
+	var timer = null;            
+	return function () {                
+		var context = this,
+		// arguments是function里特定的对象之一，指的是function的参数对象                    
+		args = [...arguments];                 
+		 
+		//如果此时存在定时器的话，则取消之前的定时器重新计时                               
+		if (timer) {                    
+			clearTimeout(timer)                    
+			timer = null                
+		}                
+		//设计定时器，使事件间隔指定时间后执行                
+		timer = setTimeout(() => {                    
+			fn.apply(context, args);                
+			}, wait)            
+		}        
+	}        
+	
+	function sayHi() {            
+		console.log("防抖成功");        
+	}        
+	var inp = document.getElementById("inp"); 
+	//防抖       
+	inp.addEventListener("input", debounce(sayHi, 2000)); 
+
+```
+
+函数节流的实现
+```
+ //时间戳版        
+ function throttle(fn, delay) {            
+ 	var preTime = Date.now();            
+ 	return function () {                
+ 		var context = this, 
+ 		args = [...arguments], 
+ 		nowTime = Date.now();                
+ 		//如果两次时间间隔超过了指定时间，则执行函数。                
+ 		if (nowTime - preTime >= delay) {                    
+ 			preTime = Date.now();                    
+ 			return fn.apply(context,args);                
+ 		 }            
+ 	 }        
+ }        
+ 
+ //定时器版        
+ function throttle2(fun, awit) {            
+ 	let timeOut = null;            
+ 	return function () {                
+ 		let context = this, 
+ 		args = [...arguments];                
+ 		if (!timeOut) {                    
+ 			timeOut = setTimeout(() => {                        
+ 				fun.apply(context, args);                        
+ 				timeOut = null                    
+ 			}, awit)                
+ 		}            
+ 	}        
+ }        
+ 
+ function sayHi(){            
+ 	console.log(e.target.innerWidth,e.target.innerHeight);        
+ }        
+ window.addEventListener('resize',throttle2(sayHi,1000))
+
+```
+
+## 数据类型的判断
+
+* typeof：判断基本数据类型、值类型；
+* instanceof：判断对象类型、引用类型
+
+
+[面试题](https://www.php.cn/toutiao-493353.html) 用于学习
+
+## require与import的区别和使用
+
+1. import是ES6中的语法标准也是用来加载模块文件的，import函数可以读取并执行一个JavaScript文件，然后返回该模块的export命令指定输出的代码。export与export default均可用于导出常量、函数、文件、模块，export可以有多个，export default只能有一个。
+2. require 定义模块：module变量代表当前模块，它的exports属性是对外的接口。通过exports可以将模块从模块中导出，其他文件加载该模块实际上就是读取module.exports变量，他们可以是变量、函数、对象等。在node中如果用exports进行导出的话系统会系统帮您转成module.exports的，只是导出需要定义导出名。
+
+**require与import的区别**
+
+1. require是CommonJS规范的模块化语法，import是ES6规范的模块化语法；
+2. require是运行时加载，import是编译时加载；
+3. require可以写在代码的任意位置，import只能写在文件的最顶端且不可在条件语句或函数作用域中使用；
+4. require通过module.exports导出的值就不能再变化，import通过export导出的值可以改变；
+5. require通过module.exports导出的是exports对象，import通过export导出是指定输出的代码；
+6. require运行时才引入模块的属性所以性能相对较低，import编译时引入模块的属性所以性能稍高。
+
+## 箭头函数
+js在调⽤函数的时候经常会遇到this作⽤域的问题，ES6则提供了箭头函数来解决这个问题
+
+1. 箭头函数是匿名函数不能作为构造函数，不能使用new
+2. 箭头函数不绑定arguments,取而代之用rest参数…解决，
+3. this指向不同,箭头函数的this在定义的时候继承自外层第一个普通函数的this
+4. 箭头函数通过call()或apply()调用一个函数,只传入了一个参数,对this并没有影响.
+5. 箭头函数没有prototype(原型)，所以箭头函数本身没有this
+6. 箭头函数不能当做Generator函数,不能使用yield关键字、
+7. 写法不同，箭头函数把function省略掉了 （）=> 也可以把return 省略调 写法更简洁
+8. 箭头函数不能通过call（）、apply（）、bind（）方法直接修改它的this指向。
+
+## Promise.all
+多个promise执行的解决方案，promise.all中任何一个promise出现错误都会执行reject，导致其他正常返回的数据无法使用
+
+```
+Promise.all(
+	[
+		Promise.reject({code: 500, msg: '服务异常'}),
+		Promise.resolve({code: 200, list: []}),
+	]
+	.map(p => p.catch(e => e))
+)
+.then(res => {
+	console.log(res)
+})
+.catch(error => {
+	console.log(error)
+})
+```
+可将`.map(p => p.catch(e => e))`中catch得到的err置空，`.map(p => p.catch(e => ''))`来解决
+
+## generator 有了解过吗？
+
+* Generator 生成器 也是 ES6 提供的一种异步编程解决方案，语法行为与传统函数完全不同 function *（）{}
+* Generator 函数是一个状态机，封装了多个内部状态，除了状态机，还是一个遍历器对象生成函数
+* Generator 是分段执行的, yield （又得）可暂停，next方法可启动。每次返回的是yield后的表达式结果，这使得`Generator`函数非常适合将异步任务同步化
+* Generator并不是为异步而设计出来的，他还有其他功能（对象迭代、控制输出、部署Interator）
+* Generator函数返回Interator对象，因此我们还可以通过for...of进行遍历,原生对象没有遍历接口，通过Generator函数为它加上这个接口，就能使用for...of进行遍历了
+
+## promise、Generator、async/await进行比较：
+
+* promise和async/await是专门用于处理异步操作的，是异步编程的解决方案
+* Generator并不是为异步而设计出来的，它还有其他功能（对象迭代、控制输出、部署Interator接口…）
+* promise编写代码相比Generator、async更为复杂化，且可读性也稍差
+* Generator、async需要与promise对象搭配处理异步情况
+* async实质是Generator的语法糖，相当于会自动执行Generator函数
+* async使用上更为简洁，将异步代码以同步的形式进行编写，是处理异步编程的最终方案
+
+## Vue的生命周期
+1. beforeCreate（创建前）
+2. created（创建后）
+3. beforeMount（载入前）
+4. mounted（载入后）
+5. beforeUpdate（更新前）
+6. updated（更新后）
+7. beforeDestroy（销毁前）
+8. destroyed（销毁后）
+9. activated：被keep-alive缓存的组件激活时调用（只有被包裹在 keep-alive 中的组件，才有activated生命周期
+10. deactivated：被 keep-alive 缓存的组件停用时调用（只有被包裹在 keep-alive 中的组件，才有deactivated生命周期）
+
+## Vue的双向绑定
+1. 使用 Object.definePropety()方法(Vue 2.x)或Proxy构造函数(Vue 3.x），来劫持data 各个属性的 setter、getter，在数据变动时发布消息给订阅者，触发相应的监听回调
+2. 在组件渲染时，若用到 data 里的某个数据，这个数据就会被依赖收集进 watcher 里。当数据更新，如果这个数据在 watcher 里，就会收到通知并更新，否则不会更新
+3. vue 采用“数据劫持”+“观察者模式（发布者-订阅者模式）”相结合的方式实现了双向绑定
+
+## Vue数据传递
+
+* 父组件传子组件采用`props`,子组件通过props来接受数据, 例如：props: [“属性名”] 或 props:{属性名:数据类型}
+* 子传父: 子组件通过this.$emit(“事件”)来触发父组件定义的事件，数据是以参数的形式进行传递
+* 通过ref获取实例直接调用组件的方法或访问数据，也是一种数据传递的方式
+* 通过parent可以获父组件实例，然后通过这个实例就可以访问父组件的属性和方法它还有一个兄弟root，可以获取根组件实例
+* 祖孙跨组件传递数据，通过`props`传递，还可以通过`$attrs`
+* 孙祖利用$listeners传值
+* 兄弟组件通信（bus总线），新建一个Bus.js的文件，然后通过`Bus.$emit('事件名','参数')`来派发事件，数据是以$emit()的参数形式来传递
+* sessionStorage传值
+* 路由传值
+* Vuex通信
+
+## Vuex
+
+## 小程序的生命周期
+**Page**
+
+* data: 页面的初始数据,通过setData修改数据触发界面渲染
+* onLoad: 监听页面加载
+* onReady: 监听页面初次渲染完成
+* onShow: 监听页面显示
+* onHide: 监听页面隐藏
+* onUnload: 监听页面卸载
+
+**Component**
+
+* properties: 组件的属性列表
+* data: 组件内部的初始数据
+* methods: 组件的方法列表
+* lifetimes: 生命周期列表
+	* created(): 在组件实例刚刚被创建时执行，注意此时不能调用 `setData`
+	* attached(): 在组件实例进入页面节点树时执行
+	* ready(): 在组件在视图层布局完成后执行
+	* moved(): 在组件实例被移动到节点树另一个位置时执行
+	* detached():在组件实例被从页面节点树移除时执行
+	* error(err: Error): 每当组件方法抛出错误时执行
+* pageLifetimes: 页面生命周期回调监听
+	* show(): 页面显示/切入前台时触发
+	* hide(): 页面隐藏/切入后台时触发,如 `navigateTo` 或底部 `tab` 切换到其他页面，小程序切入后台
+
+
+## 小程序如何做数据传递
+
+* 页面数据传递：
+
+```
+// 路由导航界面传值，通过url,数据回调传值通过events
+wx.navigateTo({
+    url:`../ai-camera/index?face=${index}`,
+    events: {
+      acceptImgData: (data: any)=> {
+      	console.log(data)
+      }
+    }
+ }
+ 
+ // 界面接收值在onLoad的options参数中获取
+ onLoad(options: any) {
+    console.log(options)
+    const { face='0' } = options
+ },
+ // 回调数据,acceptImgData和events中的字段保持一致
+ const eventChannel = this.getOpenerEventChannel()
+ eventChannel.emit('acceptImgData', {
+     data:'data',
+ })
+ wx.navigateBack({delta:1})
+
+```
+
+* 组件数据传递：父传子通过`properties`传值，子组件通过`triggerEvent`做方法的回调
+
+```
+// card-bottom的Component中
+methods: {
+    // 自定义事件
+    onButtonClick() {
+      this.triggerEvent('click',{data: '回调的数据'})
+    },
+    
+  },
+
+// Page的wxml中
+<card-bottom bindclick="onCareClick"/>
+// Page的js中
+onCareClick(e:any) {
+	const { data } = e.detail
+   console.log(data) //回调的数据
+},
+
+```
 
 
