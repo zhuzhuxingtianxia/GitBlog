@@ -53,13 +53,13 @@ useEffect(()=>{
 1. 子effect
 2. 父effect
 
-##	Hooks与Class的区别
+## Hooks与Class的区别
 
 1. hooks的写法比class简洁，class组件中生命周期较为复杂；
 2. hooks的业务代码比class更加聚合,useEffect聚合了多个生命周期函数；
 3. hooks逻辑复用方便
 
-##	useMemo与useCallback的区别
+## useMemo与useCallback的区别
 
 1. `useMemo`和`useCallback`都会在组件第一次渲染的时候执行；
 2. 用法基本相同，都会在其依赖的变量发生改变时再次执行，主要用于减少组件的更新次数、优化组件性能
@@ -67,6 +67,37 @@ useEffect(()=>{
 4. `useCallback` 返回缓存的 **函数**, state的变化整个组件都会被重新刷新,对于没必要刷新的函数则使用缓存来提高性能
 
 他们是提升性能的一种手段，但不可乱用。
+
+## React.memo
+
+* `React.memo`与 PureComponent 很相似，每次对 props 进行一次浅比较。
+* 相比于PureComponent，React.memo()可以支持指定一个参数，可以相当于 shouldComponentUpdate 的作用，相对于 PureComponent 来说用法更加方便
+
+```
+export default React.memo(MyComponent,(prevProps, nextProps) => {
+	return true;
+});
+```
+
+* React.memo()在最外层包装整个组件，需要手动写一个方法比较props不相同才进行re-render，可使用 useMemo()进行细粒度性能优化
+
+
+```js
+import React, { useMemo } from 'react';
+
+export default (props = {}) => {
+    console.log(`--- component re-render ---`);
+    return useMemo(() => {
+        console.log(`--- useMemo re-render ---`);
+        return <div>
+            {/* <p>step is : {props.step}</p> */}
+            {/* <p>count is : {props.count}</p> */}
+            <p>number is : {props.number}</p>
+        </div>
+    }, [props.number]);
+}
+```
+只有当依赖的 props.number 发生变化的时候，才会重新触发useMemo()包装的函数的重新执行或渲染
 
 ##	如何自定义hook方法
 
@@ -113,7 +144,7 @@ const FormComponent = () => {
 5. 通过Redux或Mobx插件
 6. Provider，Redux也提供了相同的组件
 
-##	数据共享方案，redux和mobx的区别，如何使用context
+## 数据共享方案，redux和mobx的区别，如何使用context
 
 1. 通过context共享，子组件使用`useContext`可以更加方便的获取上层组件提供的数据，这种方式容易增加组件的耦合性
 2. redux和mobx都可以实现数据共享的目的
@@ -142,7 +173,7 @@ store提供三个功能：
 1. getstate()获取数据
 2. dispatch(action)监听action的分发进行数据更新
 3. 支持订阅store的变更
-当组件中使用store，可以通过getstate()获取到数据，通过dispatch(action)进行数据的更新，通过subscribe监听到数据，当对应的store中的数据也被修改时，组件中的数据也会相应改变。
+  当组件中使用store，可以通过getstate()获取到数据，通过dispatch(action)进行数据的更新，通过subscribe监听到数据，当对应的store中的数据也被修改时，组件中的数据也会相应改变。
 
 在redux中存在异步流，由于Redux对所有的store数据的变更，都应该通过action触发，异步任务（通常是业务或者是获取数据任务）也不例外，而为了不将业务或数据相关的任务混入react组件中，就需要使用其它框架配合管理异步流程，如redux-thunk，redux-presist,redux-logger。
 
@@ -399,15 +430,27 @@ Promise.all(
 
 ## Vue的生命周期
 1. beforeCreate（创建前）
+
 2. created（创建后）
+
 3. beforeMount（载入前）
+
 4. mounted（载入后）
+
 5. beforeUpdate（更新前）
+
 6. updated（更新后）
+
 7. beforeDestroy（销毁前）
+
 8. destroyed（销毁后）
+
 9. activated：被keep-alive缓存的组件激活时调用（只有被包裹在 keep-alive 中的组件，才有activated生命周期
+
 10. deactivated：被 keep-alive 缓存的组件停用时调用（只有被包裹在 keep-alive 中的组件，才有deactivated生命周期）
+
+计算属性：computed
+监听属性：wacher
 
 ## Vue的双向绑定
 1. 使用 Object.definePropety()方法(Vue 2.x)或Proxy构造函数(Vue 3.x），来劫持data 各个属性的 setter、getter，在数据变动时发布消息给订阅者，触发相应的监听回调
@@ -445,15 +488,15 @@ Promise.all(
 * data: 组件内部的初始数据
 * methods: 组件的方法列表
 * lifetimes: 生命周期列表
-	* created(): 在组件实例刚刚被创建时执行，注意此时不能调用 `setData`
-	* attached(): 在组件实例进入页面节点树时执行
-	* ready(): 在组件在视图层布局完成后执行
-	* moved(): 在组件实例被移动到节点树另一个位置时执行
-	* detached():在组件实例被从页面节点树移除时执行
-	* error(err: Error): 每当组件方法抛出错误时执行
+  * created(): 在组件实例刚刚被创建时执行，注意此时不能调用 `setData`
+  * attached(): 在组件实例进入页面节点树时执行
+  * ready(): 在组件在视图层布局完成后执行
+  * moved(): 在组件实例被移动到节点树另一个位置时执行
+  * detached():在组件实例被从页面节点树移除时执行
+  * error(err: Error): 每当组件方法抛出错误时执行
 * pageLifetimes: 页面生命周期回调监听
-	* show(): 页面显示/切入前台时触发
-	* hide(): 页面隐藏/切入后台时触发,如 `navigateTo` 或底部 `tab` 切换到其他页面，小程序切入后台
+  * show(): 页面显示/切入前台时触发
+  * hide(): 页面隐藏/切入后台时触发,如 `navigateTo` 或底部 `tab` 切换到其他页面，小程序切入后台
 
 
 ## 小程序如何做数据传递
