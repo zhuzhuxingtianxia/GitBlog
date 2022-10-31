@@ -1,0 +1,122 @@
+## 修改npm镜像
+
+* 查看npm镜像源的地址
+ ```
+ npm config get registry
+ ```
+* 设置npm镜像源为淘宝
+```
+npm config set registry https://registry.npm.taobao.org
+```
+
+* yarn
+```
+npm install -g yarn
+```
+修改源
+```
+yarn config set registry https://registry.npm.taobao.org -g
+```
+卸载
+```
+npm uninstall yarn -g
+```
+版本查看
+```
+yarn -v
+```
+yarn命令：
+1. yarn init //安装package.json里所有包，并将包及它的所有依赖项保存进yarn.lock
+2. yarn run  //用来执行在 package.json 中 scripts 属性下定义的脚本
+3. yarn add [package] //添加一个包
+4. yarn info //可以用来查看某个模块的最新版本信息
+5. yarn config list // 显示所有配置项
+6. yarn cconfig set //设置配置
+7. yarn config get //显示某配置项
+8. yarn config delete //删除某配置项
+
+## ESLint 检测配置
+package.json文件修改
+```
+"eslintConfig": {
+    "rules": {
+       "indent": [1, 4], //设置缩进
+       "no-unused-vars":"off"  //关闭警告
+     },
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+
+```
+
+## start 报出问题
+```
+[DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:14644) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+```
+
+## 安全漏洞修复策略
+
+例如lodash@4.17.4具有安全漏洞，已修复的版本4.17.12
+```
+npm audit fix
+```
+执行的逻辑相当于：
+```
+npm update lodash@4.17.12
+```
+
+#### 间接依赖漏洞
+
+假设我们现在的依赖路径非常深,例如`@commitlint/load`依赖`lodash` 直接的修复不在这个范围，所以我们不能直接通过升级`Lodash`来修复漏洞,那么修复策略为:
+```
+npm update @commitlint/load@1.0.2 --depth=2
+```
+npm update 只会检查更新顶层的依赖，更新更深层次的依赖版本需要使用 --depth 指定更新的深度
+
+#### 强制修复漏洞
+不能找到一个可修复的版本`npm audit fix`命令就无能为力了,可以尝试
+```
+npm audit fix --force
+```
+这回强制将依赖更新到最新版本，一定要谨慎使用！
+
+npm 还提供了一些其他的修复命令命令：
+```
+npm audit fix --package-lock-only
+```
+
+在不修改`ode_modules`的情况下执行`audit fix`，仍然会更改 `pkglock`。
+
+`npm audit fix --only=prod`跳过更新 `devDependencies`
+
+**不可修复漏洞**:以上的修复策略都不能解决这个安全漏洞，那说明此漏洞是无法自动修复的，需要人工判定处理
+
+## 关闭安全检查
+
+* 安装单个包关闭安全审查: `npm install example-package-name --no-audit`
+* 安装所有包关闭安全审查 - 运行: `npm set audit false`
+* 手动将`~/.npmrc`配置文件中的`audit`修改为`false`
+
+## 解读依赖漏洞报告
+
+执行`npm audit --json`将会打印出一个详细的`json`格式的安全报告，在这个报告里可以看到这些漏洞的详情，以及具体的漏洞修复策略。
+
+
+## 前端掌握技术
+
+* ts
+* less、sass
+* UI框架：antd、element-ui、mui
+* webpack、rollup
+* echarts、G2、G3、D6
+* three.js
+* nextjs、vite
+* Vue3.0
+* React-router
+* redux、vuex
+
+
