@@ -29,11 +29,43 @@ yarn命令：
 1. yarn init //安装package.json里所有包，并将包及它的所有依赖项保存进yarn.lock
 2. yarn run  //用来执行在 package.json 中 scripts 属性下定义的脚本
 3. yarn add [package] //添加一个包
-4. yarn info //可以用来查看某个模块的最新版本信息
-5. yarn config list // 显示所有配置项
-6. yarn cconfig set //设置配置
-7. yarn config get //显示某配置项
-8. yarn config delete //删除某配置项
+4. yarn remove 包名 // 删除包
+5. yarn info //可以用来查看某个模块的最新版本信息
+6. yarn config list // 显示所有配置项
+7. yarn cconfig set //设置配置
+8. yarn config get //显示某配置项
+9. yarn config delete //删除某配置项
+
+## node
+node管理工具
+```
+npm install -g n
+```
+安装并切换版本:
+```
+sudo n v14.5.0
+```
+查看所有可以安装的版本: `n ls`
+删除指定版本: `n rm v14.5.0`
+
+## git或sourcetree 一直提示输入密码
+```
+git config --global credential.helper osxkeychain
+```
+
+## RN安卓运行报错
+```
+No toolchains found in the NDK toolchains folder for ABI with prefix: arm-linux-androideabi
+```
+原因：新版Ndk目录下缺失platforms文件夹及内容，可以再下载一个21.4的版本
+解决参考：https://www.jianshu.com/p/09b32f480e49
+
+## RN安装react-devtools报错
+**安装electron失败 postinstall: `node install.js`**
+解决方法：将electron下载地址指向taobao镜像
+```
+npm config set electron_mirror "https://npm.taobao.org/mirrors/electron/"
+```
 
 ## ESLint 检测配置
 package.json文件修改

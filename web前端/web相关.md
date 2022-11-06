@@ -471,6 +471,29 @@ Promise.all(
 * Vuex通信
 
 ## Vuex
+vuex是一个专为 Vue.js 应用程序开发的状态管理工具，采用单一数据源存储管理应用的所有组件状态，更改状态的唯一方法就是在mutaions里修改state，actions不能直接修改state。
+
+1. state数据存储
+2. getter state的计算属性
+3. mutation 更改state中状态的逻辑 同步操作
+4. action 提交mutation 异步操作
+5. model 模块化
+
+* 创建store对象存储state数据
+
+```
+const store = new Vuex.Store({
+	state: {
+	    a: 'true',
+	    b: 2,
+	    c: false,
+	    d: null
+	  },
+});
+
+```
+
+## 微前端
 
 ## 小程序的生命周期
 **Page**
