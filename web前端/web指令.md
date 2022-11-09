@@ -67,6 +67,33 @@ No toolchains found in the NDK toolchains folder for ABI with prefix: arm-linux-
 npm config set electron_mirror "https://npm.taobao.org/mirrors/electron/"
 ```
 
+## RN iOS运行指定模拟器
+`yarn ios --simulator="iPhone 14"`
+
+## Nginx配置
+安装：	`brew install nginx`
+启动：nginx
+停止：nginx -s stop
+刷新：nginx -s reload
+查看配置：`brew info nginx`
+打开安装目录：`open /usr/local/etc/nginx/`
+配置文件路径: /usr/local/etc/nginx/nginx.conf
+
+
+## Charles下载安装
+[下载地址](https://www.charlesproxy.com/latest-release/download.do)
+文章：[https://www.jianshu.com/p/113fc82f603e](https://www.jianshu.com/p/113fc82f603e)
+
+### 配置
+1. 安装证书：Help->SSL Proxxying->Install Charles Root Certificate
+2. 设置信任证书：打开 钥匙串访问找到charles证书，设置选择始终信任
+3. 端口配置：Proxy->Proxying Settings 勾选Enable SOCKS proxy
+4. 端口配置：Proxy->SSL Proxying Settings 点击add 添加 `*:*`和`*:443`端口监听
+5. iOS模拟器抓包：Help->SSL Proxxying->Install Charles in iOS Simulators
+6. 真机：Help->SSL Proxxying->Install Charles in device
+7. 打开模拟器设置证书信任
+8. 真机需在同一局域网下，移动设备需手动设置http代理，即设置服务器IP地址和端口8888
+
 ## ESLint 检测配置
 package.json文件修改
 ```
@@ -89,6 +116,9 @@ package.json文件修改
 (Use `node --trace-deprecation ...` to show where the warning was created)
 (node:14644) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 ```
+
+## 插件跨域
+https://www.crx4chrome.com/crx/53489/
 
 ## 安全漏洞修复策略
 
