@@ -91,6 +91,7 @@ devServer: {
 }
 
 ```
+类似的代理还有`setupProxy.js`
 
 ## Nginx配置
 安装：	`brew install nginx`
