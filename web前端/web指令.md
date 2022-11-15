@@ -72,6 +72,7 @@ npm config set electron_mirror "https://npm.taobao.org/mirrors/electron/"
 
 ## Nginx配置
 安装：	`brew install nginx`
+检查配置文件是否有语法错误: `nginx -t`
 启动：nginx
 停止：nginx -s stop
 刷新：nginx -s reload
@@ -79,6 +80,62 @@ npm config set electron_mirror "https://npm.taobao.org/mirrors/electron/"
 打开安装目录：`open /usr/local/etc/nginx/`
 配置文件路径: /usr/local/etc/nginx/nginx.conf
 
+```
+## http配置反向代理的参数
+server {
+    listen    8080;
+    server_name localhost;
+ 
+    ## 1. 用户访问 http://localhost，则反向代理到 https://github.com
+    location / {
+        proxy_pass  https://github.com;
+        proxy_set_header X-Nginx-Proxy true;
+        proxy_redirect     off;
+        proxy_set_header   Host             $host;        # 传递域名
+        proxy_set_header   X-Real-IP        $remote_addr; # 传递ip
+        proxy_set_header   X-Scheme         $scheme;      # 传递协议
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+    }
+}
+
+```
+代理前端服务配置[参考](https://blog.csdn.net/shuxiaohua/article/details/124560311)：
+```
+server {
+        listen       10080;
+        server_name  localhost, 127.0.0.1;
+        
+        location / {
+            proxy_set_header X-Nginx-Proxy true;
+            proxy_pass   http://localhost:10086/;
+            proxy_redirect off;
+
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+            proxy_set_header Upgrade-Insecure-Requests 1;
+            proxy_set_header X-Forwarded-Proto https;
+
+        }
+
+        
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        location /mbff {
+           proxy_pass   https://test.wang.com/mbff;
+        }
+        location /test {
+           proxy_pass   https://www.baidu.com/;
+        }
+			# 代理 //host/xxxxxxx.png时需要注意路径问题
+        location /shop-image/ {
+           proxy_pass  https://test.images.cn.myhuaweicloud.com/;   
+        }
+        
+    }
+
+
+```
 
 ## Charles下载安装
 [下载地址](https://www.charlesproxy.com/latest-release/download.do)
