@@ -70,6 +70,28 @@ npm config set electron_mirror "https://npm.taobao.org/mirrors/electron/"
 ## RN iOS运行指定模拟器
 `yarn ios --simulator="iPhone 14"`
 
+## [devServer](http://t.zoukankan.com/jkr666666-p-11067270.html)
+* port:配置属性指定了开启服务的端口号
+* host:设置的是服务器的主机号,可设置为`0.0.0.0`
+* proxy: 设置代理接口api
+
+```
+devServer: {
+   port:7000,
+   host:'0.0.0.0',
+   proxy: {
+    '/api': {
+        target: 'http://your_api_server.com',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/api': ''
+        }
+   }
+
+}
+
+```
+
 ## Nginx配置
 安装：	`brew install nginx`
 检查配置文件是否有语法错误: `nginx -t`
