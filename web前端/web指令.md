@@ -160,6 +160,71 @@ server {
 
 ```
 
+## Yarn 报错
+如下：
+```
+..../sbc-boss/node_modules/gifsicle: Command failed.
+Exit code: 1
+Command: node lib/install.js
+Arguments: 
+Directory: ...../sbc-boss/node_modules/gifsicle
+Output:
+⚠ getaddrinfo ENOTFOUND raw.githubusercontent.com
+  ⚠ gifsicle pre-build test failed
+  ℹ compiling from source
+  ✖ Error: Command failed: /bin/sh -c autoreconf -ivf
+/bin/sh: autoreconf: command not found
+```
+
+分析[参考](https://segmentfault.com/a/1190000040764846),其实是我们无法访问raw.githubusercontent.com这个网址导致的
+解决方案1：
+sudo vim /etc/hosts 增加如下内容
+```
+# GitHub Start
+192.30.255.112  gist.github.com
+192.30.255.112  github.com
+192.30.255.112  www.github.com
+151.101.56.133  avatars0.githubusercontent.com
+151.101.56.133  avatars1.githubusercontent.com
+151.101.56.133  avatars2.githubusercontent.com
+151.101.56.133  avatars3.githubusercontent.com
+151.101.56.133  avatars4.githubusercontent.com
+151.101.56.133  avatars5.githubusercontent.com
+151.101.56.133  avatars6.githubusercontent.com
+151.101.56.133  avatars7.githubusercontent.com
+151.101.56.133  avatars8.githubusercontent.com
+151.101.56.133  camo.githubusercontent.com
+151.101.56.133  cloud.githubusercontent.com
+151.101.56.133  gist.githubusercontent.com
+151.101.56.133  marketplace-screenshots.githubusercontent.com
+151.101.56.133  raw.githubusercontent.com
+151.101.56.133  repository-images.githubusercontent.com
+151.101.56.133  user-images.githubusercontent.com
+# GitHub End
+
+```
+解决方案2:
+在 package.json 文件中 配置忽略该错误：
+```
+{
+  
+  "scripts": {
+    ....
+  },
+  "dependencies": {
+    ......
+  },
+    
+ // 问题解决配置
+  "resolutions": {
+    "//": "Used to install imagemin dependencies, because imagemin may not be installed in China. If it is abroad, you can delete it",
+    "bin-wrapper": "npm:bin-wrapper-china",
+    "rollup": "^2.72.0"
+  }
+}
+
+```
+
 ## Charles下载安装
 [下载地址](https://www.charlesproxy.com/latest-release/download.do)
 文章：[https://www.jianshu.com/p/113fc82f603e](https://www.jianshu.com/p/113fc82f603e)
