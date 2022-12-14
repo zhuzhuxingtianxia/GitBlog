@@ -580,6 +580,10 @@ onCareClick(e:any) {
 
 ## Webpack打包优化
 
+#### Babel
+[Babel](https://www.babeljs.cn/docs/) 是一个 JavaScript 编译器
+
+
 #### 打包过程
 
 1. 读取入口文件，如项目中的main.js；
