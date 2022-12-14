@@ -48,6 +48,65 @@ sudo n v14.5.0
 查看所有可以安装的版本: `n ls`
 删除指定版本: `n rm v14.5.0`
 
+## 创建react项目
+
+#### npx方式:
+```
+npx create-react-app react-demo
+```
+ts：
+```
+npx create-react-app ts-demo --template typescript
+```
+查看信息：`create-react-app --info`
+
+#### NextJs:
+自动初始化：
+```
+npx create-next-app@latest
+# or
+yarn create next-app
+# or
+pnpm create next-app
+
+# ts支持
+npx create-next-app@latest --typescript
+# or
+yarn create next-app --typescript
+# or
+pnpm create next-app --typescript
+
+```
+手动初始化：
+```
+npm install next react react-dom
+# or
+yarn add next react react-dom
+# or
+pnpm add next react react-dom
+
+# 修改package.json文件
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint"
+}
+
+
+```
+
+#### Vite搭建vue3.x项目
+```
+npm create vite-app <project-name>
+# 或
+npm init vite-app <project-name>
+# 或
+yarn create vite <project-name> --template vue
+
+```
+
+
 ## git或sourcetree 一直提示输入密码
 ```
 git config --global credential.helper osxkeychain
@@ -312,63 +371,6 @@ npm audit fix --package-lock-only
 
 执行`npm audit --json`将会打印出一个详细的`json`格式的安全报告，在这个报告里可以看到这些漏洞的详情，以及具体的漏洞修复策略。
 
-## 创建react项目
-
-#### npx方式:
-```
-npx create-react-app react-demo
-```
-ts：
-```
-npx create-react-app ts-demo --template typescript
-```
-查看信息：`create-react-app --info`
-
-#### NextJs:
-自动初始化：
-```
-npx create-next-app@latest
-# or
-yarn create next-app
-# or
-pnpm create next-app
-
-# ts支持
-npx create-next-app@latest --typescript
-# or
-yarn create next-app --typescript
-# or
-pnpm create next-app --typescript
-
-```
-手动初始化：
-```
-npm install next react react-dom
-# or
-yarn add next react react-dom
-# or
-pnpm add next react react-dom
-
-# 修改package.json文件
-"scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint"
-}
-
-
-```
-
-#### Vite搭建vue3.x项目
-```
-npm create vite-app <project-name>
-# 或
-npm init vite-app <project-name>
-# 或
-yarn create vite <project-name> --template vue
-
-```
 
 ## 前端掌握技术
 
@@ -379,6 +381,7 @@ yarn create vite <project-name> --template vue
 * echarts、G2、G3、D6
 * three.js
 * nextjs、vite: 类似webpack的打包编辑器
+* react-app-rewired、@craco/craco、babel : 路径别名配置
 * dotenv/dotenv-cli: 多环境变量配置
 * React-router
 * redux、vuex
