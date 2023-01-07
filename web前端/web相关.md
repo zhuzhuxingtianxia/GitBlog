@@ -136,6 +136,31 @@ const FormComponent = () => {
 
 ```
 
+## Hooks中useState的用法
+初始化useState:
+**方式一:**
+```
+const [value, setValue] = useState(设置初始值)
+```
+**方式二：**回调函数
+```
+const [value, setValue] = useState(()=>{ 
+  // 编写计算逻辑    
+  return '计算之后的初始值'
+})
+
+```
+回调函数中的逻辑只会在组件初始化的时候执行一次,return出去的值将作为`value`的初始值.
+
+**set方法使用回调函数:**
+```
+  setValue(oldValue => ({
+      ...oldValue,
+      newKey:'newValue',
+  }))
+```
+回调函数中oldValue为value原值，返回新的value值
+
 ## React数据传递
 1. 通过props,父子组件数据传递
 2. 子传父通过回调函数的方式
@@ -937,4 +962,10 @@ npm i image-webpack-loader --save-dev
 }
 ```
 这样超出1M的图片就会交给image-webpack-loader 去处理，打包时就会发现vendor.js文件大小减少了很多
+
+
+## 文章参考
+
+* [可视化拖拽组件库一些技术要点原理分析](https://juejin.cn/post/6908502083075325959)
+
 
