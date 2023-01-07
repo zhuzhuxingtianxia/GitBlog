@@ -9,6 +9,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 将下面内容拷贝进去:
 ```
 # GitHub Start
+140.82.113.3 github.com
 192.30.253.112 Build software better, together
 192.30.253.119 gist.github.com
 151.101.184.133 assets-cdn.github.com
@@ -28,6 +29,9 @@ Mac终端输入：`sudo vi /etc/hosts`
 # GitHub End
 ```
 点击`esc`键，然后输入`:wq` 保存退出即可。刷新github
+
+[Github访问速度慢的解决方案](https://mp.weixin.qq.com/s?__biz=MjM5MDA2MTI1MA==&mid=2649126312&idx=2&sn=ce2722fb69b52283ff3ccc3502a2a7b3&chksm=be585205892fdb13f1768fbca09107b2557276c29213b2ff3da7b747103eb702c3d3d2b0131e&scene=27)
+[140.82.113.3 github.com](https://www.ipaddress.com/site/github.com)
 
 <!--- 
 有关网站
