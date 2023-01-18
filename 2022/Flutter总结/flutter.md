@@ -249,6 +249,10 @@ Navigator.pushNamed(context, 'second',
 )
 //返回
 Navigator.pop(context)
+
+//返回传值
+Map object = await Navigator.of(context).pushNamed('second'); Navigator.of(context).pop({'data':'回传数据'});
+
 ```
 
 接收参数：
@@ -405,5 +409,7 @@ Navigator.pushNamed(context, '/detail/102');
 <!---- 
 			https://github.com/xumengqiang/flutter-coach-clock
 			https://github.com/Danonlylane/goodhouse
+			//相关文章
+			https://juejin.cn/post/6844904012685410317
  ---->
 
