@@ -13,7 +13,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 192.30.253.112 Build software better, together
 192.30.253.119 gist.github.com
 151.101.184.133 assets-cdn.github.com
-151.101.184.133 raw.githubusercontent.com
+185.199.109.133 raw.githubusercontent.com
 151.101.184.133 gist.githubusercontent.com
 151.101.184.133 cloud.githubusercontent.com
 151.101.184.133 camo.githubusercontent.com
