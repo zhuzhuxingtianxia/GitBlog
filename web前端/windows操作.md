@@ -11,6 +11,7 @@
 * `dir`: 显示裸目录
 * `dir /a`: 显示所有目录包括隐藏目录
 * `dir /a:h`: 仅显示隐藏目录，例如：AppData目录
+* `start C:\Windows\System32\Drivers\etc`: 打开某个文件夹或文件
 * `md xxx`或`mkdir xxx`:创建文件夹
 * `rd /s /q xxx`:删除文件夹，rd职能删除空文件夹
 * `type nul>test.txt`: 创建空文件test.txt
