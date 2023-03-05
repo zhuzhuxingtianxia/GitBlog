@@ -298,6 +298,20 @@ sudo vim /etc/hosts 增加如下内容
 7. 打开模拟器设置证书信任
 8. 真机需在同一局域网下，移动设备需手动设置http代理，即设置服务器IP地址和端口8888
 
+## tree-node-cli
+用于生成项目文件目录结构
+
+1. 全局安装：`npm i tree-node-cli -g`
+2. 定位到项目根目录，生成目录结构文件
+
+```
+tree -L 4 -I "node_modules|themes|public" > tree.md
+
+```
+* `tree -L n` 显示项目的层数。n 代表你要生成文件夹树的层级;
+* `tree -I "node_modules|themes|public"` 表示要过滤的文件或目录, 过滤多个文件或目录用 | 分割;
+* `tree > tree.md` 表示将树结构输出到 tree.md 这个文件;
+
 ## ESLint 检测配置
 package.json文件修改
 ```
