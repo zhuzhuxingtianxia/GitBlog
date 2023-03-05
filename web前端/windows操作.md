@@ -11,6 +11,7 @@
 * `dir`: 显示裸目录
 * `dir /a`: 显示所有目录包括隐藏目录
 * `dir /a:h`: 仅显示隐藏目录，例如：AppData目录
+* `start C:\Windows\System32\Drivers\etc`: 打开某个文件夹或文件
 * `md xxx`或`mkdir xxx`:创建文件夹
 * `rd /s /q xxx`:删除文件夹，rd职能删除空文件夹
 * `type nul>test.txt`: 创建空文件test.txt
@@ -32,12 +33,15 @@ iwr -useb get.scoop.sh|iex
 iwr是PowerShell下的一款工具，这个指令是下载一个sh脚本并执行，其他例子`iwr -Uri http://www.test.com/vps.exe -OutFile vps.exe -UseBasicParsing`。
 
 安装报错：iwr: 未能解析此远程名称：'raw.githubusercontent.com'
+
 测试： ping raw.githubusercontent.com 无法ping通
+
 解决：[查看raw.githubusercontent.com的IP](https://www.ipaddress.com/)，修改host非管理员权限执行`code C:\Windows\System32\drivers\etc`,管理员权限执行`code drivers\etc`,在host文件添加一下内容：
 ```
 185.199.109.133 raw.githubusercontent.com
 ```
 保存后命令行重新执行：ping raw.githubusercontent.com
+
 重新安装Scoop就可以了。如果出现禁用管理员身份运行安装程序的提示就切换到用户身份。
 
 如果你需要[更改默认的安装目录](https://zhuanlan.zhihu.com/p/463284082)，则需要在执行以上命令前添加环境变量的定义，通过执行以下命令完成：
