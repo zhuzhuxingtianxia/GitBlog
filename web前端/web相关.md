@@ -495,6 +495,12 @@ Promise.all(
 * 路由传值
 * Vuex通信
 
+## Vue插槽
+插槽: `<slot></slot>`
+具名插槽: `<slot name="title"></slot>`
+使用具名插槽: `<template #title> 等价于 <template v-slot:title>`
+插槽传参: `<template #default="scope"></template>` scope即为传递的参数对象
+
 ## Vuex
 vuex是一个专为 Vue.js 应用程序开发的状态管理工具，采用单一数据源存储管理应用的所有组件状态，更改状态的唯一方法就是在mutaions里修改state，actions不能直接修改state。
 
