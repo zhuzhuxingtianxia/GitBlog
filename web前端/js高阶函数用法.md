@@ -207,6 +207,10 @@ const index = ages.findIndex((age,index,arr)=>{
 //index = 2
 ```
 
+## Math
+
+* 向下取整: Math.floor(4.9) === ~~4.9 === 4 
+
 ##every():
 对数组中的每个元素都执行一次指定的函数（callback），直到此函数返回 false，如果发现这个元素，every 将返回 false，如果回调函数对每个元素执行后都返回 true ，every 将返回 true。它只对数组中的非空元素执行指定的函数，没有赋值或者已经删除的元素将被忽略
 ```
