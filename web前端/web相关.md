@@ -416,6 +416,64 @@ js在调⽤函数的时候经常会遇到this作⽤域的问题，ES6则提供�
 * prototype是每个函数都会具备的一个属性，它是一个指针，指向一个对象，只有函数才有;
 * proto是主流浏览器上在除null以外的每个对象上都支持的一个属性，它能够指向该对象的原型，用来将对象与该对象的原型相连的属性
 
+## typescript
+* type: 为一个类型取一个新的名字。它可用于定义对象、联合类型、元组等复杂类型
+
+```
+type Name = string;
+
+type User = {
+  name: Name;
+  age: number;
+};
+
+type Result = User | null;
+
+```
+
+* interface: 用于定义对象类型，但与 type 不同的是，它还可以定义函数类型、可索引类型、类等类型。另外，interface 可以与类一起使用，从而实现接口继承和类实现
+
+```
+interface IProps {
+  visible: boolean,
+  name: string,
+  age: number|undefined,
+  map:Map<string, any>;
+  objc: [string, any],
+  record: Record<string, User>, //类似map
+  list: Array<any>; //数组
+  rows?: string[]; //数组
+  option: 'row'|'colum'; 
+  onOkFun(...args): void;// 函数类型
+  onCancelFun: Function;// 函数类型
+  [key: string]: any; // 可索引类型
+
+}
+
+```
+
+* declare: 用于声明全局变量、全局函数、命名空间等。当你需要引入第三方库时，如果该库没有提供类型定义文件，你可以使用 declare 来告诉编译器该库中包含的变量、函数和类型
+
+```
+declare var jQuery: (selector: string) => any;
+
+declare function Ajax(url: string, settings?: any): void;
+
+declare namespace MyLib {
+  interface Options {
+    color?: string;
+    size?: number;
+  }
+  function createButton(options: Options): void;
+}
+
+```
+
+* infer:用于推断类型，只能在条件类型中使用，它还可以结合`extends`关键字和`keyof`操作符进行高级类型推断 
+* record: 用来定义泛型类型，可以方便地创建一个简单或复杂的对象
+* enum: 枚举类型用来定义一组带有名字的常量值，存在命名空间污染、可读性差、容易被错误使用等风险，可用`const`、`type`来替换
+* 泛型: 是指一种通用的类型，它可以用来支持多种不同类型的数据，从而提高代码的复用性和可读性
+
 ## Promise.all
 多个promise执行的解决方案，promise.all中任何一个promise出现错误都会执行reject，导致其他正常返回的数据无法使用
 

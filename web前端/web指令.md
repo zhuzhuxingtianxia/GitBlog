@@ -338,6 +338,9 @@ package.json文件修改
 ## 插件跨域
 https://www.crx4chrome.com/crx/53489/
 
+## depcheck
+用于检查项目中未使用的依赖项
+
 ## 安全漏洞修复策略
 
 例如lodash@4.17.4具有安全漏洞，已修复的版本4.17.12
