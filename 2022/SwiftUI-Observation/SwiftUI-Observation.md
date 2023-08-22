@@ -19,18 +19,20 @@ Observation 是 Swift 的一个新特性，它可以通过宏将 Swift 基本类
 
 之前在设计实现 SwiftUI 数据模型时，我们可能需要最少三步才能让它实现数据驱动 UI ：
 
-1. 要求数据模型遵守 `ObservableObject` 协议;
-2. 将数据变更需要触发 UI 刷新的具体属性增加 `@Published` 描述;
-  ```
-  class FoodTruckModel: ObservableObject {    
-      @Published
-      var orders: [Order] = []
-      
-      @Published
-      var donuts = Donut.all
-  }
-  ```
-3. 在 View 中通过 `@ObservedObject` 或者 `@StateObject` 来描述我们持有的数据模型
+* 要求数据模型遵守 `ObservableObject` 协议;
+* 将数据变更需要触发 UI 刷新的具体属性增加 `@Published` 描述;
+
+```
+class FoodTruckModel: ObservableObject {    
+    @Published
+    var orders: [Order] = []
+    
+    @Published
+    var donuts = Donut.all
+}
+```
+ 
+* 在 View 中通过 `@ObservedObject` 或者 `@StateObject` 来描述我们持有的数据模型
 
   ```
   struct ContentView: View {
@@ -117,6 +119,7 @@ class FoodTruckModel: ObservableObject {    
 在深入讲解 Observation 的具体实现原理之前，我们先了解一下它的开发动机。通过了解这一点，我们可以更好地理解 Observation 带来的提升，以及它解决了哪些具体问题。
 
 ###### 为什么会有 Observation
+
 在开发数据驱动 UI 程序时，我们需要监听一些基础数据的变化，并根据变化更新 UI 展示。为了实现监听，通常需要使用观察者模式。在 Swift 中，官方提供的观察机制只有 KVO 和 Combine 中的 ObservableObject，但它们都有各自的局限性。
 
 比如，KVO 只能用于 NSObject 的子类，Combine 只能在 Drawing 平台上工作，同时不支持 Concurrency。通过吸取这两个系统的经验，可以建立一个更通用的系统，使其适用于所有 Swift 类型，而不仅仅是 NSObject；能够跨平台，并支持 async/await 等语言特性。
@@ -131,6 +134,7 @@ KVO / Combine 和 Observation 的对比:
 接下来简要介绍下 Observation 的实现原理。了解原理可以帮助我们更好地了解其功能的优势和可能带来的问题。
 
 ##### 宏展开
+
 上面提到 `@Observable` 是一个 Swift 宏。它在编译阶段会通过编译器转译扩展我们的代码
 
 假设这是我们定义的数据模型，如果我们使用 @Observable 宏来修饰它，那么最终它会被转译成什么样子呢？
@@ -283,6 +287,7 @@ class FoodTruckModel {
 ```
 
 ##### access 和 withMutaion
+
 `access` 和 `withMutation` 方法分别对应 `getter` 和 `setter` 方法，并都接受 `keyPath` 作为参数。SwiftUI 通过这两个方法来识别属性的访问情况。
 
 每当程序在 `View` 的 `body` 中访问属性时，`access` 方法会将访问信息（即 `keyPath`）存储在 `TLS`（线程局部存储）中。当后续对数据模型的属性变更发生时，Observation 会通过 `withMutation` 方法查询 `TLS` 中记录的属性访问信息，如果发现变更的属性已被记录，则会通知 SwiftUI 刷新 UI。
@@ -291,6 +296,7 @@ class FoodTruckModel {
 
 
 ###### _AccessList
+
 上面说到的 `TLS` 中其实存放的是 `_AccessList` 的指针。
 
 ```
@@ -395,6 +401,7 @@ struct Context: Sendable {
 
 
 ##### 多线程安全
+
 `Context` 内部的操作都是带锁的
 
 ```
@@ -432,6 +439,7 @@ internal struct _ManagedCriticalState<State> {
 `withCriticalRegion` 是一个开关锁的过程，从中可以看出，`Context` 会通过锁来进行多线程调度，而实际的工作对象是 `State`。
 
 ##### ObservationRegistrar.State
+
 我们再来看下 `State`：
 ```
 struct State: @unchecked Sendable {
@@ -506,10 +514,11 @@ class FoodTruckModel {
  @ObservationIgnored private let _$observationRegistrar = ObservationRegistrar()
  // .... ///
  }
- ```
+```
  
 
 ##### 原理小结
+
 先回顾一下 `Observation` 中涉及的角色已经功能定位
 
 * TLS: 线程局部存储，存放 `_AccessList` 指针
@@ -526,6 +535,7 @@ class FoodTruckModel {
 当多个线程同时访问 `@Observable` 的属性时，Observation 会通过各自线程的 TLS 中的 `_AccessList` 找到对应的 Entry，并将其注册到 `Registrar` 的 `Context` 中。在 `setter` 调用 `withMutaion` 时，它会直接通过 Context 对应 `keyPath` 进行查询并回调。
 
 ##### 性能提升
+
 **单视图冗余计算**
 
 从原理上来看，之前使用 `ObservableObject` + `@Published` 的方式是通过在属性的 `willSet` 方法中调用 `objectWillChange` 来触发 SwiftUI 进行 `View` 的 `Diff` 计算，从而尝试更新 UI。然而，这种方式难免会导致 SwiftUI 底层计算引擎进行冗余计算，因为 `willSet` 不等于 `didChange`。
@@ -735,6 +745,7 @@ struct ContentView: View {
 `@Observable` 和 Swift 宏极大地简化了模型设计，避免之前需要写很多无用的存储属性。
 
 ## SwiftUI PropertyWrapper 使用
+
 `@Observable` 搭配 SwiftUI 的 `PropertyWrapper` 的使用方式同样比之前更加方便简捷。 其中三个主要的 `PropertyWrapper`：
 
 * @State
@@ -753,6 +764,7 @@ struct ContentView: View {
 同样，`@Observable` 可以完美契合 `@Environment`，因为 `@Observable` 的数据依赖关系建立是基于数据访问的。
 
 * @Bindable
+
 `@Bindable` 是最新加入 SwiftUI `PropetyWrapper` 大家庭的一员。`@Bindable` 非常的轻量，它所做的只是允许从该类型中获取 `Binding`。开发者可以很轻松的通过 `$` 符号 从 `@Bindable` 修饰的属性中获取一个 `Binding`。
 
 ![Bindable](./Bindable.jpeg)
@@ -791,10 +803,10 @@ class ContentViewModel {
         }
     }
 }
-
 ```
 
 ##### PropertyWrapper 使用规则
+
 Apple 提供了针对这三种 PropertyWrapper 的不同使用场景的选取规则（优先级降序）
 
 1.	首先数据源是否是 View 本地的临时数据？如果是则使用 @State
@@ -805,11 +817,13 @@ Apple 提供了针对这三种 PropertyWrapper 的不同使用场景的选取规
 ![PropertyWrapper](./PropertyWrapper.jpeg)
 
 ## 进阶用法
+
 上面的例子都是视图持有一个 `@Observable` 数据来实现的。但是 Observation 可以做的更多。因为它基于对每个实例的属性访问识别来建立数据依赖。所以视图可以不直接持有一个 `@Observable` 数据。它可以存放在数组， `Optional` 中，或者是任何一个自定义容器里都可以正常工作的，甚至 `@Observable`嵌套 `@Observable` 也是可以的。
 
 ![Observable2](./Observable.jpeg)
 
 ## 总结
+
 Observation 将 SwiftUI 的数据驱动 UI 开发流程提升到了新的高度，它可以帮助开发者更加简化和提升程序性能。本章介绍了 Observation 的基础知识，包括它提供的 Swift 宏的使用场景和处理计算属性的手动维护数据驱动。同时，我们也回顾了之前 SwiftUI 数据驱动 UI 的开发方式，以及如何从 `ObservableObject` 迁移到 Observation。 Observation 相较于之前的方式省略了 `@Published` 等“胶水”代码，让数据模型回归到原始的 Swift 语法。同时，SwiftUI 通过 Observation 帮助开发者在框架编码层面规避了可能的性能负担。让开发者更加不容易写出有性能问题的代码。这比用一个 WWDC 的 Session 来告诉开发者有哪些性能陷阱，让开发者自行规避的方式要好很多。不过，目前 Xcode 15 beta 2 SDK 的 SwiftUI 中 `Observable` 与 `_printChanges` 的组合还不够完善，需要在正式版本中得到解决。
 
 [本文来源于](https://mp.weixin.qq.com/s/p7NOXJ5Fwlg7OtlrZ-BE_Q)https://mp.weixin.qq.com/s/p7NOXJ5Fwlg7OtlrZ-BE_Q
