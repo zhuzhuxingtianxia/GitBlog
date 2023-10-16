@@ -29,12 +29,13 @@ yarn命令：
 1. yarn init //安装package.json里所有包，并将包及它的所有依赖项保存进yarn.lock
 2. yarn run  //用来执行在 package.json 中 scripts 属性下定义的脚本
 3. yarn add [package] //添加一个包
-4. yarn remove 包名 // 删除包
-5. yarn info //可以用来查看某个模块的最新版本信息
-6. yarn config list // 显示所有配置项
-7. yarn cconfig set //设置配置
-8. yarn config get //显示某配置项
-9. yarn config delete //删除某配置项
+4. yarn add --dev [package] //添加一个开发依赖包
+5. yarn remove 包名 // 删除包
+6. yarn info //可以用来查看某个模块的最新版本信息
+7. yarn config list // 显示所有配置项
+8. yarn cconfig set //设置配置
+9. yarn config get //显示某配置项
+10. yarn config delete //删除某配置项
 
 ## node
 node管理工具
@@ -98,11 +99,11 @@ pnpm add next react react-dom
 
 #### Vite搭建vue3.x项目
 ```
-npm create vite-app <project-name>
+npm create vite@latest
 # 或
-npm init vite-app <project-name>
+yarn create vite
 # 或
-yarn create vite <project-name> --template vue
+pnpm create vite --template react-ts
 
 ```
 
