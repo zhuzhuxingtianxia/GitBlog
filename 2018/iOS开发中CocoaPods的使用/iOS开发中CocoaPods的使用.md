@@ -53,6 +53,13 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 8. 依赖库指定git下载地址:`pod 'XXSDK', :git=>'https://gitee.com/XXSDK.git'`
 9. 设置完成后保存文件，执行`pod install --verbose`命令来安装依赖依赖库
 
+## 使用CococaPods客户端
+先去官网[下载](https://cocoapods.org/app)最新的客户端,客户端只是GUI界面的工具。 下载安装完成即可。
+
+如何使用这个[客户端](https://cocoapods.org/app)呢？选择一个需要引入cocoapods的工程，使用快捷键`command+N`组合键打开文件,选择要接入Pods的工程文件，打开选择.xcodeproj文件。初始化和更新的时候直接 选择`install(verbore)`就可以了。
+
+引入的库不在pods导航栏显示，提示`[!] The 'Pods' target has transitive dependencies that include static binaries: (xx/xxx.a)`,说明库中包含有.a静态文件。注释Podfile文件中的`# use_frameworks!`这行,即不使用动态库，重新添加就可以了！
+
 ## PS问题解析
 
 **问题:** 出现 [!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
