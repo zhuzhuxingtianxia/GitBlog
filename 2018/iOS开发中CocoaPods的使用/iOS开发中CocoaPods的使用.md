@@ -1,0 +1,77 @@
+# iOS开发中CocoaPods的使用
+
+## 安装CocoaPods前环境配置
+
+CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Ruby环境。
+
+打开终端，输入以下命令:
+
+1. 查看ruby的版本:`ruby -v`
+2. 如果需要更新ruby版本则执行:`sudo gem update --system` 需要权限
+3. 查看ruby的镜像: `gem sources -l`
+4. 移除Ruby镜像: `gem sources --remove https://rubygems.org/`
+5. 添加新的镜像源: `gem sources -a https://gems.ruby-china.com`或`gem sources --add https://gems.ruby-china.com`
+6. `gem sources -l`重新查看镜像源是否修改或添加成功
+
+## 安装CocoaPods
+
+* 终端输入：`sudo gem install cocoapods`
+出现：`ERROR:  While executing gem ... (Errno::EPERM)     Operation not permitted - /usr/bin/xcodeproj` 是安装路径出了问题，需要指明路径。
+
+* 重新下载：`sudo gem install -n /usr/local/bin cocoapods`
+
+出现Successfully installed cocoapods，下载好了。
+
+* 执行安装：`pod setup --verbose`
+* 查看pod版本: `pod --version`
+* 查看pod具体信息: `pod env`
+* 查看pods镜像源: `pod repo list`
+* 移除pods镜像源: `pod repo remove master`
+* 修改pods镜像为清华镜像源: `pod repo add master https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git`
+* 卸载命令: `sudo gem uninstall cocoapods`
+* 搜索库：`pod search xxx`
+
+	输出：Unable to find a pod with name, author, summary, or descriptionmatching 'xxx' 这时就需要继续下面的步骤了:
+	
+	执行：rm ~/Library/Caches/CocoaPods/search_index.json
+	删除~/Library/Caches/CocoaPods目录下的search_index.json文件，重新执行搜索，就有结果了！
+
+* 更新本地仓库: `pod repo update --verbose`
+* 更新某个仓库: `pod update xxx(为第三方库名) --verbose --no-repo-update`
+   
+  然后再查看版本号就是最新的版本了！
+
+## 如何使用CococaPods
+
+1. 先确认pods安装完成：`pod --version`
+2. 新建一个项目，名字PodTest
+3. cd PodTest目录,在当前目录下创建Podfile文件: `pod init`
+4. Podfile文件的第一行设置pod源: `source 'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'` 我们这里使用的是清华的镜像源
+5. Podfile文件中可以设置平台支持的最低版本：`platform :ios, '13.0'`
+6. Podfile文件的target下添加依赖库: `pod 'Alamofire', '~> 5.6.0'`, 执行固定版本`pod 'Alamofire', '5.6.0'`
+7. Podfile文件设置依赖本地库: `pod 'MySwiftExtension', :path => './LocalPods/MySwiftExtension/'`, :path/:podspec后面指定依赖的本地库路径或podspec文件路径
+8. 依赖库指定git下载地址:`pod 'XXSDK', :git=>'https://gitee.com/XXSDK.git'`
+9. 设置完成后保存文件，执行`pod install --verbose`命令来安装依赖依赖库
+
+## PS问题解析
+
+**问题:** 出现 [!] Could not automatically select an Xcode workspace. Specify one in your Podfile like so:
+
+    workspace 'path/to/Workspace.xcworkspace'
+
+**原因：**路径出了问题，要让Pod找到子目录中的工程文件。在Podfile文件里指定下工程目录就行了，
+      比如在Podfile文件添加这行就行了：xcodeproj 'PodTest/PodTest.xcodeproj'
+      
+**问题：**Unable to find a specification for `xxxxx` depended upon by Podfile.
+**原因：** 有可能是删除了原来的Pods，但没有清除干净。
+     打开终端输入：defaults write com.apple.finder AppleShowAllFiles -boolean true ; killall Finder
+显示隐藏的文件夹，打开工程删除含有Podfile字符的隐藏文件，然后重新接入Pods.
+最后在终端输入：defaults write com.apple.finder AppleShowAllFiles -boolean false ; killall Finder
+再次隐藏原本的隐藏文件
+
+**问题：**[!] Invalid `Podfile` file: syntax error, unexpected ':', expecting end-of-input platform: ios,'7.0'
+              ^.
+
+**原因：**后来发现就是因为Podfile文件里面 platform 那一行 冒号和ios之间多了一个空格。其实这个错误在报错的时候ruby已经给出了，只是一开始没有好好看。
+
+
