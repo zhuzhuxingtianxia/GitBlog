@@ -61,5 +61,73 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 	* 后代通过使用@Consume去获取@Provide提供的变量，建立双向数据同步。与@State/@Link不同的是，前者可以在多层级的父子组件之间传递。
 	* @Provide和@Consume可以通过相同的变量名或者相同的变量别名绑定，变量**类型**必须相同。
 
+#### @Observed和@ObjectLink
+
+@Observed和@ObjectLink: 监听嵌套类对象属性变化。上面的装饰器都是无法观察到第二层属性变化的
+
+* @ObjectLink和@Observed类装饰器用于在涉及嵌套对象或数组的场景中进行双向数据同步
+* 被@Observed装饰的类，可以被观察到属性的变化；
+* @Observed装饰的类，如果其属性为非简单类型，比如class、Object或者数组，也需要被@Observed装饰，否则将观察不到其属性的变化。
+* @ObjectLink在子组件中接收@Observed装饰的类的实例，父组件中对应的状态变量建立双向数据绑定。
+* 单独使用@Observed是没有任何作用的，需要搭配@ObjectLink或者@Prop使用。
+* @ObjectLink装饰的变量不能被赋值，@ObjectLink装饰的变量和数据源的关系是双向同步，@ObjectLink装饰的变量相当于指向数据源的指针。如果一旦发生@ObjectLink装饰的变量的赋值，则同步链将被打断。
+
+**限制条件**
+1. 使用@Observed装饰class会改变class原始的原型链，@Observed和其他类装饰器装饰同一个class可能会带来问题。
+2. @ObjectLink装饰器不能在@Entry装饰的自定义组件中使用。
+
+**原理**
+
+* 初始渲染: 
+	1. @Observed装饰的class的实例会被不透明的代理对象包装，代理了class上的属性的setter和getter方法
+	2. 子组件中@ObjectLink装饰的属性从父组件初始化，接收被@Observed装饰的class的实例，@ObjectLink的包装类会将自己注册给@Observed class。
+
+* 属性更新：当@Observed装饰的class属性改变时，会走到代理的setter和getter方法，然后遍历依赖它的@ObjectLink包装类，通知数据更新。
+
+## @Enty和@Component生命周期
+
+![pageLife](./pageLife.png)
+
+页面即被`@Entry`装饰的组件，一个页面有且仅能有一个@Entry， 其生命周期接口:
+* `onPageShow`：页面每次显示时触发一次，包括路由过程、应用进入前台等场景，仅@Entry装饰的自定义组件生效。
+* `onPageHide`：页面每次隐藏时触发一次，包括路由过程、应用进入前后台等场景，仅@Entry装饰的自定义组件生效。
+* `onBackPress`：当用户点击返回按钮时触发，仅@Entry装饰的自定义组件生效。
+
+组件生命周期,即一般用`@Component`装饰的自定义组件的生命周期:
+* `aboutToAppear`：组件即将出现时回调该接口，具体时机为在创建自定义组件的新实例后，在执行其build()函数之前执行。
+* `aboutToDisappear`：在自定义组件析构销毁之前执行。不允许在aboutToDisappear函数中改变状态变量，特别是@Link变量的修改可能会导致应用程序行为不稳定。
+
+**周期方法交互流程:**
+
+页面冷启动流程: Page aboutToAppear --> Page build --> Child aboutToAppear --> Child build --> Child build执行完毕 --> Page build执行完毕 --> Page onPageShow
+
+删除Child组件: 会执行Child aboutToDisappear方法.
+
+调用router.pushUrl: 会执行Page onPageHide， 页面被隐藏，并没有销毁.
+
+调用router.replaceUrl: 当前页面被销毁,执行的生命周期流程将变为: Page onPageHide --> Page aboutToDisappear --> Child aboutToDisappear。
+
+返回操作: 触发Page onBackPress, 并销毁当前的Page.
+
+最小化应用或者应用进入后台: 触发Page onPageHide。当前Page页面没有被销毁，所以并不会执行组件的aboutToDisappear。
+
+应用回到前台: 执行Page onPageShow。
+
+退出应用，执行Page onPageHide --> Page aboutToDisappear --> Child aboutToDisappear。
+
+## 本地资源引用
+本地资源存放目录：`main/resources`
+ 引用则通过$r('')或$rawfile('')
+
+## 如何打har包
+
+## ohpm
+ohpm cli作为鸿蒙生态三方库的包管理工具，支持OpenHarmony共享包的发布、安装和依赖管理。
+
+## hdc
+hdc（HarmonyOS Device Connector）是HarmonyOS为开发人员提供的用于调试的命令行工具，通过该工具可以在windows/linux/mac系统上与真实设备或者模拟器进行交互
+
+## hvigor命令行
+
 
 
