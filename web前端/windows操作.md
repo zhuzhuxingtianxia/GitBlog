@@ -94,6 +94,27 @@ nvm use 16.15.0
 npm install -g yarn
 ```
 
+mac上n命令管理node版本工具：
+```
+npm install -g n
+// 或
+yarn global add n
+
+```
+
+n命令查看：
+```
+n 或 n ls
+```
+安装特定版本:
+```
+n 16.19
+```
+卸载：
+```
+n rm 16.19
+```
+
 ## 查看环境变量
 `win+x`->系统->高级系统设置->环境变量
 

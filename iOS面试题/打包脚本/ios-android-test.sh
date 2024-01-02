@@ -18,6 +18,7 @@ cd "${WORKSPACE}/ios"
 pod install
 
 # 内部测试使用包持续集成, 蒲公英内测版，Android不加固重新加签，iOS内测证书
+# ExportOptionsDev.plist 配置：method是: development, signingStyle是: automatic
 # iOS
 #!/bin/bash
 PROJECT="${WORKSPACE}/ios/gktapp.xcworkspace"
