@@ -33,7 +33,7 @@ yarn命令：
 5. yarn remove 包名 // 删除包
 6. yarn info //可以用来查看某个模块的最新版本信息
 7. yarn config list // 显示所有配置项
-8. yarn cconfig set //设置配置
+8. yarn config set //设置配置
 9. yarn config get //显示某配置项
 10. yarn config delete //删除某配置项
 
