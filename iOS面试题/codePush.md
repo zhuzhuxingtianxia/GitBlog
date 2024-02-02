@@ -29,6 +29,9 @@
 * 查询状态：`code-push deployment ls <appName>`
 * 推送更新测试环境：`code-push release-react <appName> ios/android`
 * 推送更新生产环境：`code-push release-react <appName> ios/android -d Production`
+* 查看发布历史：`code-push deployment history <appName> Production`
+* 回滚：`code-push rollback <appName> Production|Staging -t Label` Label在发布历史查看
+
 
 **CodePush-CLI is deprecated and no longer supported!**
 
