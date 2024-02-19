@@ -4,9 +4,9 @@
  ```
  npm config get registry
  ```
-* 设置npm镜像源为淘宝
+* 设置npm镜像源
 ```
-npm config set registry https://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 ```
 
 * yarn
@@ -15,7 +15,7 @@ npm install -g yarn
 ```
 修改源
 ```
-yarn config set registry https://registry.npm.taobao.org -g
+yarn config set registry https://registry.npmmirror.com -g
 ```
 卸载
 ```
@@ -48,6 +48,7 @@ sudo n v14.5.0
 ```
 查看所有可以安装的版本: `n ls`
 删除指定版本: `n rm v14.5.0`
+win可以使用[nvm](./windows操作.md)来管理node版本
 
 ## 创建react项目
 
