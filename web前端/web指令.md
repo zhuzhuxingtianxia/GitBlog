@@ -34,7 +34,7 @@ yarn命令：
 6. yarn info //可以用来查看某个模块的最新版本信息
 7. yarn config list // 显示所有配置项
 8. yarn config set //设置配置
-9. yarn config get //显示某配置项
+9. yarn config get registry //显示某配置项,这里是显示镜像源配置
 10. yarn config delete //删除某配置项
 
 ## node
