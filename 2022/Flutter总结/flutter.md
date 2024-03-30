@@ -373,6 +373,8 @@ Navigator.pushNamed(context, '/detail/102');
   * redux_persist: 持久化状态
   * redux_thunk: 支持异步操作
   * flutter_redux: 其提供StoreConnector组件来获取状态和监听状态修改，也可使用StoreProvider来直接获取store对象
+* GetX: 功能齐全的[框架](https://juejin.cn/post/7013143496139735047) 不建议使用
+* obx: Widget状态管理, [Rx+GetX的结合](https://juejin.cn/post/7069756758826156039)
 * video_player: 视频播放库
 * audioplayers: 音频播放
 * image_picker: 图片选择库(图片多选不可限制)
