@@ -688,7 +688,7 @@ onCareClick(e:any) {
 
 
 ## Webpack打包优化
-
+具体可查看node-dev项目下的webpack目录
 #### Babel
 [Babel](https://www.babeljs.cn/docs/) 是一个 JavaScript 编译器
 
