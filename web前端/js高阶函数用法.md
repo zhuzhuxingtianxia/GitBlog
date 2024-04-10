@@ -211,7 +211,7 @@ const index = ages.findIndex((age,index,arr)=>{
 
 * 向下取整: Math.floor(4.9) === ~~4.9 === 4 
 
-##every():
+## every():
 对数组中的每个元素都执行一次指定的函数（callback），直到此函数返回 false，如果发现这个元素，every 将返回 false，如果回调函数对每个元素执行后都返回 true ，every 将返回 true。它只对数组中的非空元素执行指定的函数，没有赋值或者已经删除的元素将被忽略
 ```
 //测试是否所有数组元素都大于等于10：
@@ -229,7 +229,7 @@ passed = [12, 54, 18, 130, 44].every(isBigEnough);
 
 ```
 
-##sort()
+## sort()
 用于对数组的元素进行排序,排序在原数组上进行,并返回该数组。默认排序顺序是根据字符串Unicode码点。
 参数fun：参数可选。规定排序顺序。必须是函数。
 
@@ -344,7 +344,7 @@ Object.entries(obc);//[["a", 1],["b", 2],["c", 3]]
 Math.max.apply(null,arr)
 
 ```
-##forEach():
+## forEach():
 ```
 //打印数组内容：
 
@@ -358,7 +358,7 @@ function printElt(element, index, array) {
 //[2] is 9
 
 ```
-##lastIndexOf():
+## lastIndexOf():
 **语法:**
 `
 var index = array.lastIndexOf(searchElement, fromIndex);
@@ -393,7 +393,7 @@ index = array.lastIndexOf(2, -1);
 //[2, 5, 9, 2].lastIndexOf(2, -1) ： 3 
 
 ```
-##indexOf():
+## indexOf():
 功能与lastIndexOf()一样，搜索是正向进行的
 ```
 //查找符合条件的元素：
@@ -408,13 +408,13 @@ index = array.indexOf(7);
 //[2, 5, 9].indexOf(7) ： -1 
 
 ```
-##reverse()
+## reverse()
 将数组反序
 ```
 var a = [1,2,3,4,5]; 
 var b = a.reverse(); //a：[5,4,3,2,1]   b：[5,4,3,2,1] 
 ```
-##splice()
+## splice()
 splice() 方法向/从数组中添加/删除项目，然后返回被删除的元素
 **注意：**该方法会改变原始数组
 **语法：**`arrayObject.splice(index,howmany,item1,.....,itemX)`
@@ -433,7 +433,7 @@ var a = [1,2,3,4,5]; 
 var b = a.splice(2,2,7,8,9); //a：[1,2,7,8,9,5]   b：[3,4] 
 ```
 
-##slice() 
+## slice() 
 方法可从已有的数组中返回选定的元素，也可用于字符串截取
 **语法**：`arr.slice(start,end);` //start为初始位置,end为结尾位置,返回的结果是从start到end(不取)的新数组
 `arr.slice(start);`//选取从start开始直至最后一个元素
@@ -449,14 +449,14 @@ console.log(str.slice(0,1)); //S
 
 ```
 
-##shift()
+## shift()
 删除原数组第一项，并返回删除元素的值；如果数组为空则返回undefined 
 ```
 var a = [1,2,3,4,5]; 
 var b = a.shift(); //a：[2,3,4,5]   b：1 
 ```
 
-##unshift()
+## unshift()
 将参数添加到原数组开头，并返回数组的长度
 ```
 var a = [1,2,3,4,5]; 
@@ -464,20 +464,20 @@ var b = a.unshift(-2,-1); //a：[-2,-1,1,2,3,4,5]   b：7 
 ```
 注：在IE6.0下测试返回值总为undefined，FF2.0下测试返回值为7，所以这个方法的返回值不可靠，需要用返回值时可用splice代替本方法来使用。
 
-##pop()
+## pop()
 删除原数组最后一项，并返回删除元素的值；如果数组为空则返回undefined 
 ```
 var a = [1,2,3,4,5]; 
 var b = a.pop(); //a：[1,2,3,4]   b：5 //不用返回的话直接调用就可以了
 ```
-##push()
+## push()
 将参数添加到原数组末尾，并返回数组的长度 
 ```
 var a = [1,2,3,4,5]; 
 var b = a.push(6,7); //a：[1,2,3,4,5,6,7]   b：7 
 ```
 
-##数组中对象某属性的最大最小值
+## 数组中对象某属性的最大最小值
 查找对象数组中某属性的最大最小值的快捷方法
 例如要查找array数组中对象的value属性的最大值
 ```
@@ -558,7 +558,7 @@ var portableList=myList.join(”|”);
 //结果是jpg|bmp|gif|ico|png
 
 ```
-##slice()
+## slice()
 **功能**：`arrayObject.slice(start,end)`
 　　start:必需。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推。
 　　end:可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 start 到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。
@@ -568,7 +568,7 @@ var portableList=myList.join(”|”);
 　　alert(str.slice(2,5))   //结果ji3
 
 ```
-##substring()
+## substring()
 定义和用法 substring 方法用于提取字符串中介于两个指定下标之间的字符。 
 **语法**: `stringObject.substring(start,stop) `
  start 必需。一个非负的整数，规定要提取的子串的第一个字符在 stringObject 中的位置。 
@@ -580,7 +580,7 @@ stop 可选。一个非负的整数，比要提取的子串的最后一个字符
 alert(str.substring(2,6))   //结果为ji3o3
 
 ```
-##substr
+## substr
 定义和用法 substr 方法用于返回一个从指定位置开始的指定长度的子字符串。 
 **语法**: `stringObject.substr(start, length) `
 **参数**:  start 必需。所需的子字符串的起始位置。字符串中的第一个字符的索引为 0。
@@ -606,7 +606,7 @@ alert(str.substring(2,6))   //结果为ji3o3
 　　alert(str.substring(-1,-5));--------""
 
 ```
-##charAt()
+## charAt()
 **功能**：返回指定位置的字符。字符串中第一个字符的下标是 0。如果参数 index 不在 0 与 string.length 之间，该方法将返回一个空字符串。
 ```
 例子:var str='a,g,i,d,o,v,w,d,k,p'
