@@ -541,7 +541,7 @@ Promise.all(
 3. vue 采用“数据劫持”+“观察者模式（发布者-订阅者模式）”相结合的方式实现了双向绑定
 
 ## Vue2的响应式：
-Vue2是通过Object.defineProperty()来拦截数据，将数据转换成getter/setter的形
+Vue2是通过`Object.defineProperty()`来拦截数据，将数据转换成getter/setter的形
 式，在访问数据时调用getter两数，在修改数据时调用setter两数。然后利用发布
 -订阅模式，在数据变动时触发依赖，也即发布更新给订阅者，订阅者收到消息后进
 行相应的处理
@@ -549,6 +549,92 @@ Vue2是通过Object.defineProperty()来拦截数据，将数据转换成getter/s
 Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改
 一个对象的现有属性，并返回此对象
 
+```
+const data = {
+  message: 'Hello, World!'
+};
+
+// Vue 2 内部会类似这样为 data 对象的每个属性添加 getter 和 setter
+function defineReactive(obj, key, val) {
+  if(arguments.length === 2) {
+    // 不传属性值自动获取
+    val = obj[key];
+  }
+  if(val instanceof Object) {
+    new Observer(val);
+  }
+
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get() {
+      // 在实际 Vue 中，这里会触发依赖收集
+      return val;
+    },
+    set(newVal) {
+      if(newVal !== val) {
+        val = newVal;
+        // 在实际 Vue 中，这里会触发依赖更新
+      }
+    }
+  });
+}
+
+class Observer {
+  constructor(obj) {
+    this.value  = obj;
+    if(typeof obj === 'Array') {
+      // 数组处理
+    }else {
+      const keys = Object.keys(obj);
+      for(let i = 0; i < keys.length; i++) {
+        defineReactive(obj, keys[i]);
+      }
+    }
+  }
+}
+
+// 使用
+const ob_data = new Observer(data);
+ob_data.message = 'xxxx';
+```
+
+## Vue3中ref和reactive的区别
+
+* ref和reactive在vue3中都可以实现数据响应式API
+* ref用来定义一个基本类型的响应式数据，reactive用来定义一个对象类型的响应式数据返回代理对象`Proxy`的实例对象
+* reactive底层是通过es6的`Proxy`来实现数据响应式的，vue2中是通过`Object.defineProperty()`来实现数据响应式的
+* reactive通过`Proxy`的`get`和`set`来实现数据响应式(数据劫持), 并通过Reflect操作源对象内部的数据
+* ref通过`Object.defineProperty()`的`get`和`set`来实现数据响应式
+* ref定义的数据，在修改时需要`.value`，reactive定义数据时不能直接赋值，否则会失去响应性。
+
+## Vue3的响应式原理
+
+* 利用Proxy实现数据响应式
+* 利用Reflect实现数据操作
+
+```
+const obj = {};
+
+const proxy = new Proxy(obj, {
+  get(target, key) {
+    console.log('get', key);
+    return Reflect.get(target, key);
+  },
+  set(target, key, value) {
+    console.log('set', key, value);
+    return Reflect.set(target, key, value);
+  },
+  deleteProperty(target, key) {
+    console.log('delete', key);
+    return Reflect.deleteProperty(target, key);
+  }
+});
+
+proxy.name = '张三';
+console.log(proxy.name);
+
+```
 
 ## Vue数据传递
 
@@ -603,6 +689,51 @@ const store = new Vuex.Store({
 
 
 ## 微前端
+微前端与技术无关
+
+#### iframe方案
+**特点：**
+1. 接入比较简单
+2. 隔离性稳定
+**缺点：**
+1. dom割裂感严重，弹框只能在iframe，而且有滚动条
+2. 通讯非常麻烦，而且刷新iframe url状态丢失
+3. 前进后退按钮无效
+
+#### qiankun方案
+[qiankun](https://qiankun.umijs.org/zh/guide)方案是基于single-spa的微前端方案
+**特点：**
+1. html entry的方式引入子应用，相比js entry极大的降低了应用改造成本
+2. 完备的沙盒方案，js沙箱、css沙箱隔离
+3. 做了静态资源预加载能力
+**缺点：**
+1. 适配成本高，工程化、生命周期、静态资源路径、路由等都要做一系列的适配工作
+2. css沙箱采用严格隔离会有各种问题，js沙箱在某些场景下执行性能下降严重
+3. 无法同时激活多个子应用，也不支持子应用保活；
+4. 无法支持vite等esmodule脚本运行；
+
+#### [micro-app](http://cangdu.org/micro-app/docs.html#/zh-cn/start)方案
+micro-app是基于webcomponent+qiankun sandbox的微前端方案。
+**特点：**
+1. 使用webcomponent加载子应用相比single-spa这种注册监听方案更加优雅；
+2. 复用经过大量项目验证过qiankun的沙盒机制也使得框架更加可靠；
+3. 组合式的api更加符合使用习惯，支持子应用保活；
+4. 降低子应用改造的成本，提供静态资源预加载能力
+**缺点：**
+1. css沙箱依然无法绝对隔离，js沙箱做全局变量查找缓存，性能有所优化；
+2. 支持vite，但必须使用plugin改造子应用，且js代码无法做沙箱隔离；
+3. 对于不支持webcompnent的浏览器没有做降级处理；
+
+#### [无界](https://wujie-micro.github.io/doc/)微前端方案
+**特点：**
+1. 接入简单只需要四五行代码
+2. 不需要针对vite额外处理
+3. 预加载
+4. 应用保活机制
+**缺点：**
+1. 隔离js使用一个空的iframe进行隔离；
+2. 子应用axios需要自行适配
+3. iframe沙箱的src设置了主应用的host，初始化iframe的时候需要等待iframe的location.orign,采用的计时器等待不是很优雅；
 
 ## 小程序的生命周期
 **Page**
