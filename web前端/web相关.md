@@ -416,6 +416,38 @@ js在调⽤函数的时候经常会遇到this作⽤域的问题，ES6则提供�
 * prototype是每个函数都会具备的一个属性，它是一个指针，指向一个对象，只有函数才有;
 * proto是主流浏览器上在除null以外的每个对象上都支持的一个属性，它能够指向该对象的原型，用来将对象与该对象的原型相连的属性
 
+## 并发任务请求数量控制
+
+代码封装如下：
+```
+// 全局控制的话，可将变量定义为全局变量，方法使用static静态方法 
+class GCDTask {
+  constructor(count = 2) {
+    this.count = count; // 并发任务数量
+    this.tasks = []; // 任务列表
+    this.runningCount = 0; // 正在运行的任务数量
+  }
+
+  addTask(task) {
+    return new Promise((resolve, reject) => {
+      this.tasks.push({ task, resolve, reject });
+      this.run();
+    })
+  }
+  // 执行任务
+  run() {
+    while (this.runningCount < this.count && this.tasks.length > 0) {
+      const { task, resolve, reject } = this.tasks.shift();
+      this.runningCount++;
+      task().then(resolve, reject).finally(() => {
+        this.runningCount--;
+        this.run();
+      })
+    }
+  }
+}
+```
+
 ## typescript
 * type: 为一个类型取一个新的名字。它可用于定义对象、联合类型、元组等复杂类型
 
