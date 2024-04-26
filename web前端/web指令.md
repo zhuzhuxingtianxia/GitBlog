@@ -154,6 +154,12 @@ devServer: {
 ```
 类似的代理还有`setupProxy.js`
 
+## RN报错：_classCallCheck
+之前运行没问题，突然报了这个错`'_classCallCheck'`, 搜索是babel相关插件的问题，
+排查发现是`metro-react-native-babel-preset`版本低导致的，
+原来版本：`"metro-react-native-babel-preset": "0.51.1",`；
+修改后：`"metro-react-native-babel-preset": "0.59",`
+
 ## Nginx配置
 安装：	`brew install nginx`
 检查配置文件是否有语法错误: `nginx -t`
