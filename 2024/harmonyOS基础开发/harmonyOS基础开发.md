@@ -122,12 +122,59 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 ## 如何打har包
 
 ## ohpm
-ohpm cli作为鸿蒙生态三方库的包管理工具，支持OpenHarmony共享包的发布、安装和依赖管理。
+ohpm cli是鸿蒙三方库的包管理工具，类似npm、yarn等工具，支持OpenHarmony共享包的发布、安装和依赖管理。
+
+* 首先需要下载安装
+* 然后需要根据平台配置环境变量
+* 安装后查看执行：`ohpm -v`
+* 查看配置信息：`ohpm config list -j`
+* 创建 oh-package.json5 文件: `ohpm init`
+* 安装三方库: `ohpm install xxx`
+* 卸载三方库: `ohpm uninstall xxx`
+* 查看已安装的库: `ohpm list`
 
 ## hdc
 hdc（HarmonyOS Device Connector）是HarmonyOS为开发人员提供的用于调试的命令行工具，通过该工具可以在windows/linux/mac系统上与真实设备或者模拟器进行交互
 
 ## hvigor命令行
+
+Hvigor构建工具是基于TS实现的前端构建任务编排工具，主要提供任务管理机制，任务注册编排、工程模型管理、配置管理等关键能力。类似android开发中的Gradle。
+
+构建插件`hvigor-ohos-plugin`是基于Hvigor构建工具开发的一个插件，利用Hvigor的任务编排机制实现应用/服务构建任务流的执行，完成HAP/APP的构建打包，应用于应用/服务的构建。类似android开发中的Gradle插件。
+hvigor + hvigor-ohos-plugin类似前端开发中的webpack或vite等构建打包工具。
+
+* 设置npm仓库信息
+
+  ```
+  	npm config set registry=https://repo.huaweicloud.com/repository/npm/
+	npm config set @ohos:registry=https://repo.harmonyos.com/npm/
+  ```
+  
+* 验证配置: `npm config get @ohos:registry`
+* 下载并安装JDK，配置JDK环境变量
+* 检查JDK安装结果: `java -version`
+* 下载[命令行工具](https://developer.huawei.com/consumer/cn/deveco-studio/#download_cli)：command-line-tools.zip, 并进行解压缩。
+* 下载SDK管理工具[sdkmgr](https://developer.huawei.com/consumer/cn/deveco-studio/#download_cli)
+* 配置SDK环境变量
+* 安装ohpm
+* API9工程构建,在工程的根目录执行: `./hvigorw clean assembleApp --no-daemon`
+* 等待任务执行完毕后，可以在工程的build/outputs/default目录下获取构建的APP包.
+* 打包HAP的命令: `./hvigorw clean assembleHap --no-daemon`
+* 使用发布证书为APP签名命令:
+
+	 ```
+	 java -jar 'home/harmonyos/HarmonyOS/APP/hapsigntoolv2.jar' sign -mode localjks -privatekey harmonyos-demo -inputFile 'home/harmonyos/HarmonyOS/APP/unsign-harmonyos-demo.app' -outputFile 'home/harmonyos/HarmonyOS/APP/sign-harmonyos-demo.app' -signAlg SHA256withECDSA -keystore harmonyos-demo-release.p12 -keystorepasswd ab123456 -keyaliaspasswd ab123456 -profile harmonyos-demo-release.p7b -certpath harmonyos-demo-release.cer -profileSigned 1
+	 
+	```
+
+	* privatekey：密钥的别名信息，与创建密钥库文件时“Alias”取值保持一致。
+	* inputFile：需要签名的HAP名称。
+	* outputFile：签名后的HAP名称。
+	* keystore：密钥库文件，格式为.p12。
+	* keystorepasswd：密钥库密码。
+	* keyaliaspasswd：密钥密码。
+	* profile：申请的调试Profile文件，格式为.p7b。
+	* certpath：申请的调试证书文件，格式为.cer。
 
 
 
