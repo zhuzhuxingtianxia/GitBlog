@@ -2,7 +2,32 @@
 
 > 个人心得：判断非Object类型用typeof，判断Object可以用constructor(但要注意继承问题，如有继承问题可以用constructor，文中有说明)和instanceof。判断对象中的Array类型可以用instanseof(用它来判断Object会有误差)，通用判断方式用Object.prototype.toString和jquery.type()
 
+```javascript
+typeof "Hello" // "string"
+typeof 42      // "number"
+typeof true    // "boolean"
+typeof undefined // "undefined"
+typeof null    // "object" （注意：null 的类型在这里表现为 "object"，这是 JavaScript 的历史遗留问题）
+typeof {}      // "object"
+typeof []      // "object" （数组在 typeof 运算符下也表现为 "object"）
+typeof function(){} // "function"
 
+var str = new String("Hello");
+str instanceof String; // true
+[1, 2, 3] instanceof Array; // true
+function MyClass() {}
+var obj = new MyClass();
+obj instanceof MyClass; // true
+
+Object.prototype.toString.call("Hello"); // "[object String]"
+Object.prototype.toString.call(42);       // "[object Number]"
+Object.prototype.toString.call(true);    // "[object Boolean]"
+Object.prototype.toString.call(undefined); // "[object Undefined]"
+Object.prototype.toString.call(null);     // "[object Null]"
+Object.prototype.toString.call([]);       // "[object Array]"
+Object.prototype.toString.call(function(){}); // "[object Function]"
+
+```
 
 在 ECMAScript 规范中，共定义了 7 种数据类型，分为 基本类型 和 引用类型 两大类，如下所示：
 
