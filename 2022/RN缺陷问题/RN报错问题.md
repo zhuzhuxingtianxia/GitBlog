@@ -42,3 +42,28 @@
 总结：在react-native中操作dom要谨慎，iOS和android端底层处理视图的逻辑并不完全相同，所以`findNodeHandle`方法查找的dom的id并非实时的动态绑定。
 
 
+## RN对View做高度动画报错
+**Error: Style property 'height' is not supported by  native animated module**
+
+源代码：
+```
+const adjustHeight = (height)=> {
+   if(height == animHeight.__getValue()) return;
+   Animated.timing(animHeight, {
+       toValue: height,
+       duration: 100,
+       useNativeDriver: true,
+   }).start();
+   
+}
+```
+解决：
+```
+Animated.timing(animHeight, {
+  toValue: height,
+  duration: 300,
+  useNativeDriver: false, // 改为false
+}).start();
+```
+
+
