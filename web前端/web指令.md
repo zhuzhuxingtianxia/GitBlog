@@ -320,6 +320,12 @@ tree -L 4 -I "node_modules|themes|public" > tree.md
 * `tree -I "node_modules|themes|public"` 表示要过滤的文件或目录, 过滤多个文件或目录用 | 分割;
 * `tree > tree.md` 表示将树结构输出到 tree.md 这个文件;
 
+## 项目代码行数统计
+```
+git log --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
+
+```
+
 ## ESLint 检测配置
 package.json文件修改
 ```
