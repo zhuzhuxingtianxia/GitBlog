@@ -47,7 +47,7 @@ UIAbility也是系统调度的单元，为应用提供窗口在其中绘制界�
 UIAbility的生命周期包括Create、Foreground、Background、Destroy四个状态，WindowStageCreate和WindowStageDestroy为窗口管理器（WindowStage）在UIAbility中管理UI界面功能的两个生命周期回调。
 
 * onCreate: 在UIAbility实例创建时触发
-* onWindowStageCreate: UIAbility实例创建完成之后，在进入`Foreground`之前，系统会创建一个WindowStage。`WindowStage`为本地窗口管理器，用于管理窗口相关的内容，例如与界面相关的获焦/失焦、可见/不可见。每一个UIAbility实例都对应持有一个WindowStage实例。在`onWindowStageCreate`回调中，通过`loadContent`接口设置UI页面加载、设置WindowStage的事件订阅
+* onWindowStageCreate: UIAbility实例创建完成之后，在进入`Foreground`之前，系统会创建一个WindowStage。`WindowStage`为本地窗口管理器，用于管理窗口相关的内容，例如与界面相关的获焦/失焦、可见/不可见。每一个UIAbility实例都对应持有一个WindowStage实例。在`onWindowStageCreate`回调中，通过`loadContent`接口设置UI页面加载、设置WindowStage的事件订阅。
 * onForeground: UIAbility切换至前台时触发,此时应用处于`Foreground`状态。在`onForeground`回调中申请系统需要的资源，或者重新申请在`onBackground`中释放的资源。
 * onBackground: UIAbility切换至后台时候触发。此处可以释放UI页面不可见时无用的资源，或者执行较为耗时的操作，例如状态保存等
 * onWindowStageDestroy: 在UIAbility实例销毁之前调用，可在此时释放UI页面资源。
@@ -58,8 +58,7 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 * @State: 组件内的状态管理
 * @Prop: 父子组件单向同步，当子组件中的状态依赖父组件传递的数据时，需要使用@Prop装饰器
 * @Link: 父子组件状态双向同步时，父组件状态使用@State装饰，子组件使用@Link装饰器，传递时使用`$`修饰表示传递的是引用
-* @Watch: 监听状态变化,当状态发生变化时，会触发声明时定义的回调,例如：`@Watch('onClickIndexChanged') clickIndex: number;
-  `当clickIndex状态变化时，将触发onClickIndexChanged回调
+* @Watch: 监听状态变化,当状态发生变化时，会触发声明时定义的回调,例如：`@Watch('onClickIndexChanged') clickIndex: number;`当clickIndex状态变化时，将触发onClickIndexChanged回调
 * @Provide和@Consume: 跨组件层级双向同步状态。 
   * @Provide装饰的状态变量自动对其所有后代组件可用，即该变量被“provide”给他的后代组件。由此可见，@Provide的方便之处在于，开发者不需要多次在组件之间传递变量。
   * 后代通过使用@Consume去获取@Provide提供的变量，建立双向数据同步。与@State/@Link不同的是，前者可以在多层级的父子组件之间传递。
