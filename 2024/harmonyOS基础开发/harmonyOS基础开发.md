@@ -119,7 +119,8 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 本地资源存放目录：`main/resources`
  引用则通过$r('')或$rawfile('')
 
-## 如何打har包
+## 打包拆包工具
+使用[packing_tool](https://gitee.com/openharmony/developtools_packing_tool#21-hap%E5%8C%85%E6%A8%A1%E5%BC%8F%E6%8B%86%E5%8C%85%E6%8C%87%E4%BB%A4?continueFlag=c6e765aba5af4cad937ad7d3bc77633f)生成打包工具和拆包工具,其中打包工具用于hap，app，hqf，appqf，har，hsp包的生成，拆包工具用于对hap，app，hqf，appqf，har，hsp包的拆包及对hap，hsp，app，appqf的解析。
 
 ## ohpm
 ohpm cli是鸿蒙三方库的包管理工具，类似npm、yarn等工具，支持OpenHarmony共享包的发布、安装和依赖管理。
