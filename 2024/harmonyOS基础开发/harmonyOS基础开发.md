@@ -12,7 +12,6 @@
   5. versionName: 标识应用版本号的文字描述，用于向用户展示。例如：'1.0.0'
   6. minAPIVersion: 标识应用运行需要的SDK的API最小版本。由build-profile.json5中的compatibleSdkVersion生成
   7. targetAPIVersion: 标识应用运行需要的API目标版本。由build-profile.json5中的compileSdkVersion生成。
-
 * entry: HarmonyOS工程模块，编译构建生成一个HAP包
   * src > main > ets：用于存放ArkTS源码。
   * src > main > ets > entryability：应用/服务的入口。
@@ -22,8 +21,8 @@
 
   * build-profile.json5：当前的模块信息、编译信息配置项，包括buildOption、targets配置等。其中targets中可配置当前运行环境，默认为HarmonyOS。
   * hvigorfile.ts：模块级编译构建任务脚本，开发者可以自定义相关任务和代码实现。
-
 * oh_modules：用于存放三方库依赖信息。
+* oh-package.json5: 应用级三方库依赖配置信息。
 * build-profile.json5：应用级配置信息，包括签名、产品配置等。
 * hvigorfile.ts：应用级编译构建任务脚本。
 
@@ -36,8 +35,6 @@ UIAbility也是系统调度的单元，为应用提供窗口在其中绘制界�
 * singleton: 单实例模式,也是默认启动模式。该模式下若UIAbility实例存在会进入`onNewWant`回调。该模式需要在`module.json5`文件中的`module->abilities`下`launchType`字段配置为`singleton`。
 * multiton: 多实例模式,每次调用`startAbility()`都会在应用进程中创建一个新的UIAbility实例。该模式需要在`module.json5`文件中的`module->abilities`下`launchType`字段配置为`multiton`。
 * specified: 指定实例模式,针对一些特殊场景使用。在其他模式下使用`context.startAbility(want)`根据唯一key来启动指定的`specified`模式的Ability。该模式需要在`module.json5`文件中的`module->abilities`下`launchType`字段配置为`specified`。
-
-
 
 
 ## UIAbility生命周期状态
@@ -118,11 +115,97 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 
 退出应用，执行Page onPageHide --> Page aboutToDisappear --> Child aboutToDisappear。
 
+`@Builder` 用于修饰function，并且该function返回一个需要渲染的部件元素，主要用于布局代码的抽离。
+
+ ```
+    build() {
+        Navigation() {
+            Scroll() {
+                Column() {
+                    ···
+                }
+                .height('100%')
+                .width('100%')
+                .justifyContent(FlexAlign.Start)
+            }
+            .width('100%')
+            .height('100%')
+            .padding({ top: 5 })
+        }
+        .title(this.title)
+        .titleMode(NavigationTitleMode.Mini)
+        .hideBackButton(false)
+        .height('100%')
+        .width('100%')
+        .navBarPosition(NavBarPosition.Start)
+        .menus(this.NavigationMenus())
+    }
+
+    @Builder
+    NavigationMenus() {
+        Row() {
+            Button('确定')
+                .type(ButtonType.Normal)
+                .height(30)
+                .width(60)
+                .margin({ right: 18 })
+                .enabled(this.newlyCheckedUsers().length > 0)
+                .fontSize(14)
+                .borderRadius(4)// .backgroundColor(Color.Blue)
+                .onClick(() =>
+                })
+        }
+        .height('100%')
+        .justifyContent(FlexAlign.Center)
+        .align(Alignment.Center)
+    }
+
+ ```
+
 
 ## 本地资源引用
 
+将本地图片放入ets文件夹下的任意位置，Image组件引入本地图片路径，即可显示图片（根目录为ets文件夹）。
+
+```
+// main/ets/images/view.jpg
+Image('images/view.jpg')
+	.width(200)
+```
+
 本地资源存放目录：`main/resources`
- 引用则通过$r('')或$rawfile('')
+
+使用资源格式可以跨包/跨模块引入图片，resources文件夹下的图片都可以通过`$r`资源接口读取到并转换到Resource格式。
+
+```
+// 获取main/resources/base/media/ic_bg_img.png 图片
+Image($r('app.media.ic_bg_img'))
+  .width(30)
+  .height(30)
+  .padding(6)
+  .margin({ left: 12 })
+
+```
+
+
+还可以将图片放在rawfile文件夹下:
+
+```
+// 获取main/resources/rawfile/ic_bg_img.png 图片
+Image($rawfile('ic_bg_img'))
+  .width(30)
+  .height(30)
+  .padding(6)
+  .margin({ left: 12 })
+```
+
+
+媒体库资源访问支持file://路径前缀的字符串:
+
+```
+Image('file://media/Photos/5')
+	.width(200)
+```
 
 
 ## 打包拆包工具
