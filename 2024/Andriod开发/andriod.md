@@ -143,17 +143,44 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ```
 
-## andriod构建工具
+## Android构建工具版本
 
 Gradle插件版本、Gradle版本、buildTool版本及ndk版本是相互关联的。需要保持对应关系，否则编译会报错。
 例如：gradle plugin 4.2.0 需要gradle6.7.1、 buildTool30.0.2、ndk21.4.7075529
 
 [对应关系可在此查看](https://developer.android.google.cn/build/releases/past-releases?hl=zh-cn)
 
-## 报错问题
+对照表如下：
 
-*Unsupported Java. 
-Your build is currently configured to use Java 17.0.6 and Gradle 5.5.*
+| Gradle插件 | Gradle | SDK Build Tools | NDK          | JDK  |
+| -------- | ------ | --------------- | ------------ | ---- |
+| 8.3.x    | 8.4    | 34.0.0          | 25.1.8937393 | 17   |
+| 8.2      | 8.2    | 34.0.0          | 25.1.8937393 | 17   |
+| 8.1      | 8.0    | 33.0.1          | 25.1.8937393 | 17   |
+| 8.0.x    | 8.0    | 30.0.3          | 25.1.8937393 | 17   |
+| 7.4.x    | 7.5    | 30.0.3          | 23.1.7779620 | 11   |
+| 7.3      | 7.4    | 30.0.3          | 23.1.7779620 | 11   |
+| 7.2.x    | 7.3.3  | 30.0.3          | 21.4.7075529 | 11   |
+| 7.1.x    | 7.2    | 30.0.3          | 21.4.7075529 | 11   |
+| 7.0.x    | 7.0.2  | 30.0.2          | 21.4.7075529 | 11   |
+| 4.2.0    | 6.7.1  | 30.0.2          | 21.4.7075529 | 1.8  |
+| 4.1.0    | 6.5    | 29.0.2          | 21.1.6352462 |      |
+| 4.0.1    | 6.1.1  | 29.0.2          |              |      |
+| 3.6.4    | 5.6.4  | 28.0.3          |              |      |
+| 3.5.4    | 5.4.1  | 28.0.3          |              |      |
+|          |        |                 |              |      |
+
+
+
+## Android版本与SDK/API版本、JDK对应关系
+
+![Android版本与SDK/API版本、JDK对应关系](./andriod_sdk_api.jpeg)
+
+
+
+## 报错问题1.0
+
+**Unsupported Java.  Your build is currently configured to use Java 17.0.6 and Gradle 5.5.** 
 
 使用的java过高，而 gradle5.5对应的是java8，最新安装的编译器java版本是17。
 
