@@ -148,7 +148,7 @@ protected void onCreate(Bundle savedInstanceState) {
 Gradle插件版本、Gradle版本、buildTool版本及ndk版本是相互关联的。需要保持对应关系，否则编译会报错。
 例如：gradle plugin 4.2.0 需要gradle6.7.1、 buildTool30.0.2、ndk21.4.7075529
 
-[对应关系可在此查看](https://developer.android.google.cn/build/releases/past-releases?hl=zh-cn)
+[对应关系可在此查看](https://developer.android.google.cn/build/releases/past-releases?hl=zh-cn)及[ndk历史版本](https://github.com/android/ndk/wiki/Unsupported-Downloads)
 
 对照表如下：
 
