@@ -176,7 +176,37 @@ Gradle插件版本、Gradle版本、buildTool版本及ndk版本是相互关联�
 
 ![Android版本与SDK/API版本、JDK对应关系](./andriod_sdk_api.jpeg)
 
+## local.properties
+`local.properties` 文件是由 Android Studio 自动生成的，用于指定本地开发环境的一些配置信息，例如 Android SDK 和 NDK 的路径。
+Android Studio 会根据你的本地配置自动填充这些路径。当你在 Android Studio 中配置 SDK 和 NDK 路径时，这些信息会被保存在 `local.properties` 文件中。
+如果你的项目目录下没有 `local.properties` 文件，你可以手动创建一个，并根据你的本地配置填写相应的路径信息。
 
+```
+// 这种ndk配置方式即将废弃，在build.gradle的android配置这种指定ndkVersion或ndkPath即可
+ndk.dir=/Users/xxx/Library/Android/ndk/android-ndk-r21e
+sdk.dir=/Users/xxx/Library/Android/sdk
+
+```
+
+## gradlew
+
+在Android 项目的根目录下，通常是由 Android Studio 自动生成的，并用于在命令行或终端中执行 Gradle 构建任务。
+`gradlew`是 Gradle Wrapper 的一部分，Gradle Wrapper 是一个用于管理 Gradle 版本的工具。
+
+在 Unix/Linux 或 macOS 上使用`./gradlew`,在 Windows 上使用`gradlew.bat`检查项目目录下是否存在 Gradle 可执行文件。如果没有，它会自动下载并使用与项目中配置的 Gradle 版本匹配的 Gradle 发行版。
+
+```
+//构建标准任务
+./gradlew build
+// 构建应用的发布版本，与 ./gradlew build 命令相比会跳过一些不必要的任务，以加快构建速度
+./gradlew assembleRelease
+// 构建特定的定制任务，需在build.gradle相应配置
+./gradlew assemblePrd64Release
+#更换包名为gkdev
+./gradlew replacePackageName -PcurrentPackageName="gkapp" -PreplacePackageName="gkdev"
+//清理
+./gradlew clean
+```
 
 ## 报错问题1.0
 
