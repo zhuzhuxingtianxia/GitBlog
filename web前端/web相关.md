@@ -2,11 +2,11 @@
 
 ## 创建react项目
 ```
-npx create-react-app react-demo
+npx create-react-app prejectName
 ```
 ts：
 ```
-npx create-react-app ts-demo --template typescript
+npx create-react-app prejectName --template typescript
 ```
 
 ## React生命周期

@@ -44,8 +44,24 @@ case $Protective in
          find /Users/jion/workspace/gktapp-release/android-store -name "*.apk" | xargs rm -rf
 
          echo '================need protective, start delete last build no signed protective apk================'
-         #删除非签名加固包
+	dir_path="/Users/jion/workspace/gktapp-release/android-store/unsigned"
+	# 检查目录是否存在
+
+	if [ ! -d "$dir_path" ]; then
+
+    	  # 如果目录不存在，创建它
+
+    	  mkdir -p "$dir_path"
+
+    	  echo "Directory $dir_path created."
+
+	else
+
+    	 #删除非签名加固包
          find /Users/jion/workspace/gktapp-release/android-store/unsigned -name "*.apk" | xargs rm -rf
+
+	fi
+
       }
    ;;
    No)
