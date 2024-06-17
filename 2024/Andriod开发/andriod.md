@@ -4,7 +4,7 @@
 
 #### Application生命周期
 
-* `onCreate()`初始化: 应用初始化
+* `onCreate()`初始化: 应用初始化，多进程模式会执行多次
 * `onStart()`启动: 应用开始启动
 * `onResume()`运行: 应用进入前台
 * `onPause()`暂停和`onStop()`停止: 应用进入后台时
@@ -217,4 +217,26 @@ sdk.dir=/Users/xxx/Library/Android/sdk
 解决办法是为项目配置低版本的JDK,如下路径，将jbr-17改为1.8
 setting -> Build,Execution,Deployment -> Build Tolls -> Gradle
 
+
+## 注册推送时toast提示
+`pushAgent.register方法应该在主进程和channel进程中都被调用` 如何解决
+
+## android混淆
+在 build.gradle 文件中配置混淆：
+```
+android {
+    buildTypes {
+        release {
+            minifyEnabled true // 开启代码混淆
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        // 可选：如果有其他构建类型（如 debug），也可以进行配置
+        debug {
+            minifyEnabled false // debug 模式下通常不开启混淆
+        }
+    }
+}
+
+```
+getDefaultProguardFile('proguard-android-optimize.txt') 是默认的 Android 平台优化配置文件，'proguard-rules.pro' 是你可以自定义的 ProGuard 规则文件。
 

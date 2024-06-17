@@ -7,7 +7,7 @@ Flutter 既不使用WebView，也不使用操作系统的原生控件，而是�
 Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 
 * 框架层：一个纯Dart实现的SDK，它实现了一套基础库。
-* 引擎层：该层主要是C++实现，其中包括了Skia引擎(3.3版本使用渲染引擎Impeller取代Skia)、Dart运行时、文字排版引擎等。在代码调用 `dart:ui`库时，调用最终会走到引擎层，然后实现真正的绘制和显示。
+* 引擎层：该层主要是C++实现，其中包括了Skia渲染引擎(3.3版本使用渲染引擎Impeller取代Skia)、Dart运行时、文字排版引擎等。在代码调用 `dart:ui`库时，调用最终会走到引擎层，然后实现真正的绘制和显示。
 * 嵌入层: Flutter最终渲染、交互是要依赖其所在平台的操作系统API，嵌入层主要是将Flutter引擎采用当前平台的语言编写 ”安装“ 到特定平台上。嵌入层可以方便扩展支持新的平台
 
 ## Flutter安装遇到的问题
@@ -353,7 +353,7 @@ class Application extends StatelessWidget {
 ```
 
 * 路由跳转
- 
+
 ```
 Navigator.pushNamed(context, Routes.home);
 // 或
@@ -397,8 +397,8 @@ Navigator.pushNamed(context, '/detail/102');
 * geolocator: 地理位置插件，用于精度要求不高的场景
 * amap_location: 高德地图定位，对精度要求较高的场景
 * json_annotation: 模型转换库，需配合dev_dependencies下的
-	* build_runner: 构建模型转化脚步库，构建脚本`flutter pub run build_runner build`
-	* json_serializable: 序列化库
+  * build_runner: 构建模型转化脚步库，构建脚本`flutter pub run build_runner build`
+  * json_serializable: 序列化库
 * cupertino_icons: iOS样式的icons
 * injector: 是一个简单易用的轻量级dart依赖注入库
 * SQFlite: 数据库类似CoreData

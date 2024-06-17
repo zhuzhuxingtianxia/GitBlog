@@ -58,11 +58,25 @@ iOS VoIP电话: https://blog.csdn.net/weixin_38912070/article/details/93856988
 ## [2022](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2022)
 <!--* [iOS面试题](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/iOS%E9%9D%A2%E8%AF%95%E9%A2%98)-->
 
+* [iframe跨域通信]()
+
+* [RN缺陷问题]()
+
+* [SQL语句教程]()
+
+<!--* [Shell基础]()-->
+
 * [Flutter总结](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2022/Flutter%E6%80%BB%E7%BB%93/flutter.md)
 
 * [xcode14三方库签名报错](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2022/xcode14%E4%B8%89%E6%96%B9%E5%BA%93%E7%AD%BE%E5%90%8D%E6%8A%A5%E9%94%99/xcode14%E4%B8%89%E6%96%B9%E5%BA%93%E7%AD%BE%E5%90%8D%E6%8A%A5%E9%94%99.md)
 
 * [Metal基础](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2022/Metal%E5%9F%BA%E7%A1%80/Metal%E5%9F%BA%E7%A1%80.md)
+
+* [MediaPipe教程：查找与面部表情匹配的模因]()
+
+* [MediaPipe]()
+
+* [SwiftUI-Observation]()
 
 * [SwiftUI: Searchable](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2022/SwiftUI-Searchable/SwiftUI-Searchable.md)
 

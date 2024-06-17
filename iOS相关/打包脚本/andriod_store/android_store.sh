@@ -90,7 +90,7 @@ case $Protective in
          outPutApk=${outPutPath}/unsigned/store_gtkapp_prd.apk
          dXTool="/Users/jion/.jenkins/workspace/multi_channel_private"
 
-         #64位包加固
+         #32位包加固
          python ${dXTool}/appensys_cli.py --package-type=android_app --host-url=http://appen.dingxiang-inc.com --account=18721756393 --password=Ld1234567 --strategy-id=0 -i  ${inPutApk} -o ${outPutApk} --channel-path=${dXTool}/android-appen-tools/channel.txt --channel-name=UMENG_CHANNEL
          #重新签名
          java -jar -Dfile.encoding=utf-8 ${dXTool}/android-appen-tools/dx-wallent-ci-apk-signer.jar --in ${outPutPath}/unsigned --o ${outPutPath} --k ${dXTool}/android-appen-tools/greenland.jks --v2 --s greenland-financial --a green-land-financial --p greenland-financial

@@ -46,8 +46,17 @@ npm install -g n
 ```
 sudo n v14.5.0
 ```
+安装某个版本：
+```
+sudo n install 16.20.0
+```
 查看所有可以安装的版本: `n ls`
-删除指定版本: `n rm v14.5.0`
+删除指定版本: 
+```
+n rm v14.5.0
+// 或
+n uninstall 16.19.1
+```
 win可以使用[nvm](./windows操作.md)来管理node版本
 
 ## 创建react项目
