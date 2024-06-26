@@ -56,6 +56,9 @@ $env:SCOOP='D:\Applications\Scoop'
 安装node管理工具nvm
 ```
 scoop install nvm
+// 或curl方式安装
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
 ```
 查看`nvm --version`
 查看可用的node版本：
