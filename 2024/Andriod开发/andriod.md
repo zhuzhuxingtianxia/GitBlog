@@ -221,6 +221,14 @@ setting -> Build,Execution,Deployment -> Build Tolls -> Gradle
 ## 注册推送时toast提示
 `pushAgent.register方法应该在主进程和channel进程中都被调用` 如何解决
 
+## release包闪退
+升级gradle和sdk后，as打包apk没有问题，脚本`./gradlew assembleRelease`打包安装闪退：
+`Unable to load script. Make sure you're either running a Metro server (run 'react-native start') or that your bundle 'index.android.bundle' is packaged correctly for release.`
+
+**排查：**查看apk包里及assets里都没有`index.android.bundle`文件。打包没有打进去啊！
+**解决：**在脚本打包的时候需要先将Metro Bundler在终端启动`react-native start`，然后再执行脚本。
+
+
 ## android混淆
 在 build.gradle 文件中配置混淆：
 ```
@@ -239,4 +247,16 @@ android {
 
 ```
 getDefaultProguardFile('proguard-android-optimize.txt') 是默认的 Android 平台优化配置文件，'proguard-rules.pro' 是你可以自定义的 ProGuard 规则文件。
+
+## 小米手机rn运行报错
+`getLine1NumberForDisplay: Neither user 10298 nor current process has android.permission.READ_PHONE_STATE, android.permission.READ_SMS, or android.permission.READ_PHONE_NUMBERS`
+
+需要在AndroidManifest.xml文件添加相应的权限：
+```
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+//targetSdkVersion=30是小米手机必需
+<uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+
+```
+
 
