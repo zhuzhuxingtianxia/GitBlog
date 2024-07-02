@@ -66,4 +66,15 @@ Animated.timing(animHeight, {
 }).start();
 ```
 
+## 小米手机rn运行闪退
+`getLine1NumberForDisplay: Neither user 10298 nor current process has android.permission.READ_PHONE_STATE, android.permission.READ_SMS, or android.permission.READ_PHONE_NUMBERS`
+
+需要在AndroidManifest.xml文件添加相应的权限：
+```
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+//targetSdkVersion=30是小米手机必需
+<uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+
+```
+
 
