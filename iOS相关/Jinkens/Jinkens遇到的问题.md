@@ -9,6 +9,24 @@
 * 重新启动 Jenkins 服务：`brew services restart jenkins-lts`
 * 更新 Jenkins 版本：`brew upgrade jenkins-lts`
 
+
+
+## Jinkens账户管理
+
+启动后打开浏览器进入链接 [http://localhost:8080](http://localhost:8080/).
+
+###### 填写初始密码：在/Users/你的电脑名称/.jenkins/secrets/initialAdminPassword文件中找到密码 并且填写激活，然后设置管理员(admin)的登录密码
+
+Manage Jenkins ->Manage Users: 可添加用户账户，也可在Manage Jenkins -> Configure Global Security中开启注册功能。
+
+Manage Jenkins -> Configure Global Security->授权策略: 
+
+1. Anyone can do anything: 不限制任何权限，任何人都可以操作
+2. Legacy mode: 传统模式
+3. Logged-in users can do anything: 已登录的用户可以执行任何操作, 也可勾选匿名用户可读权限
+4. 安全矩阵： 根据角色分配权限
+5. 项目矩阵授权策略： 项目角度根据角色分配权限
+
 ## Jinkens创建item
 
 项目item包括一下类型：
