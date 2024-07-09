@@ -226,7 +226,9 @@ setting -> Build,Execution,Deployment -> Build Tolls -> Gradle
 `Unable to load script. Make sure you're either running a Metro server (run 'react-native start') or that your bundle 'index.android.bundle' is packaged correctly for release.`
 
 **排查：**查看apk包里及assets里都没有`index.android.bundle`文件。打包没有打进去啊！
-**解决：**在脚本打包的时候需要先将Metro Bundler在终端启动`react-native start`，然后再执行脚本。
+**解决：**
+
+在脚本打包的时候需要先将Metro Bundler在终端启动`react-native start`，然后再执行脚本，似乎也是没有解决问题。尝试`./gradlew buildRelease`
 
 
 ## android混淆

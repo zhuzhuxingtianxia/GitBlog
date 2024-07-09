@@ -32,6 +32,38 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 3. 删除fultter/bin/cache文件；
 4. 重新运行`flutter doctor -v`
 
+## 卸载
+
+[macOS 卸载](https://docs.flutter.cn/get-started/uninstall?tab=macos):
+
+```
+rm -rf ~/development/flutter
+//或
+rm -rf ~/flutter
+
+// 移除配置
+~/.flutter
+~/.flutter-devtools
+~/.flutter_settings
+//或执行：
+rm -rf  ~/.flutter*
+
+// 移除Dart配置文件
+~/.dart
+~/.dart-tool
+~/.dartServer
+// 用命令
+rm -rf  ~/.dart*
+rm -rf  ~/.pub-cache
+
+// 移除PATH配置
+~/.zshenv 或 ～/.bash_profile文件
+删除: export PATH=$HOME/development/flutter/bin:$PATH
+保存~/.zshenv文件
+```
+
+
+
 ### CustomScrollView
 
 slivers中的组件必须是RenderObjectWidget及其子类对象
