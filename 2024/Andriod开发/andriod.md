@@ -176,6 +176,11 @@ Gradle插件版本、Gradle版本、buildTool版本及ndk版本是相互关联�
 
 ![Android版本与SDK/API版本、JDK对应关系](./andriod_sdk_api.jpeg)
 
+## adb 安装apk
+
+检查设置是否链接：`adb devices`
+cd到apk所在的目录: `adb install path_to_your_apk_file.apk` 该方式只能安装生产包，无法安装测试包。
+
 ## local.properties
 `local.properties` 文件是由 Android Studio 自动生成的，用于指定本地开发环境的一些配置信息，例如 Android SDK 和 NDK 的路径。
 Android Studio 会根据你的本地配置自动填充这些路径。当你在 Android Studio 中配置 SDK 和 NDK 路径时，这些信息会被保存在 `local.properties` 文件中。
