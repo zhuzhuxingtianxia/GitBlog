@@ -77,4 +77,7 @@ Animated.timing(animHeight, {
 
 ```
 
+## android 引入三方库报错
+android使用`@react-native-community/masked-view`库报错：
+`requiredNativeComponent: "RNCMaskedView" was not found in the UIManager`
 
