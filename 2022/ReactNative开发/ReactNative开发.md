@@ -1,4 +1,50 @@
-# RN报错问题
+# ReactNative开发
+## 创建React Native项目
+rn0.72版本
+```
+//之前全局安装过旧的先卸载
+npm uninstall -g react-native-cli @react-native-community/cli
+
+// 创建最新版本项目
+npx react-native@latest init ProjectName
+// 0.73开始使用
+npx @react-native-community/cli@latest init ProjectName
+
+//或expo app可扫码预览
+npx create-expo-app@latest
+```
+
+指定版本或项目模板， 0.71开始默认支持ts
+```
+npx react-native@0.70.2 init MyApp --template react-native-template-typescript
+// 0.73
+npx @react-native-community/cli@X.XX.X init ProjectName --version X.XX.X
+//或
+npx create-expo-app --template
+```
+
+rn0.73版本需node18.x, 创建项目命令也有所不同。
+也可使用[Expo](https://docs.expo.dev/)创建新项目，网络原因不建议国内用户使用expo。
+
+## 搭建RN库
+
+使用[create-react-native-library](https://qdfish.github.io/sakamoto.blog/2024/04/03/rn/create_library/)来构建，或使用[create-react-native-module](https://github.com/brodycj/create-react-native-module)**(推荐)**， `create-react-native-module`基于`ative-create-library`的。
+
+```
+npx create-react-native-library@latest libray_name
+// 可以添加参数
+react-native-create-library --package-identifier com.quenice.libray_name --platforms android,ios libray_name
+// 重命名项目
+mv libray_name react-native-libray_name
+
+//或全局安装
+npm install -g create-react-native-module
+create-react-native-module libray_name
+
+```
+因为利用`react-native-create-library`生产的项目, 组件相关的名称或者类会默认加上react-native或者RN前缀。所以上面先不加前缀，然后使用`mv`重命名项目。
+
+## RN报错问题
 
 在rn的tabs的第三个tab点击跳转到二级界面，然后在二级界面`navigate`到第二个tab页。报错如下：
 
@@ -57,7 +103,7 @@ const adjustHeight = (height)=> {
    
 }
 ```
-解决：
+**解决：**
 ```
 Animated.timing(animHeight, {
   toValue: height,
@@ -69,6 +115,7 @@ Animated.timing(animHeight, {
 ## 小米手机rn运行闪退
 `getLine1NumberForDisplay: Neither user 10298 nor current process has android.permission.READ_PHONE_STATE, android.permission.READ_SMS, or android.permission.READ_PHONE_NUMBERS`
 
+**解决：**
 需要在AndroidManifest.xml文件添加相应的权限：
 ```
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -80,4 +127,27 @@ Animated.timing(animHeight, {
 ## android 引入三方库报错
 android使用`@react-native-community/masked-view`库报错：
 `requiredNativeComponent: "RNCMaskedView" was not found in the UIManager`
+**解决：**
+需要在android项目中添加对应的包：
+```
+@Override
+protected List<ReactPackage> getPackages() {
+  List<ReactPackage> packages = new LocalPackageList(this).getPackages();
+  packages.add(...其他包)
+  packages.add(new RNCMaskedViewPackage());
+  return packages;
+}
+
+```
+
+## android studio运行报错
+真机运行无法直接安装，
+```
+Unable to determine application id: com.android.tools.idea.run.ApkProvisionException: Error loading build artifacts from: /Users/jion/Desktop/公司项目/gktapp/android/app/build/outputs/apk/dev/debug/output-metadata.json
+```
+
+在该目录`build/outputs/apk/dev/debug`下未发现`output-metadata.json`文件而是一个`output.json`文件。
+
+**解决：**
+
 
