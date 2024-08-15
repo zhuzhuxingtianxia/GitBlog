@@ -411,6 +411,104 @@ npm audit fix --package-lock-only
 
 执行`npm audit --json`将会打印出一个详细的`json`格式的安全报告，在这个报告里可以看到这些漏洞的详情，以及具体的漏洞修复策略。
 
+## 前端相关配置文件
+
+#### .babelrc
+配置 Babel 预设和插件，Babel 还支持其他几种配置方式：
+
+* `babel.config.js`: 使用 JavaScript 导出配置，适用于 monorepos 或全局配置
+* `babel.config.json`: JSON 格式的全局配置文件
+* `package.json`: 在项目的 package.json 文件中使用 babel 字段来定义 Babel 配置
+
+#### .eslintrc.js
+ESLint的配置文件，可以配置代码检查规则、集成插件和扩展、环境设置。ESLint 还支持其他几种配置文件格式：
+
+* `.eslintrc.json`: JSON 格式的配置文件。
+* `.eslintrc.yml` 或 `.eslintrc.yaml`: YAML 格式的配置文件
+* `package.json`: 在项目的 package.json 文件中使用`eslintConfig` 字段来定义ESLint配置
+
+#### .node-version
+该文件用于指定项目的node版本，配合`nvm`工具并自动切换到指定的 Node.js 版本。
+```
+# 指定具体版本
+16.14.0
+
+# 使用稳定版本
+18.x
+
+```
+
+#### .prettierrc
+是 Prettier 的配置文件，用于定义代码格式化的规则。还支持其他的配置文件：
+
+* `prettier.config.js`: 使用 JavaScript 导出配置
+* `.prettierrc.json`: JSON 格式的配置文件
+* `.prettierrc.yaml`或`.prettierrc.yml`: YAML 格式的配置文件
+* `.prettierrc.toml`: TOML 格式的配置文件
+
+#### .stylelintrc
+Stylelint的配置文件，它是一个强大的 CSS 和预处理器的代码风格检查工具。通过这个配置文件可以定义代码样式规则，确保样式代码的一致性和质量。也支持上面的几种配置文件格式。
+
+#### .npmrc
+是npm用来存储配置信息的文件，被用来控制依赖包的安装来源、认证信息、缓存位置、日志级别等。`.npmrc`优先级规则: 项目级别最高->用户级别次之->全局配置文件最低
+
+```
+# 指定仓库源
+registry=https://registry.npmmirror.com
+
+# 特定包的私有源，即所有 @parern 范围内的包从该私有注册表获取
+@parern:registry=https://e.coding.net
+
+# 特定包的私有注册表
+react-native-umeng:registry=http://192.168.30.12
+
+# 指定的环境变量
+sass_binary_site=https://cdn.npmmirror.com/binaries/node-sass
+
+# 进行身份验证，即对registry地址的所有请求都需要身份验证保护私有包不被未授权访问
+always-auth=true
+registry=http://192.168.13.97:8081/repository/local-npm/
+
+# 私有库认证信息，需登录私有npm库生成访问令牌
+registry=https://private-registry.example.com
+//private-registry.example.com/:_authToken=<your-token>
+# 确保总是进行身份验证
+always-auth=true
+
+# 作用域语法令牌,只对@parern下的库做认证
+@parern:registry=https://private-registry.example.com/
+//private-registry.example.com/:_authToken=<YOUR_AUTH_TOKEN>
+
+# 忽略 SSL 错误
+strict-ssl=false
+
+# 设置缓存目录
+cache=/path/to/cache
+
+# 日志配置
+loglevel=verbose
+
+# 代理设置
+https-proxy=http://myproxy:8080
+http-proxy=http://myproxy:8080
+
+```
+
+根据库指定的环境变量，设置对应的下载地址，例如`node-sass`库的变量`sass_binary_site`。例如遇到如下报错：
+
+`Cannot download "https://github.com/sass/node-sass/releases/download/v4.14.1/darwin-x64-83_binding.node": ` 下载报错。
+
+有可能node版本与node-sass版本不对应。
+
+查看一下：node: 14.18.0 node-sass: 4.14.1, 查看对比版本是可以对应上的。
+第一种解决方案就是把`node-sass`库使用`sass`替换。如果其他库中有依赖的，可以添加`.npmrc`文件修改如下：
+```
+# 这个没成功
+# sass_binary_site=https://registry.npmmirror.com/mirrors/node-sass
+# 这个成功了
+sass_binary_site=https://cdn.npmmirror.com/binaries/node-sass
+
+```
 
 ## 前端掌握技术
 
@@ -418,7 +516,7 @@ npm audit fix --package-lock-only
 * less、sass
 * UI框架：antd、element-ui、mui
 * webpack、rollup
-* echarts、G2、G3、D6
+* echarts、G2、G3、D3、D6
 * three.js
 * nextjs、vite: 类似webpack的打包编辑器
 * react-app-rewired、@craco/craco、babel : 路径别名配置
