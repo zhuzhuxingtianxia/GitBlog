@@ -17,7 +17,7 @@
 
 跨域是无法获取iframe的document的,否则报错如下：
 
-[error](./error-info.jpg)
+![error](./error-info.jpg)
 
 所以我们直接通过iframe的document来appendChild的方式注入脚本。只能通过发送消息。
 ```
@@ -109,10 +109,11 @@ const WebView = React.forwardRef((props, ref) => {
         },
         injectScript: (scriptString)=> {
             try {
+            	//接收方需要做一些处理
                 getIframeContentWindow(webRef.current).postMessage({
                     type: 'injectScript',
                     script: scriptString
-                }, '*')
+                }, '*');
             } catch (error) {
                 
             }

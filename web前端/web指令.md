@@ -75,6 +75,8 @@ npx create-react-app ts-demo --template typescript
 自动初始化：
 ```
 npx create-next-app@latest
+# 指定版本号
+npx create-next-app@^13.5.6 --use-pnpm
 # or
 yarn create next-app
 # or
@@ -106,6 +108,9 @@ pnpm add next react react-dom
 
 
 ```
+
+在配置选项选择时，Would you like to use App Router? (recommended): 是否使用App Router，选择yes则使用app目录的路由系统，选择no则使用pages目录的路由系统
+
 
 #### Vite搭建vue3.x项目
 ```
