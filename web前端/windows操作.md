@@ -69,9 +69,10 @@ nvm list available
 
 修改镜像源：
 ```
-nvm node_mirror https://npm.taobao.org/mirrors/node/
-nvm npm_mirror https://npm.taobao.org/mirrors/npm/
+nvm node_mirror https://npmmirror.com/mirrors/node/
+nvm npm_mirror https://npmmirror.com/mirrors/npm/
 ```
+
 
 安装多个版本node:
 ```

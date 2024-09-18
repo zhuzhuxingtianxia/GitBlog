@@ -51,9 +51,15 @@ sudo n v14.5.0
 sudo n install 16.20.0
 ```
 查看所有可以安装的版本: `n ls`
+设置n镜像环境变量并下载稳定版本：
+```
+// 替代https://nodejs.org/dist/
+N_NODE_MIRROR=https://npmmirror.com/mirrors/node n lts
+
+```
 删除指定版本: 
 ```
-n rm v14.5.0
+sudo n rm v14.5.0
 // 或
 n uninstall 16.19.1
 ```
@@ -523,12 +529,12 @@ sass_binary_site=https://cdn.npmmirror.com/binaries/node-sass
 * webpack、rollup
 * echarts、G2、G3、D3、D6
 * three.js
-* nextjs、vite: 类似webpack的打包编辑器
+* vite: 类似webpack的打包编辑器
 * react-app-rewired、@craco/craco、babel : 路径别名配置
 * dotenv/dotenv-cli: 多环境变量配置
 * React-router
 * redux、vuex
-* Vue3.0
+* Vue3.0、nuxtjs、nextjs
 * tailwindcss: css框架
 
 
