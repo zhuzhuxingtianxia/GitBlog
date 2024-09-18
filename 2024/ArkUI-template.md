@@ -1,4 +1,0 @@
-# ArkUI:template
-
-
-
