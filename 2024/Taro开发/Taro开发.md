@@ -337,6 +337,19 @@ initConfig = (appId, timestamp, nonceStr, signature) => {
 window.wx.miniProgram.navigateTo({url: path});
 ```
 
+公众号微信授权：
+```js
+//snsapi_base 表示用户授权后，公众号或小程序可以获取用户的基础信息，但不包括用户的私有信息
+const scope = 'snsapi_base';
+//state：STATE 开发者定义的参数，用于在授权请求中添加额外的业务参数。这些参数会在授权回调时原样返回给开发者
+//redirect_uri： 用户授权成功后，微信会将用户重定向到这个 URI，并附上授权码
+const redirectURL = encodeURIComponent(redirectURL);
+const authURL = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectURL}&response_type=code&scope=${scope}&state=${state}#wechat_redirect`;
+window.location.href = authURL;
+
+```
+
+
 #### app打开小程序
 
 ios:
@@ -398,6 +411,60 @@ onError={(err) => {
 
 
 ## 插件的使用
+需要在[公众平台](https://developers.weixin.qq.com/miniprogram/dev/framework/plugin/using.html)添加，然后在`app.config.ts`中的`plugins`字段配置插件：
+```
+plugins: {
+  captcha: {
+     version: '1.0.3',
+     provider: 'pluginProviderAppid',
+  },
+},
+
+```
+
+* captcha: 插件名,由使用者自定义,无需和插件开发者保持一致
+* version: 使用的插件版本
+* provider: 插件提供者的appid
+
+如果插件只在一个分包内用到，可以将插件仅放在这个分包内。
+
+#### 使用
+在使用的页面配置中声明：
+```
+usingComponents: {
+    "t-captcha": "plugin://captcha/t-captcha"
+ }
+
+```
+页面渲染：
+```
+<t-captcha
+   id="captcha"
+   appId={process.env.WEAPP_CAPCHAID}
+   onReady={() => {
+     console.log('onReady')
+   }}
+   onClose={() => {
+     console.log('onClose')
+   }}
+   onError={(e) => {
+     console.log('onError', e)
+   }}
+   onVerify={async (ev) => {
+     console.log(ev)
+     if (ev.detail.ret === 0) {
+       //ev.detail.ticket
+     }
+   }}
+ />
+
+```
+页面调用：
+```
+const { page } = getCurrentInstance()
+page.selectComponent('#captcha').show()
+
+```
 
 ## 小程序支付
 支付权限需开通且为企业账户
@@ -421,6 +488,262 @@ onError={(err) => {
 ```
 
 ## webView交互
-webview非企业账户不支持。
+webview非企业账户不支持。小程序中使用的api接口都必须配置，webview中链接也要配置业务域名方可使用。
+小程序中webview交互能力受限，多数通过query参数传递。
+刷新推荐`Taro.redirectTo`,其他方案均有缺陷。
+
+```
+/**
+ * @description: WebView
+ * @param {url}
+ * @callback { Taro.eventCenter.trigger('webviewReload', {reload: true}) } 刷新webview
+ * @callback { Taro.eventCenter.trigger('webviewReload', {callback: any}) } 回调数据
+ * @returns {/pages/webview/index?url=`encodeURIComponent(url)`}
+*/
+import checkAuth from '@/components/common/auth';
+import { Util } from '@/library';
+import { View, WebView } from '@tarojs/components';
+import Taro, { setNavigationBarTitle } from '@tarojs/taro';
+import { BaseService } from 'gktapp-service';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+interface IWebParams extends Partial<Record<string, any>> {
+  url: string,
+  progressbarColor?: string,
+  title?: string,
+  auth?: '0'| undefined, // 是否需要鉴权
+  navBar?: '0'| '1'| undefined
+}
+
+interface WebMessage {
+  enventName: string,
+  data: any;
+}
+
+const decodeURL = (url: string) => {
+  if(!url) return url;
+  if (url.indexOf('%') < 0) {
+    return url
+  } else {
+    const newUrl = decodeURIComponent(url)
+    return decodeURL(newUrl)
+  }
+}
+
+const EnventNames: string[] = ['webviewReload'];
+
+definePageConfig({
+  navigationStyle: 'custom',
+  navigationBarTitleText: '',
+  enableShareAppMessage: true,
+  //支持受限：webview页面不支持分享朋友圈
+  enableShareTimeline: false,
+})
+
+export default () => {
+  const router = Taro.useRouter();
+  const {url, progressbarColor, title, navBar, auth} = router.params as IWebParams;
+  const [__url, setURL] = useState(decodeURL(url));
+  const [listenerData, setListenerData] = useState<any>(null);
+
+  const webviewRef = useRef(null);
+
+  Taro.useLoad((param) => {
+    console.log('useLoad,', param);
+    if(__url){
+      Taro.showLoading();
+    }
+  })
+
+  Taro.useDidShow(()=>{
+    console.log('useDidShow')
+    // 小程序webview无法隐藏导航栏 
+    if(Number(navBar) === 1) { }
+    if(auth !== '0') {
+      checkAuth();
+    }
+    
+  })
+
+  Taro.useUnload(()=>{
+    console.log('useUnload')
+  })
+  
+  useEffect(() => {
+    if (title) {
+      setNavigationBarTitle({ title: decodeURIComponent(title) })
+    }
+    Taro.eventCenter.on('webviewReload', (data: any) => {
+      console.log('Taro.eventCenter-webviewReload:', data);
+      if(data) {
+        if(data.reload) {
+          //仅刷新
+          reload(2);
+        }else {
+          // 数据回调
+          data = Object.keys(data).map(key =>`${key}=${JSON.stringify(data[key] ?? '')}`).join('&');
+          if(data?.length > 0){
+            setListenerData(data);
+          }
+        }
+      }
+    })
+    return ()=> {
+      while (EnventNames.length > 0) {
+        const name = EnventNames.pop();
+        name && Taro.eventCenter.off(name);
+      }
+    }
+  },[])
+
+  useEffect(() => {
+    if(listenerData) {
+      console.log('listenerData:', listenerData)
+      if(__url.includes('?')) {
+        setURL(`${__url}&${listenerData}`)
+      }else {
+        setURL(`${__url}?${listenerData}`)
+      }
+    }
+  },[listenerData])
+
+
+  //分享设置
+  // Taro.useShareAppMessage(() => {
+  //   return {
+  //     path: '/pages/webview/index?url=' + encodeURIComponent(__url)
+  //   }
+  // })
+
+  // 刷新方案并不理想
+  const reload = Util.debounce((flag = 2) => {
+    console.log('flag:', flag)
+    if(flag == 0) {
+      // query方案：
+      //setListenerData 方式 history.length会增加
+    }else if(flag == 1) {
+       // 方案一：不稳定会白屏
+      const tempUrl = __url;
+      setTimeout(()=>{
+        setURL('');
+        setTimeout(() => {
+          setURL(tempUrl);
+        },100)
+      },0)
+    }else if(flag == 2){
+      // 方案二：重新加载
+      Taro.redirectTo({url: `/pages/webview/index?url=${encodeURIComponent(__url)}`})
+    }else {
+      // 方案三：不可行
+      const webview: any = webviewRef.current;
+      if(webview && webview.reload) {
+        webview.reload();
+      }
+    }
+    
+  }, 500)
+
+  const onLoadFinshed = async ()=> {
+    if(__url.includes('copy=')) {
+      Taro.setClipboardData({
+        data: __url,
+        success: () => {
+          const show = 1;
+          if(show == 1) {
+            Taro.showToast({
+              title: '链接已复制,请前往浏览器打开',
+              icon: 'none',
+              duration: 2000
+            })
+          }else if(show ==2) {
+            Taro.showModal({
+              title: '',
+              content: '链接已复制,请前往浏览器打开',
+              confirmText: '好的',
+              confirmColor: '#CAA846',
+              showCancel: false,
+            })
+          }
+          
+        }
+        
+      })
+      
+    }
+  }
+
+  const onLoad = ({detail}) => {
+    Taro.hideLoading();
+    console.warn('onLoad:',detail);
+    if (title) {
+      setNavigationBarTitle({ title: decodeURIComponent(title) })
+    }
+    onLoadFinshed();
+  }
+  const onError = (e: any) => {
+    Taro.hideLoading();
+    console.warn('onError')
+    console.warn(e)
+  }
+  
+  /**
+   * @description 在特定时机(小程序后退，组件销毁，分享)触发
+   * @param { wx.miniProgram.postMessage({data: {enventName: string, data: any}}) } 
+   * @param { detail }
+  */
+  const onMessage = ({detail}) => {
+    console.warn('onMessage:', detail)
+    if(detail.data && detail.data.length > 0) {
+      const message: WebMessage = detail.data[detail.data.length - 1];
+      console.log(message);
+      if(message.enventName) {
+        EnventNames.push(message.enventName);
+        Taro.eventCenter.trigger(message.enventName, message.data);
+      }
+      
+    }
+  }
+
+  const src = useMemo(() => {
+    if(auth == '0') {
+      return __url;
+    }
+    const userInfo = BaseService.loginUser as any;
+    let src = __url;
+    if(src && !src.includes('token') && userInfo.token) {
+      const info = {
+        clientId: userInfo.clientId,
+        token: userInfo.token,
+        loginName: userInfo.loginName,
+        login_status: userInfo.login_status,
+      }
+      if(src.includes('?')) {
+       src += `&userInfo=${encodeURIComponent(JSON.stringify(info))}`
+      }else {
+       src += `?userInfo=${encodeURIComponent(JSON.stringify(info))}`
+      }
+    }
+    return src;
+  },[__url]);
+
+  return (
+    <View>
+      {
+        src ? 
+        <WebView src={src} 
+            id={'webview'}
+            progressbarColor={progressbarColor}
+            onLoad={onLoad}
+            onError={onError}
+            onMessage={onMessage} 
+        />:
+        <View className='webview-desc'></View>
+      }
+    </View>
+  )
+}
+
+
+```
 
 
