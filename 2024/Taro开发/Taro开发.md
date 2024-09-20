@@ -189,7 +189,7 @@ Taro.chooseImage({
 ```
 
 ### 剪切板
-剪切板也是需要做权限申请的。
+剪切板也是需要做权限申请的。h5中的粘贴板在小程序中无法使用被微信屏蔽了。
 ```
  Taro.setClipboardData({
    data: 'data',
