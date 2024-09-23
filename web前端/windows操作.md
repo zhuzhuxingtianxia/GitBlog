@@ -72,7 +72,10 @@ nvm list available
 nvm node_mirror https://npmmirror.com/mirrors/node/
 nvm npm_mirror https://npmmirror.com/mirrors/npm/
 ```
-
+如果nvm ls-remote列表中只有iojs,则可：
+```
+NVM_NODEJS_ORG_MIRROR=https://npmmirror.com/mirrors/node/ nvm install 18.20.4
+```
 
 安装多个版本node:
 ```
