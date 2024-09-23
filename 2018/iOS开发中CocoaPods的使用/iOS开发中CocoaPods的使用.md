@@ -8,6 +8,7 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 
 1. 查看ruby的版本:`ruby -v`
 2. 如果需要更新ruby版本则执行:`sudo gem update --system` 需要权限
+3. 或者先安装brew使用`brew install ruby`进行安装
 3. 查看ruby的镜像: `gem sources -l`
 4. 移除Ruby镜像: `gem sources --remove https://rubygems.org/`
 5. 添加新的镜像源: `gem sources -a https://gems.ruby-china.com`或`gem sources --add https://gems.ruby-china.com`
