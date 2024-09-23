@@ -44,7 +44,7 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 ## 安装homebrew
 
 国内用户可用一键安装脚本:
-`/bin/zsh -c"$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"`
+`/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"`
 
 ## 如何使用CococaPods
 
