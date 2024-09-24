@@ -38,7 +38,7 @@ yarn命令：
 10. yarn config delete //删除某配置项
 
 ## node
-node管理工具
+[node管理工具](https://github.com/tj/n)
 ```
 npm install -g n
 ```
@@ -63,6 +63,8 @@ sudo n rm v14.5.0
 // 或
 n uninstall 16.19.1
 ```
+如果n无法加载nodejs.org，修改变量也无效，可下载复制[n命令](https://github.com/tj/n)
+的代码文件然后执行：`sudo bash n.sh 20.17.0`
 win可以使用[nvm](./windows操作.md)来管理node版本
 
 ## 创建react项目
