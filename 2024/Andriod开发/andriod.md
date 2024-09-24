@@ -185,6 +185,51 @@ Gradle插件版本、Gradle版本、buildTool版本及ndk版本是相互关联�
 检查设置是否链接：`adb devices`
 cd到apk所在的目录: `adb install path_to_your_apk_file.apk` 该方式只能安装生产包，无法安装测试包。
 
+## 设置启动图和图标
+图标设置：
+app->New->Image Asset->选择要用的icon，Name用ic_launcher 保存后会存在res文件夹下面的mipmap中，
+打开`AndroidManifest.xml`找到`application`标签属性` android:icon="@mipmap/ic_launcher"`其中`@mipmap/ic_launcher`就是icon图标的资源地址。
+
+启动图:
+启动页显示的图片放置在`res/drawable`和`res/drawable-*`目录下,图片资源命名为launch_screen,打开`AndroidManifest.xml`找到`application`标签属性`android:theme="@style/AppTheme"`,在`res/values`下的`styles.xml`文件中定义资源路径：
+```
+<style name="ReactTheme" parent="AppTheme">
+    <item name="android:windowFullscreen">true</item>
+    <item name="android:windowBackground">@drawable/launch_bg</item>
+</style>
+
+```
+在`res/drawable`下定义`launch_bg.xml`资源设置：
+```
+<item>
+    <bitmap android:gravity="fill" android:src="@drawable/launch_screen" />
+</item>
+
+```
+这里的`@drawable/launch_screen`就是对应上面的图片资源名称。
+
+## 图片资源
+资源都在src/main/res文件夹下。
+启动图大小：
+
+* drawable:
+* drawable-h720dp-xxhdpi: 1080x2376
+* drawable-h800dp-xxxhdpi: 1644x3864
+* drawable-hdpi: 480x800
+* drawable-ldpi: 240x320
+* drawable-mdpi: 320x480
+* drawable-xhdpi: 720x1280
+* drawable-xxhdpi: 1080x1920
+* drawable-xxxhdpi: 2160x3840
+
+icon图大小：
+
+* mipmap-hdpi：
+* mipmap-mdpi：
+* mipmap-xhdpi：
+* mipmap-xxhdpi:
+* mipmap-xxxhdpi:
+
 ## local.properties
 `local.properties` 文件是由 Android Studio 自动生成的，用于指定本地开发环境的一些配置信息，例如 Android SDK 和 NDK 的路径。
 Android Studio 会根据你的本地配置自动填充这些路径。当你在 Android Studio 中配置 SDK 和 NDK 路径时，这些信息会被保存在 `local.properties` 文件中。
