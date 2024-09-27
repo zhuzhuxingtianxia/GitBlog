@@ -746,4 +746,9 @@ export default () => {
 
 ```
 
+## 小程序含有订单
+小程序含有订单页面需提供小程序订单path,不能使用webview, path内不能包含参数。
+
+临时解决方案：重新加一个path，将webview的URL固定，跳转path固定不携带参数
+
 
