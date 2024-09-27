@@ -15,12 +15,36 @@ Undefined symbols for architecture x86_64:_OBJC_CLASS_$_AFHTTPSessionManager
 Undefined symbols for architecture x86_64:_OBJC_CLASS_$_RCTEventEmitter
 ```
 **解决：** 因为设备是[M系列架构](https://blog.csdn.net/w13776024210/article/details/121857456)，在Intel芯片上没有问题。
-修改Build Settings -> Excluded Architectures选项，添加Any iOS Simulator SDK选项，并设置值为arm64。将默认的armv7移除
+修改Build Settings -> Excluded Architectures选项，添加Any iOS Simulator SDK选项，并设置值为arm64。
 
+如果已经设置还是报错且是使用Pods中的三方库文件报错，则可能是三方库没有兼容M系列架构。可以在podfile文件中做如下配置：
+![arm64_error](./arm64_error.jpeg)
+
+```
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+        config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
+        config.build_settings['VALID_ARCHS'] = 'arm64 arm64e armv7 armv7s x86_64 i386'
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+        end
+        if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
+            target.build_configurations.each do |config|
+                config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+    end
+  end
+```
 ## xcode16编译报错2:
+
 ```
-Library 'Pods-xxx' not found
+ Undefined symbol: __mh_execute_header
+
 ```
+**原因** 项目中接入了unity, 有一步设置了`[ufw setExecuteHeader: &_mh_execute_header];`
+**解决**：Build Setting -> Build Options 设置Enable Debug Dylib Support为 `No`
 
 ## Xcode14三方库签名报错
 
