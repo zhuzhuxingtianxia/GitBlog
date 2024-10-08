@@ -1,5 +1,37 @@
 # Xcode报错问题收集
 
+## Xcode16上传包报错
+```
+Invalid Executable. The executable 'jkt.app/Frameworks/ImSDK.framework/ImSDK' contains bitcode.
+
+```
+**解决**
+通过pod导入的只需要在Podfile里添加下面代码：
+```
+post_install do |installer|  
+  bitcode_strip_path = `xcrun --find bitcode_strip`.chop!
+  def strip_bitcode_from_framework(bitcode_strip_path, framework_relative_path)
+    framework_path = File.join(Dir.pwd, framework_relative_path)
+    command = "#{bitcode_strip_path} #{framework_path} -r -o #{framework_path}"
+    puts "Stripping bitcode: #{command}"
+    system(command)
+  end
+  framework_paths = [
+    "/Pods/TXIMSDK_iOS/ImSDK.framework/ImSDK",
+  ]
+  framework_paths.each do |framework_relative_path|
+    strip_bitcode_from_framework(bitcode_strip_path, framework_relative_path)
+  end
+end
+
+```
+第二种方法：
+```
+cd /Pods/TXIMSDK_iOS/ImSDK.framework
+xcrun bitcode_strip -r ImSDK -o ImSDK
+```
+
+
 ## 升级Xcode16 rn编译报错
 ```
 unexpected service error: The Xcode build system has crashed. Build again to continue.
@@ -43,7 +75,7 @@ post_install do |installer|
  Undefined symbol: __mh_execute_header
 
 ```
-**原因** 项目中接入了unity, 有一步设置了`[ufw setExecuteHeader: &_mh_execute_header];`
+**原因** 只有在为arm64构建时，项目中接入了unity, 有一步设置了`[ufw setExecuteHeader: &_mh_execute_header];`
 **解决**：Build Setting -> Build Options 设置Enable Debug Dylib Support为 `No`
 
 ## Xcode14三方库签名报错
