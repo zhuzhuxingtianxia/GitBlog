@@ -152,3 +152,30 @@ Unable to determine application id: com.android.tools.idea.run.ApkProvisionExcep
 **解决：**
 
 
+## Xcode16 打包RN项目
+首次安装，启动app后本地图片资源无法渲染问题。
+前期有报错：
+```
+xxx/Release-iphoneos/gktapp.app/main.jsbundle does not exist. This must be a bug with
+```
+然后执行了
+```
+"build:ios": "react-native bundle --entry-file index.js --bundle-output ./ios/main.jsbundle --platform ios --assets-dest ./ios --dev false",
+
+```
+在iOS目录下生成了`main.jsbundle`和`assets`两个文件。
+还是报错的话，删除`main.jsbundle`然后重新添加进来。
+在Xcode16上编译时会生成一个`build`文件(xcode14.3并没有生成该文件很是纳闷?)，与`main.jsbundle`同级。运行发现首次启动图片不渲染。
+查看`build/Release-iphoneos/gktapp.app`文件夹下的应用程序文件，发现`assets`资源包没有被打进去。
+
+**解决**
+**暂未找到问题根源。**
+方案一(未验证)：执行`yarn build:ios`, 然后在构建app之前，
+终端执行：`export NODE_OPTIONS=--openssl-legacy-provider`
+方案二(未验证)：现在终端执行`sudo xcode-select --reset`, 然后执行`yarn build:ios`
+方案三(未验证)：执行`yarn build:ios`, 然后拖拽`main.jsbundle`和 `assets`到Xcode项目，添加到Xcode选择`reference`的方式链接，不要选`group`。
+
+**临时解决方案**就是把`assets`资源包复制到`gktapp.app`中。打包release环境时，在上传包之前也同样把`assets`资源包复制到`gktapp.app`中。
+
+
+
