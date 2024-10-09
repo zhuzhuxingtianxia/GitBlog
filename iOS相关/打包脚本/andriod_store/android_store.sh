@@ -132,8 +132,9 @@ case $Protective in
    No)
       {
          echo '================no need protective，copy file and upload to fir================'
+	 outPutPath="/Users/jion/workspace/gktapp-release/android-store"
          inPutApk=${WORKSPACE}/android/app/build/outputs/apk/prd64/release/app-prd64-release.apk
-         outPutPathApk="/Users/jion/workspace/gktapp-release/android-store"/store_gtkapp_prd64.apk
+         outPutPathApk=${outPutPath}/store_gtkapp_prd64.apk
          cp ${inPutApk}  ${outPutPathApk}
       }
       ;;
