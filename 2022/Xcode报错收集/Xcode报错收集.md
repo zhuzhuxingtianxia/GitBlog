@@ -46,6 +46,7 @@ Undefined symbols for architecture x86_64:_OBJC_CLASS_$_AFHTTPSessionManager
 
 Undefined symbols for architecture x86_64:_OBJC_CLASS_$_RCTEventEmitter
 ```
+**原因** 缺少包的引用或缺少模拟器架构。先排查包有没有引入`Build phases-->Link Binaray With Libraries-->选择“+”号 -> 添加缺少的包`， 如果包已经存在则可能是缺少模拟器架构，使用真机测试下。我这里是缺少模拟器架构。
 **解决：** 因为设备是[M系列架构](https://blog.csdn.net/w13776024210/article/details/121857456)，在Intel芯片上没有问题。
 修改Build Settings -> Excluded Architectures选项，添加Any iOS Simulator SDK选项，并设置值为arm64。
 
