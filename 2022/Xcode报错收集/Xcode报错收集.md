@@ -1,5 +1,59 @@
 # Xcode报错问题收集
 
+## UIGraphicsBeginImageContext() failed to allocate
+iOS17、iOS18闪退，在iOS17及以上版本`UIGraphicsBeginImageContext`已经被标记为deprecated了。iOS 17以上使用UIGraphicsBeginImageContext()，size为0时，就会报错误。
+
+**解决**
+方案一：
+保证api设置size的宽高不为零，则可正常使用。这样用到的地方都需要修改。
+
+方案二：使用UIGraphicsImageRenderer替代
+```
+
+- (void)display {
+    [super display];
+
+    // short circuit when height or width are 0. Fixes CGContext errors throwing
+    if (self.bounds.size.height == 0 || self.bounds.size.width == 0) {
+      return;
+    }
+
+    BOOL hasAlpha = NO;
+
+    for (NSInteger i = 0; i < self.colors.count; i++) {
+        hasAlpha = hasAlpha || CGColorGetAlpha(self.colors[i].CGColor) < 1.0;
+    }
+
+    if (@available(iOS 10.0, *)) {
+        UIGraphicsImageRendererFormat *format;
+        if (@available(iOS 11.0, *)) {
+            format = [UIGraphicsImageRendererFormat preferredFormat];
+        } else {
+            format = [UIGraphicsImageRendererFormat defaultFormat];
+        }
+        format.opaque = !hasAlpha;
+        UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:self.bounds.size format:format];
+        UIImage *image = [renderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull ref) {
+            [self drawInContext:ref.CGContext];
+        }];
+
+        self.contents = (__bridge id _Nullable)(image.CGImage);
+        self.contentsScale = image.scale;
+    } else {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, !hasAlpha, 0.0);
+        CGContextRef ref = UIGraphicsGetCurrentContext();
+        [self drawInContext:ref];
+
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        self.contents = (__bridge id _Nullable)(image.CGImage);
+        self.contentsScale = image.scale;
+
+        UIGraphicsEndImageContext();
+    }
+}
+
+```
+
 ## Xcode16上传包报错
 ```
 Invalid Executable. The executable 'jkt.app/Frameworks/ImSDK.framework/ImSDK' contains bitcode.
