@@ -7,7 +7,7 @@ npm uninstall -g react-native-cli @react-native-community/cli
 
 // 创建最新版本项目
 npx react-native@latest init ProjectName
-// 0.73开始使用
+// 0.73以上版本使用下面命令
 npx @react-native-community/cli@latest init ProjectName
 
 //或expo app可扫码预览
@@ -17,7 +17,7 @@ npx create-expo-app@latest
 指定版本或项目模板， 0.71开始默认支持ts
 ```
 npx react-native@0.70.2 init MyApp --template react-native-template-typescript
-// 0.73
+// 0.73以上版本使用下面命令
 npx @react-native-community/cli@X.XX.X init ProjectName --version X.XX.X
 //或
 npx create-expo-app --template
