@@ -1,4 +1,31 @@
 # js高阶函数用法
+
+## Object.freeze 与Immutable.js
+都是用来处理不可变数据的技术。
+
+`Object.freeze()`是js内置方法用于浅冻结对象，只会冻结对象的顶层属性。
+对象中的某个属性是另一个对象或数组，那么这个内部的对象或数组仍然是可变的。
+对于简单的对象和少量的数据性能较好。
+**案例**
+```
+const person = {
+  name: 'Alice',
+  address: {
+    city: 'Wonderland'
+  }
+};
+// 浅冻结
+Object.freeze(person);
+
+person.name = 'Bob'; // 不起作用
+person.address.city = 'Oz'; // 起作用，因为 address 对象没有被冻结
+console.log(person); // { name: 'Alice', address: { city: 'Oz' } }
+
+```
+
+`Immutable.js`是三方库，提供的数据结构是深层不可变的。提供大量方法操作数据结构，它们不会改变原数据，而是返回新的实例。通过结构共享高效重用内存。
+适用于深度不可变，结构复杂、数据量较大大、操作频繁、状态管理和高性能计算等场景。
+
 ## filter():  
  **语法：**
 `var filteredArray = array.filter(callback, thisObject);`
