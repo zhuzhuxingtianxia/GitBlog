@@ -502,6 +502,24 @@ declare namespace MyLib {
 ```
 
 * infer:用于推断类型，只能在条件类型中使用，它还可以结合`extends`关键字和`keyof`操作符进行高级类型推断 
+```
+type ElementType<T> = T extends (infer E)[] ? E : never;
+// 使用示例
+type NumberArray = number[];
+type Element = ElementType<NumberArray>; // Element 结果是 number
+
+type PropertyType<T, K extends keyof T> = T extends { [key in K]: infer V } ? V : never;
+
+// 使用示例
+type Person = {
+    name: string;
+    age: number;
+    isStudent: boolean;
+};
+
+type NameType = PropertyType<Person, 'name'>; // NameType 结果是 string
+type AgeType = PropertyType<Person, 'age'>;   // AgeType 结果是 number
+```
 * record: 用来定义泛型类型，可以方便地创建一个简单或复杂的对象
 * enum: 枚举类型用来定义一组带有名字的常量值，存在命名空间污染、可读性差、容易被错误使用等风险，可用`const`、`type`来替换
 * 泛型: 是指一种通用的类型，它可以用来支持多种不同类型的数据，从而提高代码的复用性和可读性
@@ -574,7 +592,7 @@ Promise.all(
 
 ## Vue2的响应式：
 Vue2是通过`Object.defineProperty()`来拦截数据，将数据转换成getter/setter的形
-式，在访问数据时调用getter两数，在修改数据时调用setter两数。然后利用发布
+式，在访问数据时调用getter函数，在修改数据时调用setter函数。然后利用发布
 -订阅模式，在数据变动时触发依赖，也即发布更新给订阅者，订阅者收到消息后进
 行相应的处理
 
@@ -615,6 +633,9 @@ function defineReactive(obj, key, val) {
 class Observer {
   constructor(obj) {
     this.value  = obj;
+    if (!obj || (typeof obj !== 'object' && typeof obj !== 'Array')) {
+        return;
+    }
     if(typeof obj === 'Array') {
       // 数组处理
     }else {
@@ -675,7 +696,7 @@ console.log(proxy.name);
 * 通过ref获取实例直接调用组件的方法或访问数据，也是一种数据传递的方式
 * 通过parent可以获父组件实例，然后通过这个实例就可以访问父组件的属性和方法它还有一个兄弟root，可以获取根组件实例
 * 祖孙跨组件传递数据，通过`props`传递，还可以通过`$attrs`
-* 孙祖利用$listeners传值
+* 孙祖利用`$listeners`传值
 * 兄弟组件通信（bus总线），新建一个Bus.js的文件，然后通过`Bus.$emit('事件名','参数')`来派发事件，数据是以$emit()的参数形式来传递
 * sessionStorage传值
 * 路由传值
