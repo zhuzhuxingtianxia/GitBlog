@@ -171,6 +171,29 @@ const version = accountInfo.miniProgram.version;
 
 ### 获取用户信息
 
+
+
+## 获取手机号
+
+需企业账户
+
+```
+<Button hoverClass="hover" openType="getPhoneNumber" plain
+              onGetphonenumber={onGetphonenumber}>一键登录</Button>
+              
+const onGetphonenumber = ({detail})=>{
+    console.log('onGetphonenumber', detail);
+    const { errMsg, iv, encryptedData } = detail;
+    if (errMsg === 'getPhoneNumber:ok') {
+      // 根据 iv 和 encryptedData 调用后端接口获取手机号
+    }
+  }
+```
+
+
+
+
+
 ### 相机相册权限
 ```
 Taro.chooseImage({
