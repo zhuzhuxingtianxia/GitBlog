@@ -502,6 +502,7 @@ declare namespace MyLib {
 ```
 
 * infer:用于推断类型，只能在条件类型中使用，它还可以结合`extends`关键字和`keyof`操作符进行高级类型推断 
+
 ```
 type ElementType<T> = T extends (infer E)[] ? E : never;
 // 使用示例
@@ -520,11 +521,13 @@ type Person = {
 type NameType = PropertyType<Person, 'name'>; // NameType 结果是 string
 type AgeType = PropertyType<Person, 'age'>;   // AgeType 结果是 number
 ```
+
 * record: 用来定义泛型类型，可以方便地创建一个简单或复杂的对象
 * enum: 枚举类型用来定义一组带有名字的常量值，存在命名空间污染、可读性差、容易被错误使用等风险，可用`const`、`type`来替换
 * 泛型: 是指一种通用的类型，它可以用来支持多种不同类型的数据，从而提高代码的复用性和可读性
 
 ## Promise.all
+
 多个promise执行的解决方案，promise.all中任何一个promise出现错误都会执行reject，导致其他正常返回的数据无法使用
 
 ```
@@ -542,6 +545,7 @@ Promise.all(
 	console.log(error)
 })
 ```
+
 可将`.map(p => p.catch(e => e))`中catch得到的err置空，`.map(p => p.catch(e => ''))`来解决
 
 ## generator 有了解过吗？
@@ -707,6 +711,10 @@ console.log(proxy.name);
 具名插槽: `<slot name="title"></slot>`
 使用具名插槽: `<template #title> 等价于 <template v-slot:title>`
 插槽传参: `<template #default="scope"></template>` scope即为传递的参数对象
+
+## vue中的nextTick
+在 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
+
 
 ## Vuex
 vuex是一个专为 Vue.js 应用程序开发的状态管理工具，采用单一数据源存储管理应用的所有组件状态，更改状态的唯一方法就是在mutaions里修改state，actions不能直接修改state。
