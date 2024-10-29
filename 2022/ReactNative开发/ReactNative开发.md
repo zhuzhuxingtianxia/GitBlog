@@ -7,7 +7,10 @@ npm uninstall -g react-native-cli @react-native-community/cli
 
 // 创建最新版本项目
 npx react-native@latest init ProjectName
-// 0.73以上版本使用下面命令
+```
+
+0.73以上版本使用下面命令
+```
 npx @react-native-community/cli@latest init ProjectName
 
 //或expo app可扫码预览
@@ -24,7 +27,27 @@ npx create-expo-app --template
 ```
 
 rn0.73版本需node18.x, 创建项目命令也有所不同。
-也可使用[Expo](https://docs.expo.dev/)创建新项目，网络原因不建议国内用户使用expo。
+也可使用[Expo](https://docs.expo.dev/)创建新项目，网络原因不建议国内用户使用expo，不支持原生sdk接入，需要弹出原生项目。
+
+
+
+## RN渲染原理
+
+React Native基于react, 允许开发者使用js和react组件来构建原生应用，通过js描述用户界面，最终渲染则交给原生平台。
+
+它用虚拟dom来优化UI渲染，当组件状态或属性发生变化时，react会创建新的虚拟dom, 与之前的虚拟dom进行差异化比较，使得只需更新发生变化的部分，从而减少不必要的渲染开销。
+
+老的架构渲染0.68：
+
+React Native 在 JavaScript 和Native之间建立桥接（Bridge）的方式进行通信。js执行代码构建虚拟dom,当组件状态或属性发生变化时会重新计算虚拟dom并将变化的部分通过桥接的方式传递给native端，native拿到变化后的数据进行UI更新。桥接的方式在传输的过程中会有一定的性能开销。
+
+
+
+新架构渲染0.70：
+
+新架构使用**Fabric**渲染引擎，优化了UI渲染流程，通过jsi与native代码交互，取代了原来的桥接机制，减少桥接开销，jsi允许js直接访问原生模块，显著提高了性能。
+
+
 
 ## 搭建RN库
 
