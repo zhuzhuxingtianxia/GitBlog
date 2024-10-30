@@ -33,7 +33,7 @@ rn0.73版本需node18.x, 创建项目命令也有所不同。
 
 ## RN渲染原理
 
-React Native基于react, 允许开发者使用js和react组件来构建原生应用，通过js描述用户界面，最终渲染则交给原生平台。
+React Native基于react, 允许开发者使用js和react组件来构建原生应用，通过js描述用户界面，最终交给原生平台渲染。
 
 它用虚拟dom来优化UI渲染，当组件状态或属性发生变化时，react会创建新的虚拟dom, 与之前的虚拟dom进行差异化比较，使得只需更新发生变化的部分，从而减少不必要的渲染开销。
 
@@ -66,6 +66,28 @@ create-react-native-module libray_name
 
 ```
 因为利用`react-native-create-library`生产的项目, 组件相关的名称或者类会默认加上react-native或者RN前缀。所以上面先不加前缀，然后使用`mv`重命名项目。
+
+## rn与native如何交互
+* js调用原生代码的方法：
+1. 模块需要实现`RCTBridgeModule`协议
+2. 类中需要包含`RCT_EXPORT_MODULE()`宏,用于倒出模块和自定义模块名称
+3. 通过`RCT_EXPORT_METHOD()`宏声明要给 JavaScript 导出的方法
+4. 导出的方法参数`RCTResponseSenderBlock`可用于数据的回调
+5. 也可使用`RCT_REMAP_METHOD`宏导出promise异步回调方法
+
+* 原生代码调用js方法：
+1. 原生类需继承`RCTEventEmitter`
+2. 实现`suppportEvents`方法,并返回支持的事件名称
+3. 在需要发送事件的时候调用`sendEventWithName`方法设置事件名称和参数
+4. js端通过创建`NativeEventEmitter`实例来通过事件名称添加监听订阅事件
+
+## react native如何优化
+1. 导航路由使用懒加载的方式
+2. 组件模块使用`React.lazy` 和 `Suspense` 动态加载，减少初始加载包大小
+3. 使用memo、useMemo、useCallback等减少不必要的计算和渲染更新
+4. 减少匿名函数的使用
+5. 组件封装重用减少不必要的加载和渲染开销
+6. 减少外部依赖库，减少包体积和依赖管理的复杂度
 
 ## RN报错问题
 
@@ -188,7 +210,7 @@ xxx/Release-iphoneos/gktapp.app/main.jsbundle does not exist. This must be a bug
 ```
 在iOS目录下生成了`main.jsbundle`和`assets`两个文件。
 还是报错的话，删除`main.jsbundle`然后重新添加进来。
-在Xcode16上编译时会生成一个`build`文件(xcode14.3并没有生成该文件很是纳闷?)，与`main.jsbundle`同级。运行发现首次启动图片不渲染。
+在Xcode16上执行上面命令时会生成一个`build`文件(xcode14.3并没有生成该文件，会直接将main.jsbundle和assets拷贝到包文件里)，与`main.jsbundle`同级。运行发现首次启动图片不渲染。
 查看`build/Release-iphoneos/gktapp.app`文件夹下的应用程序文件，发现`assets`资源包没有被打进去。
 
 **解决**
