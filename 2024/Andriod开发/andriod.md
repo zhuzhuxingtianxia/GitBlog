@@ -2,7 +2,7 @@
 
 ## 应用生命周期
 
-#### Application生命周期
+### Application生命周期
 
 * `onCreate()`初始化: 应用初始化，多进程模式会执行多次
 * `onStart()`启动: 应用开始启动
@@ -11,7 +11,7 @@
 * `onRestart()`重新启动: 由后台进入前台时触发
 * `onDestroy()`销毁: 应用不在运行或从内存中卸载时触发
 
-#### Activity生命周期
+### Activity生命周期
 
 ![Activity生命周期](./activity_life.png)
 
@@ -70,7 +70,7 @@ public class MyActivity extends AppCompatActivity {
 
 ```
 
-#### Activity之间的跳转
+### Activity之间的跳转
 
 使用`startActivity`启动名为`SignInActivity`的 Activity
 ```
@@ -142,6 +142,10 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 ```
+
+### android通信
+
+### 依赖引入及使用
 
 ## Android构建工具版本
 
