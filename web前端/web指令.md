@@ -41,6 +41,8 @@ yarn命令：
 [node管理工具](https://github.com/tj/n)
 ```
 npm install -g n
+//或
+brew install n
 ```
 安装并切换版本:
 ```

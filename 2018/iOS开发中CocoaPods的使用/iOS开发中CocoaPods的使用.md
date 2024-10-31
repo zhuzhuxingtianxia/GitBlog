@@ -7,12 +7,24 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 打开终端，输入以下命令:
 
 1. 查看ruby的版本:`ruby -v`
+
 2. 如果需要更新ruby版本则执行:`sudo gem update --system` 需要权限，在mac15.4上却无效了
+
 3. 或者先安装brew使用`brew install ruby 或 brew upgrade ruby`进行安装,这种方式需要配置环境变量，不会覆盖系统的ruby。
-3. 查看ruby的镜像: `gem sources -l`
-4. 移除Ruby镜像: `gem sources --remove https://rubygems.org/`
-5. 添加新的镜像源: `gem sources -a https://gems.ruby-china.com`或`gem sources --add https://gems.ruby-china.com`
-6. `gem sources -l`重新查看镜像源是否修改或添加成功
+
+4. 查看ruby的镜像: `gem sources -l`
+
+5. 移除Ruby镜像: `gem sources --remove https://rubygems.org/`
+
+6. 添加新的镜像源: `gem sources --add https://mirrors.aliyun.com/rubygems/` 
+
+   **注意**` https://gems.ruby-china.com` 已不可用
+
+    `https://mirrors.aliyun.com/rubygems/`阿里的gem镜像
+
+   `https://mirrors.tuna.tsinghua.edu.cn/rubygems/` 清华的gem镜像
+
+7. `gem sources -l`重新查看镜像源是否修改或添加成功
 
 ## 安装CocoaPods
 
@@ -39,7 +51,7 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 
 * 更新本地仓库: `pod repo update --verbose`
 * 更新某个仓库: `pod update xxx(为第三方库名) --verbose --no-repo-update`
-   
+  
   然后再查看版本号就是最新的版本了！
 
 ## 安装homebrew
@@ -86,5 +98,4 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
               ^.
 
 **原因：**后来发现就是因为Podfile文件里面 platform 那一行 冒号和ios之间多了一个空格。其实这个错误在报错的时候ruby已经给出了，只是一开始没有好好看。
-
 
