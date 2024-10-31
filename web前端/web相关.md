@@ -377,6 +377,11 @@ function debounce(fn, wait) {
  window.addEventListener('resize',throttle2(sayHi,1000))
 
 ```
+## async/await的设计和实现
+
+## 深拷贝需要注意的问题
+
+## 跨域问题
 
 ## 数据类型的判断
 
