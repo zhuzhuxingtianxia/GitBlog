@@ -89,6 +89,40 @@ create-react-native-module libray_name
 5. 组件封装重用减少不必要的加载和渲染开销
 6. 减少外部依赖库，减少包体积和依赖管理的复杂度
 
+## rn**项目运行报错**
+
+```
+
+Error: EMFILE: too many open files, watch
+
+  at FSEvent.FSWatcher._handle.onchange (internal/fs/watchers.js:178:28)
+
+Emitted 'error' event on NodeWatcher instance at:
+
+  at NodeWatcher.checkedEmitError (/Users/libida/Desktop/app/gktapp/node_modules/sane/src/node_watcher.js:143:12)
+
+  at FSWatcher.emit (events.js:315:20)
+
+  at FSEvent.FSWatcher._handle.onchange (internal/fs/watchers.js:184:12) {
+
+ errno: -24,
+
+ syscall: 'watch',
+
+ code: 'EMFILE',
+
+ filename: null
+
+}
+
+
+
+```
+
+**解决**：这个问题有可能是node版本问题，也有可能是watch。我这是watch问题导致的。
+
+`brew install watchman` 安装好，重新启动就可以了。
+
 ## RN报错问题
 
 在rn的tabs的第三个tab点击跳转到二级界面，然后在二级界面`navigate`到第二个tab页。报错如下：

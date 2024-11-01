@@ -11,7 +11,7 @@ npm config set registry https://registry.npmmirror.com
 
 * yarn
 ```
-npm install -g yarn
+npm install yarn -g
 ```
 修改源
 ```
@@ -147,9 +147,10 @@ No toolchains found in the NDK toolchains folder for ABI with prefix: arm-linux-
 
 ## RN安装react-devtools报错
 **安装electron失败 postinstall: `node install.js`**
-解决方法：将electron下载地址指向taobao镜像
+解决方法：将electron下载地址指向中科大镜像
+
 ```
-npm config set electron_mirror "https://npm.taobao.org/mirrors/electron/"
+npm config set electron_mirror "https://npmmirror.com/mirrors/electron/"
 ```
 
 ## RN iOS运行指定模拟器
@@ -540,5 +541,4 @@ sass_binary_site=https://cdn.npmmirror.com/binaries/node-sass
 * redux、vuex
 * Vue3.0、nuxtjs、nextjs
 * tailwindcss: css框架
-
 
