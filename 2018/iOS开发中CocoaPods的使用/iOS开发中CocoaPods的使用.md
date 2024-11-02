@@ -59,6 +59,23 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 国内用户可用一键安装脚本:
 `/bin/zsh -c "$(curl -fsSL https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh)"`
 
+## pod install 报错
+```
+xcrun: error: SDK "iphoneos" cannot be located
+xcrun: error: unable to lookup item 'Path' in SDK 'iphoneos'
+/Users/jion/Library/Caches/CocoaPods/Pods/External/glog/2263bd123499e5b93b5efe24871be317-1f3da/missing: Unknown `--is-lightweight' option
+Try `/Users/jion/Library/Caches/CocoaPods/Pods/External/glog/2263bd123499e5b93b5efe24871be317-1f3da/missing --help' for more information
+configure: WARNING: 'missing' script is too old or missing
+configure: error: in `/Users/jion/Library/Caches/CocoaPods/Pods/External/glog/2263bd123499e5b93b5efe24871be317-1f3da':
+configure: error: C compiler cannot create executables
+See `config.log' for more details
+
+```
+**解决**:
+1. 检查Xcode路径：`xcode-select --print-path`
+2. 输出：`/Applications/Xcode.app/Contents/Developer`为正确路金,我这里输出的是`/Library/Developer/CommandLineTools`
+3. 需要执行：`sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`
+
 ## 如何使用CococaPods
 
 1. 先确认pods安装完成：`pod --version`
