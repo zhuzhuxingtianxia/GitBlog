@@ -21,7 +21,7 @@ npx create-expo-app@latest
 ```
 npx react-native@0.70.2 init MyApp --template react-native-template-typescript
 // 0.73以上版本使用下面命令
-npx @react-native-community/cli@X.XX.X init ProjectName --version X.XX.X
+npx @react-native-community/cli init ProjectName --version X.XX.X
 //或
 npx create-expo-app --template
 ```
