@@ -133,6 +133,35 @@ post_install do |installer|
 **原因** 只有在为arm64构建时，项目中接入了unity, 有一步设置了`[ufw setExecuteHeader: &_mh_execute_header];`
 **解决**：Build Setting -> Build Options 设置Enable Debug Dylib Support为 `No`
 
+
+
+## Xcode15.2 React-jsi报错
+
+`*/ios/Pods/Folly/folly/FBString.h:1106:23 No type named 'reference' in 'std::allocator<char>'`
+
+![error](./x15_error.jpg)
+
+**解决**:
+找到FBString.h修改`typedef A allocator_type;`下面的六行代码，把以`A`命名空间的类型定义进行修改:
+```
+//将这六行
+typedef typename A::size_type size_type;
+typedef typename A::difference_type difference_type;
+
+typedef typename A::reference reference;
+typedef typename A::const_reference const_reference;
+typedef typename A::pointer pointer;
+typedef typename A::const_pointer const_pointer;
+ // 替换成下面的六行
+typedef typename std::allocator_traits<A>::size_type size_type;
+typedef typename std::allocator_traits<A>::difference_type difference_type;
+
+typedef typename std::allocator_traits<A>::value_type& reference;
+typedef typename std::allocator_traits<A>::value_type const& const_reference;
+typedef typename std::allocator_traits<A>::pointer pointer;
+typedef typename std::allocator_traits<A>::const_pointer const_pointer;
+```
+
 ## Xcode14三方库签名报错
 
 今天更新升级了一下Xcode14，打开项目运行居然报错了:
@@ -178,7 +207,7 @@ end
 
  	```
  	gem 'cocoapods-pod-sign'
-	gem 'cocoapods'
+ 	gem 'cocoapods'
  	```
  ![Gemfile](./Gemfile.png)
 

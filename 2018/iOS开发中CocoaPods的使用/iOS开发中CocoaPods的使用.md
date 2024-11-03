@@ -36,7 +36,7 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 出现Successfully installed cocoapods，下载好了。
 
 * 或使用brew: `brew install cocoapods`
-* 执行安装：`pod setup --verbose`
+* 重置安装配置：`pod setup --verbose`
 * 查看pod版本: `pod --version`
 * 查看pod具体信息: `pod env`
 * 查看pods镜像源: `pod repo list`

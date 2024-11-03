@@ -17,6 +17,7 @@ Mac终端输入：`sudo vi /etc/hosts`
 151.101.184.133 gist.githubusercontent.com
 151.101.184.133 cloud.githubusercontent.com
 151.101.184.133 camo.githubusercontent.com
+185.199.110.133 avatars.githubusercontent.com
 151.101.184.133 avatars0.githubusercontent.com
 151.101.184.133 avatars1.githubusercontent.com
 151.101.184.133 avatars2.githubusercontent.com
