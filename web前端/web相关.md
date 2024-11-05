@@ -16,7 +16,7 @@
 
 * 设置缓存策略
   * 利用http头信息来控制资源的缓存行为，请求size是memory cache 和 disk cache就表示，浏览器并没有向服务器发送请求，而是直接读取了本地的缓存资源文件。
- 
+
   * 缓存过程分为[强缓存和协商缓存](./Xi.Blog/2022/计算机及浏览器基础/浏览器的缓存机制.md)
   * 强缓存不会向服务器发送请求，直接从缓存中读取资源，请求头需设置`Cache-Control`并设置缓存时长，在这个时间内都读取缓存即使服务器资源文件发生变化。
 	* 协商缓存就是强缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程。请求头通过设置`Last-Modified`或者`ETag`实现
@@ -25,7 +25,7 @@
 * 使用service worker
 	* 使用Service Workers拦截请求实现离线缓存和更灵活的缓存策略，可以精细控制如何处理网络请求和缓存响应。
 * 利用浏览器的本地缓存
-	* 利用localStorage、index DB来存储一些需要快速访问的俄数据，减少服务器请求次数。
+	* 利用localStorage、index DB来存储一些需要快速访问的数据，减少服务器请求次数。
 * 资源压缩与合并
 	* 压缩静态资源（如使用Gzip）减小文件大小，加快加载速
 	* 合并多个CSS或JavaScript文件，减少HTTP请求次数
@@ -229,7 +229,7 @@ store提供三个功能：
 1. getstate()获取数据
 2. dispatch(action)监听action的分发进行数据更新
 3. 支持订阅store的变更
-  当组件中使用store，可以通过getstate()获取到数据，通过dispatch(action)进行数据的更新，通过subscribe监听到数据，当对应的store中的数据也被修改时，组件中的数据也会相应改变。
+    当组件中使用store，可以通过getstate()获取到数据，通过dispatch(action)进行数据的更新，通过subscribe监听到数据，当对应的store中的数据也被修改时，组件中的数据也会相应改变。
 
 在redux中存在异步流，由于Redux对所有的store数据的变更，都应该通过action触发，异步任务（通常是业务或者是获取数据任务）也不例外，而为了不将业务或数据相关的任务混入react组件中，就需要使用其它框架配合管理异步流程，如redux-thunk，redux-presist,redux-logger。
 
@@ -1019,5 +1019,4 @@ npm i image-webpack-loader --save-dev
 ## 文章参考
 
 * [可视化拖拽组件库一些技术要点原理分析](https://juejin.cn/post/6908502083075325959)
-
 
