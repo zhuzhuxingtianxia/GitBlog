@@ -150,7 +150,7 @@ Pod::Spec.new do |s|
   s.source_files = 'ZJ_Hello****/*.h'
   # s.libraries = 'sqlite3.0' //依赖的lib 
   # s.frameworks = 'UIKit', 'MapKit' //依赖的frameworks  
-  # s.dependency 'AFNetworking', '~> 2.3' //依赖的第三方库
+  # s.dependency 'AFNetworking', '~> 2.3' //依赖的第三方库 :source=>'' 未经过验证
 end
 ```
 编辑好后，提交到GitHub。
@@ -285,7 +285,7 @@ pod repo remove NAME  //废去pod的某个版本
 	```
 	pod lib lint HelloLib.podspec
 	```
-   如果你的spec为私有的，则会提示：
+	   如果你的spec为私有的，则会提示：
 ```
 [!] HelloLib did not pass validation, due to 1 warning (but you can use `--allow-warnings` to ignore it) 
 and all results apply only to public specs, 
@@ -334,5 +334,4 @@ source 'https://gitee.com/zhuzhuxingtianxia/ZJSpecs.git'
 ```
 source 'https://github.com/CocoaPods/Specs.git'
 ```
-
 
