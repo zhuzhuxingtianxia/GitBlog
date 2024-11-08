@@ -20,6 +20,8 @@ Object.freeze(person);
 person.name = 'Bob'; // 不起作用
 person.address.city = 'Oz'; // 起作用，因为 address 对象没有被冻结
 console.log(person); // { name: 'Alice', address: { city: 'Oz' } }
+// 修改可新建对象
+const newPerson = {...persion}
 
 ```
 
@@ -104,14 +106,14 @@ reduce() 可以作为一个高阶函数，用于函数的 compose。
 const numbers = [65, 44, 12, 4];
 const total = numbers.reduce((total, num)=> { return total + num; })
 //total:125
-```	
+```
 ```
 const numbers = [{score:65}, {score:44}, {score:12}, {score:4}];
 const total = numbers.reduce((total, current)=> { 
 							return total +current.score;
 					},0);
 //total:125
-```	
+```
 
 数组求和，求乘积：
 ```
