@@ -443,41 +443,6 @@ index = array.indexOf(7);
 var a = [1,2,3,4,5]; 
 var b = a.reverse(); //a：[5,4,3,2,1]   b：[5,4,3,2,1] 
 ```
-## splice()
-splice() 方法向/从数组中添加/删除项目，然后返回被删除的元素
-**注意：**该方法会改变原始数组
-**语法：**`arrayObject.splice(index,howmany,item1,.....,itemX)`
-index:必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置
-howmany:必需。要删除的元素数量。如果设置为 0，则不会删除元素。
-item1...itemX:可选。向数组添加的新元素。
-```
-var arr = [1,2,3,4]
-console.log(arr.splice(1,1));//[2]
-console.log(arr);//[1,3,4]
-
-```
-删除并添加新元素，从索引值为2处删除两个元素并添加元素7，8，9
-```
-var a = [1,2,3,4,5]; 
-var b = a.splice(2,2,7,8,9); //a：[1,2,7,8,9,5]   b：[3,4] 
-```
-
-## slice() 
-方法可从已有的数组中返回选定的元素，也可用于字符串截取
-**语法**：`arr.slice(start,end);` //start为初始位置,end为结尾位置,返回的结果是从start到end(不取)的新数组
-`arr.slice(start);`//选取从start开始直至最后一个元素
-```
-var arr1 = [1,2,3,4];
-console.log(arr1.slice(1)); //[2, 3, 4]
-console.log(arr1.slice(1,2));//[2]
-console.log(arr1);//[1,2,3,4]
-
-var str = 'Start'
-console.log(str.slice(0,1)); //S
-
-
-```
-
 ## shift()
 删除原数组第一项，并返回删除元素的值；如果数组为空则返回undefined 
 ```
@@ -571,23 +536,67 @@ console.log(obj); // { a: 1, b: 2, c: 3 }
 console.log(o1);  // { a: 1, b: 2, c: 3 }, 注意目标对象自身也会改变。
 
 ```
-##split()
+## split()
 使用一个指定的分隔符把一个字符串分割存储到数组
+
 ```
 例子： str=”jpg|bmp|gif|ico|png”; 
 arr=str.split(”|”);
 //arr=[jpg”,”bmp”,”gif”,”ico”,”png”]
 
 ```
-##join()
+## join()
 使用您选择的分隔符将一个数组合并为一个字符串
+
 ```
 var myList=new Array(”jpg”,”bmp”,”gif”,”ico”,”png”);
 var portableList=myList.join(”|”);
 //结果是jpg|bmp|gif|ico|png
 
 ```
+## splice()
+
+splice() 方法向/从数组中添加/删除项目，然后返回被删除的元素
+**注意：**该方法会改变原始数组
+**语法：**`arrayObject.splice(index,howmany,item1,.....,itemX)`
+index:必需。整数，规定添加/删除项目的位置，使用负数可从数组结尾处规定位置
+howmany:必需。要删除的元素数量。如果设置为 0，则不会删除元素。
+item1...itemX:可选。向数组添加的新元素。
+
+```
+var arr = [1,2,3,4]
+console.log(arr.splice(1,1));//[2]
+console.log(arr);//[1,3,4]
+
+```
+
+删除并添加新元素，从索引值为2处删除两个元素并添加元素7，8，9
+
+```
+var a = [1,2,3,4,5]; 
+var b = a.splice(2,2,7,8,9); //a：[1,2,7,8,9,5]   b：[3,4] 
+```
+
+## slice() 
+
+方法可从已有的数组中返回选定的元素，也可用于字符串截取
+**语法**：`arr.slice(start,end);` //start为初始位置,end为结尾位置,返回的结果是从start到end(不取)的新数组
+`arr.slice(start);`//选取从start开始直至最后一个元素
+
+```
+var arr1 = [1,2,3,4];
+console.log(arr1.slice(1)); //[2, 3, 4]
+console.log(arr1.slice(1,2));//[2]
+console.log(arr1);//[1,2,3,4]
+
+var str = 'Start'
+console.log(str.slice(0,1)); //S
+
+
+```
+
 ## slice()
+
 **功能**：`arrayObject.slice(start,end)`
 　　start:必需。规定从何处开始选取。如果是负数，那么它规定从数组尾部开始算起的位置。也就是说，-1 指最后一个元素，-2 指倒数第二个元素，以此类推。
 　　end:可选。规定从何处结束选取。该参数是数组片断结束处的数组下标。如果没有指定该参数，那么切分的数组包含从 start 到数组结束的所有元素。如果这个参数是负数，那么它规定的是从数组尾部开始算起的元素。
