@@ -71,9 +71,9 @@ create-react-native-module libray_name
 * js调用原生代码的方法：
 1. 模块需要实现`RCTBridgeModule`协议
 2. 类中需要包含`RCT_EXPORT_MODULE()`宏,用于倒出模块和自定义模块名称
-3. 通过`RCT_EXPORT_METHOD()`宏声明要给 JavaScript 导出的方法
+3. 通过`RCT_EXPORT_METHOD()`宏声明要给 JavaScript 导出的方法（在新架构Turbo中可直接调用，先声明接口，codegen生成c++接口，配置模块及native接口）
 4. 导出的方法参数`RCTResponseSenderBlock`可用于数据的回调
-5. 也可使用`RCT_REMAP_METHOD`宏导出promise异步回调方法
+5. 防止js方法命名冲突也可使用`RCT_REMAP_METHOD`宏导出promise异步回调方法
 
 * 原生代码调用js方法：
 1. 原生类需继承`RCTEventEmitter`
@@ -82,7 +82,7 @@ create-react-native-module libray_name
 4. js端通过创建`NativeEventEmitter`实例来通过事件名称添加监听订阅事件
 
 ## react native如何优化
-1. 导航路由使用懒加载的方式
+1. 导航路由使用懒加载的方式`lazy(() => import('./HomeScreen'))`
 2. 组件模块使用`React.lazy` 和 `Suspense` 动态加载，减少初始加载包大小
 3. 使用memo、useMemo、useCallback等减少不必要的计算和渲染更新
 4. 减少匿名函数的使用
