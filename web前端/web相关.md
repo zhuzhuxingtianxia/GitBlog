@@ -985,8 +985,8 @@ module.exports = {
 主要是有选择的压缩图片资源，webpack对图片的处理常用的有`url-loader`、`file-loader`、`image-webpack-loader`，各个加载器都在打包过程中有着自己的功能职责。
 
 *	file-loader: 将项目中定义加载的图片通过webpack编译打包，并返回一个编码后的公共的url路径。
-  *url-loader: url-loader作用和file-loader的作用基本是一致的，不同点是url-loader可以通过配置一个limit值来决定图片是要像file-loader一样返回一个公共的url路径，或者直接把图片进行base64编码，写入到对应的路径中去。
-  *image-webpack-loader: 用来对编译过后的文件进行压缩处理，在不损失图片质量的情况下减小图片的体积大小
+* url-loader: url-loader作用和file-loader的作用基本是一致的，不同点是url-loader可以通过配置一个limit值来决定图片是要像file-loader一样返回一个公共的url路径，或者直接把图片进行base64编码，写入到对应的路径中去。
+* image-webpack-loader: 用来对编译过后的文件进行压缩处理，在不损失图片质量的情况下减小图片的体积大小
 
 安装：
 ```
