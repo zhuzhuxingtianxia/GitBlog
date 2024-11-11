@@ -330,11 +330,12 @@ store.getState()
 函数防抖的实现
 ```
 function debounce(fn, wait) {            
-	var timer = null;            
+	let timer = null;
+  // 此处不可返回箭头函数,function才有自己的arguments
 	return function () {                
-		var context = this;
+		const context = this;
 		// arguments是function里特定的对象之一，指的是function的参数对象                    
-		args = [...arguments];                 
+		const args = [...arguments];                 
 		 
 		//如果此时存在定时器的话，则取消之前的定时器重新计时                               
 		if (timer) {                    
@@ -362,11 +363,11 @@ function debounce(fn, wait) {
  //时间戳版        
  function throttle(fn, delay) { 
  	// 毫秒级时间戳           
- 	var preTime = Date.now();            
+ 	let preTime = Date.now();            
  	return function () {                
- 		var context = this, 
- 		args = [...arguments], 
- 		nowTime = Date.now();                
+ 		const context = this, 
+ 		const args = [...arguments], 
+ 		const nowTime = Date.now();                
  		//如果两次时间间隔超过了指定时间，则执行函数。                
  		if (nowTime - preTime >= delay) {                    
  			preTime = Date.now();                    
@@ -379,8 +380,8 @@ function debounce(fn, wait) {
  function throttle2(fun, awit) {            
  	let timeOut = null;            
  	return function () {                
- 		let context = this, 
- 		args = [...arguments];                
+ 		const context = this, 
+ 		const args = [...arguments];                
  		if (!timeOut) {                    
  			timeOut = setTimeout(() => {                        
  				fun.apply(context, args);                        
