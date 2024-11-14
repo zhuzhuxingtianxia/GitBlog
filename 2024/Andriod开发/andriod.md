@@ -1,5 +1,25 @@
 # Andriod 开发
 
+[Android Studio下载](https://developer.android.google.cn/studio?hl=zh-cn)
+
+[夜神模拟器下载](https://www.noxappplayer.org/)
+
+[JDK17下载](https://www.oracle.com/cn/java/technologies/downloads/#java17-mac)
+
+或使用brew安装jdk：
+```
+# 同时为 Intel 和 M1 芯片
+brew install --cask zulu@17
+
+# 获取安装的jdk下载路径，找到后点击进去双击进行安装
+brew info --cask zulu@17
+# 配置JAVA_HOME环境变量
+# 一般位于这里/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+```
+
+gradle存放路径: `~/.gradle/wrapper/dists`
+gradle缓存路径: `~/.gradle/wrapper`
+
 ## 应用生命周期
 
 ### Application生命周期
@@ -318,5 +338,4 @@ getDefaultProguardFile('proguard-android-optimize.txt') 是默认的 Android 平
 <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
 ```
-
 
