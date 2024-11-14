@@ -29,7 +29,7 @@ npx create-expo-app --template
 rn0.73版本需node18.x, 创建项目命令也有所不同。
 也可使用[Expo](https://docs.expo.dev/)创建新项目，网络原因不建议国内用户使用expo，不支持原生sdk接入，需要弹出原生项目。
 
-
+**0.74到0.76**android 工程发生了巨大变化
 
 ## RN渲染原理
 
@@ -88,6 +88,17 @@ create-react-native-module libray_name
 4. 减少匿名函数的使用
 5. 组件封装重用减少不必要的加载和渲染开销
 6. 减少外部依赖库，减少包体积和依赖管理的复杂度
+
+## rn新建项目android报错：
+```Settings file '/Users/jion/Desktop/My/LandApp/android/settings.gradle' line: 2
+
+A problem occurred evaluating script.
+> A problem occurred starting process 'command 'node''
+```
+rn版本: 0.74.6
+Android Studio: Android Studio Ladybug | 2024.2.1 Patch 2
+JDK: 17.0.3
+**暂不知道如何解决** 0.75.4没有问题
 
 ## rn**项目运行报错**
 
