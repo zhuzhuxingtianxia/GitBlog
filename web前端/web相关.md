@@ -170,6 +170,7 @@ const FormComponent = () => {
 ## Hooks中useState的用法
 初始化useState:
 **方式一:**
+
 ```
 const [value, setValue] = useState(设置初始值)
 ```
@@ -287,7 +288,7 @@ const changeState = (state, action) => {
   }
 }
 // 4. action
-const action = () => {
+const action = (param) => {
 	return {
 		type: 'xxx',
 		payload: {
@@ -298,7 +299,7 @@ const action = () => {
 
 const onClick = ()=> {
 	//5. 触发数据变化
-	store.dispatch(action)
+	store.dispatch(action())
 }
 
 // 2. store挂载到根元素
@@ -319,84 +320,6 @@ store.getState()
 * 在react的生命周期函数或者作用域下为异步
 * 在原生事件或setTimeout/setIntaval中是同步
 
-## 防抖和节流
-
-**防抖：**
-是指在事件被触发n秒后再执行回调，如果在这n秒内事件又被触发，则重新计时。这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。
-
-**节流：**
-是指规定一个单位时间，在这个单位时间内，只能触发一次事件回调函数的执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。
-
-函数防抖的实现
-```
-function debounce(fn, wait) {            
-	let timer = null;
-  // 此处不可返回箭头函数,function才有自己的arguments
-	return function () {                
-		const context = this;
-		// arguments是function里特定的对象之一，指的是function的参数对象                    
-		const args = [...arguments];                 
-		 
-		//如果此时存在定时器的话，则取消之前的定时器重新计时                               
-		if (timer) {                    
-			clearTimeout(timer)                    
-			timer = null                
-		}                
-		//设计定时器，使事件间隔指定时间后执行                
-		timer = setTimeout(() => {                    
-			fn.apply(context, args);                
-		}, wait)            
-	}        
-}        
-	
-	function sayHi() {            
-		console.log("防抖成功");        
-	}        
-	var inp = document.getElementById("inp"); 
-	//防抖       
-	inp.addEventListener("input", debounce(sayHi, 2000)); 
-
-```
-
-函数节流的实现
-```
- //时间戳版        
- function throttle(fn, delay) { 
- 	// 毫秒级时间戳           
- 	let preTime = Date.now();            
- 	return function () {                
- 		const context = this, 
- 		const args = [...arguments], 
- 		const nowTime = Date.now();                
- 		//如果两次时间间隔超过了指定时间，则执行函数。                
- 		if (nowTime - preTime >= delay) {                    
- 			preTime = Date.now();                    
- 			return fn.apply(context,args);                
- 		 }            
- 	 }        
- }        
- 
- //定时器版        
- function throttle2(fun, awit) {            
- 	let timeOut = null;            
- 	return function () {                
- 		const context = this, 
- 		const args = [...arguments];                
- 		if (!timeOut) {                    
- 			timeOut = setTimeout(() => {                        
- 				fun.apply(context, args);                        
- 				timeOut = null                    
- 			}, awit)                
- 		}            
- 	}        
- }        
- 
- function sayHi(){            
- 	console.log(e.target.innerWidth,e.target.innerHeight);        
- }        
- window.addEventListener('resize',throttle2(sayHi,1000))
-
-```
 ## async/await的设计和实现
 
 ## 深拷贝需要注意的问题
@@ -453,37 +376,6 @@ js在调⽤函数的时候经常会遇到this作⽤域的问题，ES6则提供�
 * prototype是每个函数都会具备的一个属性，它是一个指针，指向一个对象，只有函数才有;
 * proto是主流浏览器上在除null以外的每个对象上都支持的一个属性，它能够指向该对象的原型，用来将对象与该对象的原型相连的属性
 
-## 并发任务请求数量控制
-
-代码封装如下：
-```
-// 全局控制的话，可将变量定义为全局变量，方法使用static静态方法 
-class GCDTask {
-  constructor(count = 2) {
-    this.count = count; // 并发任务数量
-    this.tasks = []; // 任务列表
-    this.runningCount = 0; // 正在运行的任务数量
-  }
-
-  addTask(task) {
-    return new Promise((resolve, reject) => {
-      this.tasks.push({ task, resolve, reject });
-      this.run();
-    })
-  }
-  // 执行任务
-  run() {
-    while (this.runningCount < this.count && this.tasks.length > 0) {
-      const { task, resolve, reject } = this.tasks.shift();
-      this.runningCount++;
-      task().then(resolve, reject).finally(() => {
-        this.runningCount--;
-        this.run();
-      })
-    }
-  }
-}
-```
 
 ## typescript
 * type: 为一个类型取一个新的名字。它可用于定义对象、联合类型、元组等复杂类型
