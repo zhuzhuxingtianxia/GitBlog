@@ -149,6 +149,154 @@ console.log(proxy.name);
 使用具名插槽: `<template #title> 等价于 <template v-slot:title>`
 插槽传参: `<template #default="scope"></template>` scope即为传递的参数对象
 
+## 自定义指令
+可以扩展模板语法，实现特定的功能。
+通过 `Vue.directive`全局注册自定义指令,也可以在单个组件中通过 `directives`注册局部指令。
+```
+// 全局注册自定义指令
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus();
+  }
+});
+
+// 局部注册
+<template>
+  <input v-focus />
+</template>
+
+<script>
+export default {
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.focus();
+      }
+    }
+  }
+}
+</script>
+
+```
+Vue2自定义指令生命周期钩子函数:
+
+* bind：只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性初始化设置
+* inserted：被绑定元素插入父节点时调用（仅保证父节点存在，但不一定已被插入文档中）
+* update：所在组件的 VNode 更新时调用，但可能发生在其子 VNode 更新之前
+* componentUpdated：指令所在组件的 VNode 及其子 VNode 全部更新后调用
+* unbind：只调用一次，指令与元素解绑时调用
+
+Vue3自定义指令生命周期钩子函数:
+
+* created：指令绑定到元素时调用，不接受任何参数
+* beforeMount：在绑定元素的父组件实例挂载之前调用
+* mounted：在绑定元素的父组件实例挂载之后调用，此时元素已经插入到 DOM 中
+* beforeUpdate：在更新包含组件的 VNode 之前调用
+* updated：在包含组件的 VNode 及其子组件的 VNode 更新后调用
+* beforeUnmount：在卸载绑定元素的父组件实例之前调用
+* unmounted：在卸载绑定元素的父组件实例之后调用
+
+指令传递参数
+```
+// binding.arg 访问
+<template>
+  <div v-my-directive:name="foo"></div>
+</template>
+
+<script>
+export default {
+  directives: {
+    'my-directive': {
+      bind: function (el, binding) {
+        console.log(binding.arg); // 输出 "name"
+        console.log(binding.value); // 输出 "foo"
+      }
+    }
+  }
+}
+</script>
+
+//修饰符通过 binding.modifiers 访问
+<template>
+  <div v-my-directive.foo.bar></div>
+</template>
+
+<script>
+export default {
+  directives: {
+    'my-directive': {
+      bind: function (el, binding) {
+        console.log(binding.modifiers); // 输出 { foo: true, bar: true }
+      }
+    }
+  }
+}
+</script>
+
+//动态参数
+<template>
+  <div v-my-directive:[dynamicArg]="color"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      dynamicArg: 'background'
+    };
+  },
+  directives: {
+    'my-directive': {
+      bind: function (el, binding) {
+      	const { value, arg, modifiers } = binding;
+         console.log(arg); // 输出 "background"
+         if (arg === 'background') {
+         	// 应用背景颜色
+		      el.style.backgroundColor = value; 
+		    } else {
+		    // 默认应用文字颜色
+		      el.style.color = value; 
+		    }
+
+      }
+    }
+  }
+}
+</script>
+```
+
+## 角色权限控制
+
+权限控制：
+```hasPermi.js
+export default {
+  mounted(el, binding, vnode) {
+    const { value } = binding
+    const all_permission = "*:*:*";
+    const permissions = allPermissions;
+
+    if (value && value instanceof Array && value.length > 0) {
+      const permissionFlag = value
+
+      const hasPermissions = permissions.some(permission => {
+        return all_permission === permission || permissionFlag.includes(permission)
+      })
+
+      if (!hasPermissions) {
+        el.parentNode && el.parentNode.removeChild(el);
+        // 或如果用户没有所需权限，隐藏元素
+        // el.style.display = 'none'; 
+      }
+    } else {
+      throw new Error(`请设置操作权限标签值`)
+    }
+  }
+}
+
+```
+在全局注册`app.directive('hasPermi', hasPermi)`,
+元素上使用`v-hasPermi="['monitor:job:remove']"`
+
 ## vue中的nextTick
 在 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。
 
