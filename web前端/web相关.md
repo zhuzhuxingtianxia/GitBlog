@@ -324,13 +324,33 @@ store.getState()
 
 ## 深拷贝需要注意的问题
 
+注意的问题：
+
+1. 循环引用
+
+2. 类型检测
+
+3. Symbol 类型的属性
+
+4. 函数
+
+5. 性能
+
+   可以用 Lodash 的 `_.cloneDeep`高效深拷贝数据。
+
 ## 跨域问题
+
+跨域问题通常发生在当一个网页尝试从不同的域名请求数据时。浏览器出于安全考虑，默认情况下会阻止这种请求。
+
+* jsonp: 利用 `<script>` 标签的 src 属性不受同源策略限制的特点，通过动态创建 `<script>` 标签来请求数据，并且可以指定回调函数。只能发送 GET 请求，安全性低。
+* cors: 服务器设置 `Access-Control-Allow-Origin` 响应头，来告诉浏览器允许哪些域名可以访问资源.支持所有HTTP请求。
+* Nginx 代理：通过代理转发完全避免跨域问题。
+* postMessage API: 不同窗口或 iframe 之间的消息传递，可以调用`window.postMessage(message, targetOrigin)`跨域发送消息
 
 ## 数据类型的判断
 
 * typeof：判断基本数据类型、值类型；
 * instanceof：判断对象类型、引用类型,例如`[] instanceof Array`返回true
-
 
 [面试题](https://www.php.cn/toutiao-493353.html) 用于学习
 
@@ -500,12 +520,19 @@ Promise.all(
 
 #### iframe方案
 **特点：**
+
 1. 接入比较简单
+
 2. 隔离性稳定
+
+
 **缺点：**
-1. dom割裂感严重，弹框只能在iframe，而且有滚动条
-2. 通讯非常麻烦，而且刷新iframe url状态丢失
-3. 前进后退按钮无效
+
+3. dom割裂感严重，弹框只能在iframe，而且有滚动条
+
+4. 通讯非常麻烦，而且刷新iframe url状态丢失
+
+5. 前进后退按钮无效
 
 #### qiankun方案
 [qiankun](https://qiankun.umijs.org/zh/guide)方案是基于single-spa的微前端方案
@@ -911,5 +938,5 @@ npm i image-webpack-loader --save-dev
 
 ## 文章参考
 
-* [可视化拖拽组件库一些技术要点原理分析](https://juejin.cn/post/6908502083075325959)
+* [低代码-可视化拖拽组件库一些技术要点原理分析](https://juejin.cn/post/6908502083075325959)
 
