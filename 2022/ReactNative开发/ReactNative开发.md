@@ -148,7 +148,7 @@ cd TurboTest1
 yarn add link:./modules/RNCalculator
 
 ```
-在ios/andriod下编写原生代码
+在ios/andriod下编写原生代码完成后
 ```
 cd ios
 rm -rf build & bundle exec pod install
