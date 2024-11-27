@@ -214,3 +214,38 @@ end
 4. 执行`bundle install`,让文件的修改生效
 5. cd 到项目目录执行`pod install --verbose`
 
+##  Xcode15.2 在rn运行codegen生成代码运行报错
+```
+Build service could not create build operation: unknown error while handling message: MsgHandlingError(message: "unable to initiate PIF transfer session (operation in progress?)")
+```
+**解决**:
+rm -rf ~/Library/Developer/Xcode/DerivedData
+clean
+clear all Issues
+重启Xcode
+重新build
+还是报错结果发现是自定义的`podspec`文件中缺少react相关依赖
+```
+if respond_to?(:install_modules_dependencies, true)
+    install_modules_dependencies(spec)
+  else
+    spec.dependency "React-Core"
+
+    # Don't install the dependencies when we run `pod install` in the old architecture.
+    if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
+      spec.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
+      spec.pod_target_xcconfig    = {
+          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
+          "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
+          "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+      }
+      spec.dependency "React-Codegen"
+      spec.dependency "RCT-Folly"
+      spec.dependency "RCTRequired"
+      spec.dependency "RCTTypeSafety"
+      spec.dependency "ReactCommon/turbomodule/core"
+    end
+  end
+```
+
+
