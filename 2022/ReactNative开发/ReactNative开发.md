@@ -29,7 +29,7 @@ npx create-expo-app --template
 rn0.73版本需node18.x, 创建项目命令也有所不同。
 也可使用[Expo](https://docs.expo.dev/)创建新项目，网络原因不建议国内用户使用expo，不支持原生sdk接入，需要弹出原生项目。
 
-**0.74到0.76**android 工程发生了巨大变化
+**0.74到0.76** android 工程发生了巨大变化。
 
 ## RN渲染原理
 
@@ -70,7 +70,7 @@ create-react-native-module libray_name
 ## rn与native如何交互
 * js调用原生代码的方法：
 1. 模块需要实现`RCTBridgeModule`协议
-2. 类中需要包含`RCT_EXPORT_MODULE()`宏,用于倒出模块和自定义模块名称
+2. 类中需要包含`RCT_EXPORT_MODULE()`宏,用于导出模块和自定义模块名称
 3. 通过`RCT_EXPORT_METHOD()`宏声明要给 JavaScript 导出的方法（在新架构Turbo中可直接调用，先声明接口，codegen生成c++接口，配置模块及native接口）
 4. 导出的方法参数`RCTResponseSenderBlock`可用于数据的回调
 5. 防止js方法命名冲突也可使用`RCT_REMAP_METHOD`宏导出promise异步回调方法
@@ -88,6 +88,72 @@ create-react-native-module libray_name
 4. 减少匿名函数的使用
 5. 组件封装重用减少不必要的加载和渲染开销
 6. 减少外部依赖库，减少包体积和依赖管理的复杂度
+
+## Codegen配置说明
+```
+  "codegenConfig": {
+    "name": "<SpecName>",
+    "type": "<types>",
+    "jsSrcsDir": "<source_dir>",
+    "android": {
+      "javaPackageName": "<java.package.name>"
+    }
+  },
+```
+
+* `name`: 用于创建包含规范的文件的名称。按照惯例，它应该有后缀 `Spec`，但这不是必须的
+* `type`: 需要生成的代码类型。允许的值是 `modules`, `components`, `all`
+	* `modules`:如果只需要为 Turbo 原生模块生成代码，请使用此值.Turbo 原生模块要求规范文件以 `Native`开头。例如，`NativeLocalStorage.ts` 是一个有效的规范文件名
+	* `components`:如果只需要为原生 Fabric 组件生成代码，请使用此值.原生 Fabric 组件要求规范文件以 `NativeComponent` 结尾。例如，`WebViewNativeComponent.tx`是一个有效的规范文件名
+	* `all`: 如果有组件和模块的混合，请使用此值
+* `jsSrcsDir`: 所有规范所在的根文件夹
+* `android.javaPackageName`: 这是 Android 特有的设置，让 Codegen 在自定义包中生成文件
+
+在项目根目录的`package.json`中配置Codegen, 会在`ios/build`和`android/app/build/generated/source/codegen`目录下生成相应的代码,
+如果是组件则还会在`node_modules/组件名/android/build/generated/source/codegen`生成代码
+
+### 工具统一处理(推荐)
+
+```
+npx create-react-native-library@latest module-name
+```
+* 询问是否创建本地库，选择`y`
+* 指定库的位置默认在项目根目录创建`modules`文件夹
+* 设置npm包的名称，默认会加上`react-native-`前缀，例如`react-native-module-name`可以改为`module-name`
+* 设置包的描述，随便设置后面可以修改
+* 库类型：
+  * JavaScript library - supports Expo Go and Web
+  * Native module - bridge for native APIs to JS
+  * Native view - bridge for native views to JS
+  * Turbo module with backward compat - supports new arch (experimental)
+  * Turbo module - requires new arch (experimental)
+  * Fabric view with backward compat - supports new arch (experimental)
+  * Fabric view - requires new arch (experimental)
+这里我们选择`Turbo module - requires new arch (experimental)`的方式
+然后选择想要的语言：
+* Kotlin & Objective-C
+* C++ for Android & iOS
+选择第一个。
+运行脚本后，会在`modules`文件夹下自动生成一个名为`module-name`的文件夹:
+* `package.json`: 文件中包含`codegenConfig`字段，用于配置Codegen及说明。
+* `src`: 文件夹中声明定义需要的规范。
+* `android`: 文件夹中包含Android平台相关的代码。
+* `ios`: 文件夹中包含iOS平台相关的代码。
+* `podspec`: 文件中包含iOS平台pods相关的配置。
+* `react-native.config.js`: 文件中配置Android平台cmake相关。
+
+```
+cd TurboTest1
+# 使用软连接的方式添加依赖 yarn 使用link, npm使用file。之后会在iOS项目下生成build文件夹
+yarn add link:./modules/RNCalculator
+
+```
+在ios/andriod下编写原生代码
+```
+cd ios
+rm -rf build & bundle exec pod install
+```
+
 
 ## rn新建项目android报错：
 ```Settings file '/Users/jion/Desktop/My/LandApp/android/settings.gradle' line: 2
@@ -266,6 +332,24 @@ xxx/Release-iphoneos/gktapp.app/main.jsbundle does not exist. This must be a bug
 方案三(未验证)：执行`yarn build:ios`, 然后拖拽`main.jsbundle`和 `assets`到Xcode项目，添加到Xcode选择`reference`的方式链接，不要选`group`。
 
 **临时解决方案**就是把`assets`资源包复制到`gktapp.app`中。打包release环境时，在上传包之前也同样把`assets`资源包复制到`gktapp.app`中。
+
+
+## RN0.76版本创建TurboModule问题
+ios目录运行`bundle install`报错：
+```
+An error occurred while installing nkf (0.2.0), and Bundler cannot continue.
+Make sure that `gem install nkf -v '0.2.0' --source 'https://rubygems.org/'` succeeds before bundling.
+
+In Gemfile:
+  cocoapods was resolved to 1.16.2, which depends on
+    xcodeproj was resolved to 1.27.0, which depends on
+      CFPropertyList was resolved to 3.0.7, which depends on
+        nkf
+```
+
+**解决**: 因为我使用brew安装了ruby@3.3的版本，系统自带的是ruby2.6，版本冲突了，
+在`.zshrc`文件中配置brew安装的ruby路径`export PATH="/usr/local/opt/ruby/bin:$PATH"`,并使用source执行让其立即生效。
+关闭编译器重新打开运行`bundle install`就可以了
 
 
 
