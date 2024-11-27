@@ -10,7 +10,7 @@ CocoaPods是用Ruby写的，所以运行需要安装Ruby环境，Mac中自带Rub
 
 2. 如果需要更新ruby版本则执行:`sudo gem update --system` 需要权限，在mac15.4上却无效了
 
-3. 或者先安装brew使用`brew install ruby 或 brew upgrade ruby`进行安装,这种方式需要配置环境变量，不会覆盖系统的ruby。
+3. 或者先安装brew使用`brew install ruby 或 brew upgrade ruby`进行安装,这种方式需要配置环境变量`export PATH="/usr/local/opt/ruby/bin:$PATH"`，不会覆盖系统的ruby。
 
 4. 查看ruby的镜像: `gem sources -l`
 
