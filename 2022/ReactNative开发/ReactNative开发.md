@@ -148,12 +148,18 @@ cd TurboTest1
 yarn add link:./modules/RNCalculator
 
 ```
-在ios/andriod下编写原生代码完成后
+在ios下编写原生代码完成后:
 ```
 cd ios
 rm -rf build & bundle exec pod install
 ```
+在android下编写原生代码:
+```
+cd android
+./gradlew generateCodegenArtifactsFromSchema
 
+```
+开发原生功能时，可以在原生开发工具中编写原生代码，测试完成后再移到组件库中。
 
 ## rn新建项目android报错：
 ```Settings file '/Users/jion/Desktop/My/LandApp/android/settings.gradle' line: 2
