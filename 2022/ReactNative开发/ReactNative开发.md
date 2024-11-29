@@ -35,7 +35,7 @@ rn0.73版本需node18.x, 创建项目命令也有所不同。
 
 React Native基于react, 允许开发者使用js和react组件来构建原生应用，通过js描述用户界面，最终交给原生平台渲染。
 
-它用虚拟dom来优化UI渲染，当组件状态或属性发生变化时，react会创建新的虚拟dom, 与之前的虚拟dom进行差异化比较，使得只需更新发生变化的部分，从而减少不必要的渲染开销。
+它用虚拟dom来优化UI渲染，当组件状态或属性发生变化时，react会创建新的虚拟dom, 与之前的虚拟dom进行差异化比较，只需更新发生变化的部分，从而减少不必要的渲染开销。
 
 老的架构渲染0.68：
 
@@ -48,24 +48,6 @@ React Native 在 JavaScript 和Native之间建立桥接（Bridge）的方式进�
 新架构使用**Fabric**渲染引擎，优化了UI渲染流程，通过jsi与native代码交互，取代了原来的桥接机制，减少桥接开销，jsi允许js直接访问原生模块，显著提高了性能。
 
 
-
-## 搭建RN库
-
-使用[create-react-native-library](https://qdfish.github.io/sakamoto.blog/2024/04/03/rn/create_library/)来构建，或使用[create-react-native-module](https://github.com/brodycj/create-react-native-module)**(推荐)**， `create-react-native-module`基于`ative-create-library`的。
-
-```
-npx create-react-native-library@latest libray_name
-// 可以添加参数
-react-native-create-library --package-identifier com.quenice.libray_name --platforms android,ios libray_name
-// 重命名项目
-mv libray_name react-native-libray_name
-
-//或全局安装
-npm install -g create-react-native-module
-create-react-native-module libray_name
-
-```
-因为利用`react-native-create-library`生产的项目, 组件相关的名称或者类会默认加上react-native或者RN前缀。所以上面先不加前缀，然后使用`mv`重命名项目。
 
 ## rn与native如何交互
 * js调用原生代码的方法：
@@ -89,7 +71,27 @@ create-react-native-module libray_name
 5. 组件封装重用减少不必要的加载和渲染开销
 6. 减少外部依赖库，减少包体积和依赖管理的复杂度
 
+## 搭建RN库
+
+使用[create-react-native-library](https://qdfish.github.io/sakamoto.blog/2024/04/03/rn/create_library/)来构建，或使用[create-react-native-module](https://github.com/brodycj/create-react-native-module)**(推荐)**， `create-react-native-module`基于`ative-create-library`的。
+
+```
+npx create-react-native-library@latest libray_name
+// 可以添加参数
+react-native-create-library --package-identifier com.quenice.libray_name --platforms android,ios libray_name
+// 重命名项目
+mv libray_name react-native-libray_name
+
+//或全局安装
+npm install -g create-react-native-module
+create-react-native-module libray_name
+
+```
+
+因为利用`react-native-create-library`生产的项目, 组件相关的名称或者类会默认加上react-native或者RN前缀。所以上面先不加前缀，然后使用`mv`重命名项目。
+
 ## Codegen配置说明
+
 ```
   "codegenConfig": {
     "name": "<SpecName>",
@@ -129,8 +131,8 @@ npx create-react-native-library@latest module-name
   * Turbo module - requires new arch (experimental)
   * Fabric view with backward compat - supports new arch (experimental)
   * Fabric view - requires new arch (experimental)
-这里我们选择`Turbo module - requires new arch (experimental)`的方式
-然后选择想要的语言：
+  这里我们选择`Turbo module - requires new arch (experimental)`的方式
+  然后选择想要的语言：
 * Kotlin & Objective-C
 * C++ for Android & iOS
 选择第一个。
