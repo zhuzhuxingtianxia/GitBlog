@@ -56,6 +56,7 @@ React Native 在 JavaScript 和Native之间建立桥接（Bridge）的方式进�
 3. 通过`RCT_EXPORT_METHOD()`宏声明要给 JavaScript 导出的方法（在新架构Turbo中可直接调用，先声明接口，codegen生成c++接口，配置模块及native接口）
 4. 导出的方法参数`RCTResponseSenderBlock`可用于数据的回调
 5. 防止js方法命名冲突也可使用`RCT_REMAP_METHOD`宏导出promise异步回调方法
+6. RN端使用`NativeModules.ModulesName`调用原生端导出的方法
 
 * 原生代码调用js方法：
 1. 原生类需继承`RCTEventEmitter`
