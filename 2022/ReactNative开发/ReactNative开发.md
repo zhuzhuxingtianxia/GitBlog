@@ -164,6 +164,15 @@ cd android
 ```
 开发原生功能时，可以在原生开发工具中编写原生代码，测试完成后再移到组件库中。
 
+## rn中android报错：
+```
+Build file '/Users/jion/Desktop/CodeSource/hil-leasing-assistant-rn/android/app/build.gradle' line: 57 * What went wrong: A problem occurred evaluating project ':app'.
+```
+
+根据提示是指向：build.gradle文件中react->`autolinkLibrariesWithApp()`。但是该方法并没有问题。执行`./gradlew clean`还是报同样的错误。
+
+删除 android目录下的build文件夹中的文件，然后再执行`./gradlew clean`
+
 ## rn新建项目android报错：
 ```Settings file '/Users/jion/Desktop/My/LandApp/android/settings.gradle' line: 2
 
@@ -174,6 +183,13 @@ rn版本: 0.74.6
 Android Studio: Android Studio Ladybug | 2024.2.1 Patch 2
 JDK: 17.0.3
 **暂不知道如何解决** 0.75.4没有问题
+
+Rn0.76.5安卓打release包时报了同样的问题:
+```
+cd android
+./gradlew assembleRelease --warning-mode all
+```
+通过命令打包可以成功！
 
 ## rn**项目运行报错**
 
@@ -360,5 +376,6 @@ In Gemfile:
 在`.zshrc`文件中配置brew安装的ruby路径`export PATH="/usr/local/opt/ruby/bin:$PATH"`,并使用source执行让其立即生效。
 关闭编译器重新打开运行`bundle install`就可以了
 
-
+## rn自定义Location库
+在iOS中库中CLLocationManager的代理方法一直不执行，将代码直接copy到项目中，却没有问题。
 

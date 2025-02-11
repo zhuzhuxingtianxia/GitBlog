@@ -12,6 +12,7 @@
   3. `--dbuser`: 数据库用户名，默认'root'
   4. `--dbpassword`: 数据库登录密码， 默认null
 
+还需要在core/config.ts 配置redis。
 
 ## [CodePush](https://zhuanlan.zhihu.com/p/42751434)
 
