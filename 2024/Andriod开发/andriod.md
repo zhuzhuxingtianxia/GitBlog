@@ -205,9 +205,18 @@ Gradle插件版本、Gradle版本、buildTool版本及ndk版本是相互关联�
 ![Android版本与SDK/API版本、JDK对应关系](./andriod_sdk_api.jpeg)
 
 ## adb 安装apk
+检查是否可用：`adb version`
+若没有该命令，mac中则 `ls ~/Library/Android/sdk/platform-tools/adb` 查看是否安装，
+若已安装则在`~/.zshrc`文件中配置环境变量
+```
+# ANDROID_HOME默认路径
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+```
 检查设置是否链接：`adb devices`
 cd到apk所在的目录: `adb install path_to_your_apk_file.apk` 该方式只能安装生产包，无法安装测试包。
+强制安装：`adb install -r -t ./app-debug.apk`
 
 ## 设置启动图和图标
 图标设置：

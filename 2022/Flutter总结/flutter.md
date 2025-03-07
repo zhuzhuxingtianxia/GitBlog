@@ -391,6 +391,47 @@ Navigator.pushNamed(context, Routes.home);
 // 或
 Navigator.pushNamed(context, '/detail/102');
 ```
+## 如何引入三方插件
+安装所有依赖：
+
+```
+flutter pub get
+// 添加dependency指定库
+flutter pub add xxx
+// 添加dependency指定版本库
+flutter pub add xxx:^1.2.3
+// 移除
+flutter pub remove xxx
+// 添加dev dependency 开发依赖库
+flutter pub add dev:xxx
+```
+
+1. 确保你选择的库是兼容 Flutter 的，可以在[pub.dev](https://pub.dev/) 上找到兼容 Flutter 的库
+2. 添加本地依赖,你可以使用 `path` 来指定依赖库的本地路径
+
+```
+dependencies:
+  my_local_library:
+    path: ../my_local_library
+
+```
+
+3. 指定库的地址和分支
+
+```
+dependencies:
+  my_package:
+    git:
+      url: git://github.com/username/repository.git
+      ref: main
+
+```
+
+4. 选择设备
+	在 VS Code 的右下方，您会找到一个显示当前目标设备的按钮，选择目标设备
+
+5. 启动项目
+	当 `lib/main.dart` 处于打开状态时，在 VS Code 窗口的右上方找到“播放” 按钮，然后点击该按钮
 
 ## 第三方插件[pub.dev](https://pub.flutter-io.cn/)
 
