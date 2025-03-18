@@ -10,6 +10,63 @@ Flutter 从上到下可以分为三层：框架层、引擎层和嵌入层：
 * 引擎层：该层主要是C++实现，其中包括了Skia渲染引擎(3.3版本使用渲染引擎Impeller取代Skia)、Dart运行时、文字排版引擎等。在代码调用 `dart:ui`库时，调用最终会走到引擎层，然后实现真正的绘制和显示。
 * 嵌入层: Flutter最终渲染、交互是要依赖其所在平台的操作系统API，嵌入层主要是将Flutter引擎采用当前平台的语言编写 ”安装“ 到特定平台上。嵌入层可以方便扩展支持新的平台
 
+## 如何引入三方插件
+安装所有依赖：
+
+```
+flutter pub get
+// 添加dependency指定库
+flutter pub add xxx
+// 添加dependency指定版本库
+flutter pub add xxx:^1.2.3
+// 移除
+flutter pub remove xxx
+// 添加dev dependency 开发依赖库
+flutter pub add dev:xxx
+```
+
+1. 确保你选择的库是兼容 Flutter 的，可以在[pub.dev](https://pub.dev/) 上找到兼容 Flutter 的库
+2. 添加本地依赖,你可以使用 `path` 来指定依赖库的本地路径
+
+```
+dependencies:
+  my_local_library:
+    path: ../my_local_library
+
+```
+
+3. 指定库的地址和分支
+
+```
+dependencies:
+  my_package:
+    git:
+      url: git://github.com/username/repository.git
+      ref: main
+
+```
+
+## 运行Flutter项目
+1. 查看设置连接
+ `flutter devices`
+2. 选择设备
+	在 VS Code 的右下方，您会找到一个显示当前目标设备的按钮，选择目标设备
+
+3. 启动项目
+	当 `lib/main.dart` 处于打开状态时，在 VS Code 窗口的右上方找到“播放” 按钮，然后点击该按钮, 或工具栏中的 **Run** 和 **Debug** 来测试 app
+4. 或终端运行
+```
+flutter run
+```
+5. 打包`flutter build apk`
+6. 在设备上安装 APK 文件
+```
+// 1. 用 USB 线将 Android 设备连接到电脑上
+// 2. 输入命令
+cd [project]
+flutter install
+```
+
 ## Flutter安装遇到的问题
 
 执行`flutter doctor -v`报错：
@@ -391,53 +448,14 @@ Navigator.pushNamed(context, Routes.home);
 // 或
 Navigator.pushNamed(context, '/detail/102');
 ```
-## 如何引入三方插件
-安装所有依赖：
-
-```
-flutter pub get
-// 添加dependency指定库
-flutter pub add xxx
-// 添加dependency指定版本库
-flutter pub add xxx:^1.2.3
-// 移除
-flutter pub remove xxx
-// 添加dev dependency 开发依赖库
-flutter pub add dev:xxx
-```
-
-1. 确保你选择的库是兼容 Flutter 的，可以在[pub.dev](https://pub.dev/) 上找到兼容 Flutter 的库
-2. 添加本地依赖,你可以使用 `path` 来指定依赖库的本地路径
-
-```
-dependencies:
-  my_local_library:
-    path: ../my_local_library
-
-```
-
-3. 指定库的地址和分支
-
-```
-dependencies:
-  my_package:
-    git:
-      url: git://github.com/username/repository.git
-      ref: main
-
-```
-
-4. 选择设备
-	在 VS Code 的右下方，您会找到一个显示当前目标设备的按钮，选择目标设备
-
-5. 启动项目
-	当 `lib/main.dart` 处于打开状态时，在 VS Code 窗口的右上方找到“播放” 按钮，然后点击该按钮
 
 ## 第三方插件[pub.dev](https://pub.flutter-io.cn/)
 
 * fluro: 路由框架
 * provider: 数据共享库
 * dio: 网络库
+* connectivity_plus: 网络连接类型检测
+* connectivity:网络监测
 * flutter_swiper: 轮播组件库(star1.6k)
 * carousel_slider: 轮播库(star3.5k)
 * shared_preferences: 数据存储库，类似iOS的UserDefaults
@@ -448,6 +466,7 @@ dependencies:
   * flutter_redux: 其提供StoreConnector组件来获取状态和监听状态修改，也可使用StoreProvider来直接获取store对象
 * GetX: 功能齐全的[框架](https://juejin.cn/post/7013143496139735047) 不建议使用
 * obx: Widget状态管理, [Rx+GetX的结合](https://juejin.cn/post/7069756758826156039)
+* get: 即GetX+obx，很强大。要学会使用
 * video_player: 视频播放库
 * audioplayers: 音频播放
 * image_picker: 图片选择库(图片多选不可限制)
@@ -457,8 +476,8 @@ dependencies:
 * webview_flutter: webview组件
 * city_pickers: 城市选择器
 * address_picker: 地址选择器
+* flutter_datetime_picker_plus: DatePicker日期选择器
 * event_bus: 组件通信(父子、兄弟）
-* connectivity:网络监测
 * fluttertoast: toast弹框
 * flutter_easyloading: loading插件
 * oktoast: 加载弹窗
@@ -470,13 +489,17 @@ dependencies:
 * geolocator: 地理位置插件，用于精度要求不高的场景
 * amap_location: 高德地图定位，对精度要求较高的场景
 * json_annotation: 模型转换库，需配合dev_dependencies下的
-  * build_runner: 构建模型转化脚步库，构建脚本`flutter pub run build_runner build`
+  * build_runner: 构建模型转化脚本库，构建脚本`flutter pub run build_runner build`
   * json_serializable: 序列化库
 * cupertino_icons: iOS样式的icons
 * injector: 是一个简单易用的轻量级dart依赖注入库
 * SQFlite: 数据库类似CoreData
 * firebase_messaging: Flutter官方推送的插件
-
+* extended_nested_scroll_view: 用于修复一些问题
+* animate_do: 动画库
+* intl: 提供国际化和本地化功能
+* fluwx: 微信sdk插件，分享、支付
+* tobias: 支付宝支付插件
 ```
 
 ```

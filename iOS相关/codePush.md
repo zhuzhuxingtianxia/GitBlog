@@ -36,7 +36,47 @@
 
 **CodePush-CLI is deprecated and no longer supported!**
 
-## [AppCenter-CLI](https://learn.microsoft.com/zh-cn/appcenter/distribution/codepush/cli)
+## CodePush-standalone
+code-push-standalone: [需自行下载运行安装](https://github.com/microsoft/code-push-server/tree/main/cli)
+
+* 安装完后登陆：
+```
+code-push-standalone login http://47.101.196.38:3000
+// 或
+code-push-standalone login URL --accessKey XXX
+```
+然后会启动浏览器获取access key，输入key进行登陆。
+* 查看是否登陆：
+```
+code-push-standalone whoami
+```
+* 退出：
+```
+code-push-standalone logout
+```
+* 删除登陆会话
+```
+//查看会话
+code-push-standalone session ls
+// 删除会话
+code-push-standalone session rm <machineName>
+```
+* 添加应用: `code-push-standalone app add <appName>`
+* 移除应用: `code-push-standalone app rm <appName>`
+* 查看应用列表: `code-push-standalone app ls`
+* 添加开发人员: `code-push-standalone collaborator add <appName> <collaboratorEmail>`
+* 为应用添加环境配置: `code-push-standalone deployment add <appName> <deploymentName>`
+* 查看某个应用部署列表：`code-push-standalone deployment ls <appName> [--displayKeys|-k]`
+* 打包:
+* 发布:
+	```
+	code-push-standalone release-react <appName> <platform>
+	[--deploymentName <deploymentName>]
+	[--description <description>]
+	[--targetBinaryVersion <targetBinaryVersion>]
+	```
+
+## [AppCenter-CLI](https://learn.microsoft.com/zh-cn/appcenter/distribution/codepush/cli) 无法自定义URL
 
 * 安装 App Center CLI: `npm install -g appcenter-cli`
 * 发布应用更新: `appcenter codepush release-react -a <ownerName>/MyApp`
@@ -54,9 +94,14 @@
 * 查看所有应用：`appcenter apps list`
 * 删除某个应用：`appcenter apps delete -a <ownerName>/<appName>`
 
+## codepush国内版本
+cpcn-react-native: [CodePush中国的热更方案](https://juejin.cn/post/7093706741304524836)根据更新次数收费
+react-native-update: [react-native中文网的热更方案](https://pushy.reactnative.cn/docs/getting-started)根据原生包大小+热更包大小收费
 
-
-
+## 国外付费
+@code-push-next/react-native-code-push: 对微软react-native-code-push的持续更新
+@rootpush/updates: [国外付费热更](https://www.rootpush.com/) 2G存储一万以下活跃用户免费
+@appzung/react-native-code-push: 国外付费热更，不提供免费服务
 
 
 

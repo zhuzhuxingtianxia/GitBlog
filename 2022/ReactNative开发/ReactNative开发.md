@@ -379,3 +379,49 @@ In Gemfile:
 ## rn自定义Location库
 在iOS中库中CLLocationManager的代理方法一直不执行，将代码直接copy到项目中，却没有问题。
 
+## android多渠道变体
+app/build.gradle 配置如下：
+```
+flavorDimensions "default" 
+productFlavors {
+   dev {
+       dimension "default"
+       applicationId "com.hil.platform"
+       versionNameSuffix "-dev"
+       buildConfigField "boolean", "IS_STORE", "false"
+
+       resValue "string", "app_name", '"和运行开发"'
+       resValue "string", "CodePushDeploymentKey", '""'
+   }
+   prod {
+       dimension "default"
+       applicationId "com.hil.hyx"
+       buildConfigField "boolean", "IS_STORE", "true"
+
+       resValue "string", "CodePushDeploymentKey", '""'
+       resValue "string", "app_name", '"和运行"'
+   }
+}
+
+```
+
+rn命令指定变体：
+```
+react-native run-android --variant=devDebug
+```
+报错如下：uunknown option '--variant=devDebug'
+
+在新的版本参数发生变化，改为如下：
+```
+react-native run-android --mode=devDebug
+```
+
+打包指定变体，命令如下：
+```
+// 打测试的release包
+react-native run-android --tasks=assembleDevRelease
+// 打生产的release包
+react-native run-android --tasks=assembleProdRelease
+
+```
+
