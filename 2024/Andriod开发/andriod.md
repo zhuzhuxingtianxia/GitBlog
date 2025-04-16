@@ -218,6 +218,12 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 cd到apk所在的目录: `adb install path_to_your_apk_file.apk` 该方式只能安装生产包，无法安装测试包。
 强制安装：`adb install -r -t ./app-debug.apk`
 
+## 下载apk安装
+上传fir或蒲公英开放平台，然后扫码下载
+
+## 将apk拖入安卓手机文件夹
+
+
 ## 设置启动图和图标
 图标设置：
 app->New->Image Asset->选择要用的icon，Name用ic_launcher 保存后会存在res文件夹下面的mipmap中，
