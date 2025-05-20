@@ -45,7 +45,16 @@ code-push-standalone login http://47.101.196.38:3000
 // 或
 code-push-standalone login URL --accessKey XXX
 ```
-然后会启动浏览器获取access key，输入key进行登陆。
+然后会启动浏览器获取access key（需绑定GitHub账号），输入key进行登陆。
+* 登陆的另一种方式：无需启动浏览器和绑定GitHub账号。
+ ```
+ // 运行以下命令来创建“访问密钥”，添加一个key, --ttl 指定过期时间
+ code-push-standalone access-key add "VSTS Integration" --ttl 90d
+ // 然后
+ code-push-standalone login --accessKey <accessKey>
+ // 如果您需要更改密钥的名称和/或到期日期，使用以下命令：
+ code-push-standalone access-key patch <accessKeyName> --name "new name" --ttl 10d
+ ```
 * 查看是否登陆：
 ```
 code-push-standalone whoami
