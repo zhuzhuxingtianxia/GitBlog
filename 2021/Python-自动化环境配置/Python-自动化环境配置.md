@@ -86,7 +86,7 @@ trusted-host=mirrors.aliyun.com
 ```
 pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ```
-上面命令会把配置信息添加到`~/.config/pip/pip.conf`文件中
+上面命令会把配置信息添加到`~/.config/pip/pip.conf`文件中，然后再执行`pip3 config list`即可查看到。
 
 如果修改临时镜像源，可以这么做：
 ```
