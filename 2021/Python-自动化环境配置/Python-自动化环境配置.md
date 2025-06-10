@@ -57,6 +57,14 @@
 pip类似`npm`或`cocoapods`，是包管理工具。
 pip默认的镜像源是：**https://pypi.org/simple/**
 
+运行以下命令列出所有生效的配置：
+```
+pip3 config list
+// 临时测试下载源可使用
+pip3 install -v numpy 2>&1 | grep "Looking up"
+```
+没有输出说明没有.pip/pip.conf 配置文件。
+
 添加或修改镜像源:
 
 * 进入根目录：cd ~/
