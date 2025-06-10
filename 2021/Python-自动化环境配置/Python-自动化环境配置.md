@@ -63,7 +63,7 @@ pip3 config list
 // 临时测试下载源可使用
 pip3 install -v numpy 2>&1 | grep "Looking up"
 ```
-没有输出说明没有.pip/pip.conf 配置文件。
+没有输出说明在~/根目录没有.pip/pip.conf或.config/pip/pip.conf 配置文件。
 
 添加或修改镜像源:
 
@@ -86,6 +86,7 @@ trusted-host=mirrors.aliyun.com
 ```
 pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 ```
+上面命令会把配置信息添加到`~/.config/pip/pip.conf`文件中
 
 如果修改临时镜像源，可以这么做：
 ```
