@@ -63,7 +63,7 @@ pip3 config list
 // 临时测试下载源可使用
 pip3 install -v numpy 2>&1 | grep "Looking up"
 ```
-没有输出说明在~/根目录没有.pip/pip.conf或.config/pip/pip.conf 配置文件。
+若输出为空，则表示使用 默认官方源`https://pypi.org/simple`。
 
 添加或修改镜像源:
 
