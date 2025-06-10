@@ -74,6 +74,11 @@ trusted-host=mirrors.aliyun.com
 ```
 这里我们将阿里云的镜像源添加到配置文件中。
 
+或使用命令修改镜像源：
+```
+pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
 如果修改临时镜像源，可以这么做：
 ```
 //临时修改为清华大学的镜像
