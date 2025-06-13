@@ -84,14 +84,14 @@ trusted-host=mirrors.aliyun.com
 
 或使用命令修改镜像源：
 ```
-pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 ```
 上面命令会把配置信息添加到`~/.config/pip/pip.conf`文件中，然后再执行`pip3 config list`即可查看到。
 
 如果修改临时镜像源，可以这么做：
 ```
-//临时修改为清华大学的镜像
-pip3 install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple/
+//临时修改为阿里云的镜像
+pip3 install scrapy -i https://mirrors.aliyun.com/pypi/simple/
 ```
 
 ## 安装Python依赖包
