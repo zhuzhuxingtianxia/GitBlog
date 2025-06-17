@@ -269,6 +269,7 @@ pip install langchain-ollama
 
 ### VectorStore矢量存储
 VectorStore通常使用嵌入模型进行初始化，嵌入模型确定如何将文本数据转换为数字向量。LangChain可以与[不同向量存储技术的集成（数据库、云提供商、内存等）](https://langchain.cadn.net.cn/python/docs/integrations/vectorstores/index.html)。
+所有向量存储都可以强制转换为Retriever检索器。
 
 VectorStore 包括用于查询的方法:
 * 同步和异步;
