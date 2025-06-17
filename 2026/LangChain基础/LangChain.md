@@ -1,4 +1,5 @@
 # LangChain
+[LangChain](https://langchain.cadn.net.cn/python/docs/introduction/index.html)及[API文档](https://python.langchain.com/api_reference/langchain/index.html#)相关可供查阅。
 
 术语：
 1. LLM 大语言模型
