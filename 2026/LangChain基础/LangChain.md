@@ -1,5 +1,13 @@
 # LangChain
 
+术语：
+1. RAG 检索增强生成
+2. LLM 大语言模型
+3. NLP 自然语言处理
+4. AIGC AI生成内容
+5. Agent 智能体
+6. AGI 通用人工智能
+
 ## PyCharm 安装
 我们使用PyCharm来学习[没有下载的可以看这里](https://www.jianshu.com/p/355c7f55238b)。安装完成后，打开：
 ![pycharmIDE](./pycharmIDE.png)
@@ -277,7 +285,7 @@ vector_store = InMemoryVectorStore(embeddings)
 ids = vector_store.add_documents(documents=all_splits)
 print(ids)
 ```
-内存矢量存储调用`add_documents`后一直没有结果返回？？
+内存矢量存储调用`add_documents`后一直没有结果返回。将模型改为ollama支持的嵌入模型`nomic-embed-text`，则可以快速输出结果。
 
 ```
 # 根据与字符串查询的相似性返回文档
@@ -296,4 +304,142 @@ print(f"Score: {score}\n")
 print(doc)
 ```
 
-## 文本分类
+## 文本分类打标
+文本分类标记如下：
+* 情绪
+* 语言
+* 风格（正式、非正式等）
+* 涵盖的主题
+* 政治趋势
+
+也可以使用[元数据标记器](https://langchain.cadn.net.cn/python/docs/integrations/document_transformers/openai_metadata_tagger/index.html)，标记有几个组成部分:
+* `function`: 标记使用函数来指定模型应如何标记文档
+* `schema`: 定义想要如何标记文档
+
+schema标记文档
+```
+# 文本分类
+def text_category():
+    #  初始化模型
+    llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+    # 提示词模版
+    tagging_prompt = ChatPromptTemplate.from_template(
+    """
+    从以下段落中提取所需信息. 仅提取'Schema'方法中提到的属性. Passage: {input}
+    """
+    )
+    # 结构化模型
+    structured_llm = llm.with_structured_output(Schema)
+    # 输入需要分类的文本
+    in_put = "我很高兴认识你！我想我们会成为非常好的朋友！"
+    # in_put= "Estoy muy enojado con vos! Te voy a dar tu merecido!"
+    prompt = tagging_prompt.invoke({"input": in_put})
+    # 执行返回响应
+    response = structured_llm.invoke(prompt)
+    # 将模型转字典结构
+    res = response.model_dump()
+    print(res)
+
+class Schema(BaseModel):
+    # The sentiment of the text
+    sentiment: str = Field(description="文本的情感")
+    # 文本的攻击性程度从1到10
+    aggressiveness: int = Field(description="How aggressive the text is on a scale from 1 to 10")
+    # 文本所使用的语言
+    language: str = Field(description="The language the text is written in")
+```
+输出结果：`{'sentiment': '积极', 'aggressiveness': 1, 'language': '中文'}`，另一输出`{'sentiment': '生气', 'aggressiveness': 8, 'language': '西班牙语'}`
+
+我们得到了不同语言和情绪(“正面”、“负面”) 。
+为了更好地控制模型的输出，我们需要对`schema`定义细化Pydantic 模型。确保：
+1. 每个属性的可能值
+2. Description以确保模型理解属性
+3. 要返回的必需属性。
+
+重新定义Schema类:
+```
+class SentimentEnum(str, Enum):
+    happy = "happy"
+    neutral = "neutral"
+    sad = "sad"
+
+class LanguageEnum(str, Enum):
+    chinese="汉语"
+    english="英语"
+    spanish="西班牙语"
+    french="法语"
+    german="德语"
+    italian="意大利语"
+
+class Schema(BaseModel):
+    sentiment: SentimentEnum = Field(description="The sentiment of the text")
+    # 描述陈述的攻击性，数字越高，攻击性越强
+    aggressiveness: Literal[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] = Field(
+        description="describes how aggressive the statement is, the higher the number the more aggressive",
+    )
+    language: LanguageEnum = Field(description="The language the text is written in")
+```
+输出结果：
+```
+{'sentiment': <SentimentEnum.happy: 'happy'>, 'aggressiveness': 1, 'language': <LanguageEnum.chinese: '汉语'>}
+```
+
+## 提取
+提取所需要的信息需要使用`schema`进行描述。
+例如提取个人信息：
+```
+def info_retrieval():
+    llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+    # 结构化模型
+    structured_llm = llm.with_structured_output(Person)
+    # 提示词模版
+    prompt_template = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "You are an expert extraction algorithm. "
+                "Only extract relevant information from the text. "
+                "If you do not know the value of an attribute asked to extract, "
+                "return null for the attribute's value.",
+            ),
+            # 请参阅如何通过参考示例提高性能。
+            # MessagesPlaceholder('examples'),
+            ("human", "{text}"),
+        ]
+    )
+    # 输入文本
+    text = "Alan Smith is 6 feet tall and has blond hair."
+    prompt = prompt_template.invoke({"text": text})
+    # 根据提示器返回响应
+    response = structured_llm.invoke(prompt)
+    # 将模型转字典结构
+    res = response.model_dump()
+    print(res)
+```
+打印信息：`{'name': 'Alan Smith', 'hair_color': 'blond', 'height_in_meters': '1.83'}`
+
+LangSmith[跟踪chat model](https://smith.langchain.com/public/44b69a63-3b3b-47b8-8a6d-61b46533f015/r)显示了发送到模型的消息、调用的工具和其他元数据的确切顺序。
+![smith_trace](./smith_trace.png)
+
+在多数情况下我们不是提取单个实体，而是提取实体列表。
+```
+class Data(BaseModel):
+    """Extracted data about people."""
+    # 创建一个模型，以便我们可以提取多个实体。
+    people: List[Person]
+    
+# 结构化模型时传入Data
+structured_llm = llm.with_structured_output(Data)
+# 修改text文本
+text = "My name is Jeff, my hair is black and i am 6 feet tall. Anna has the same color hair as me."
+```
+打印结果如下：
+```
+{'people': 
+    [
+        {'name': 'Jeff', 'hair_color': 'black', 'height_in_meters': '1.83'},
+        {'name': 'Anna', 'hair_color': 'black', 'height_in_meters': None}
+    ]
+}
+```
+ 它提取了多个实体信息。
