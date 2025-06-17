@@ -443,3 +443,57 @@ text = "My name is Jeff, my hair is black and i am 6 feet tall. Anna has the sam
 }
 ```
  它提取了多个实体信息。
+ 
+ ## 工具调用`tool calling`或`function calling`
+ 模型与系统API交互时，则需要使用[工具调用](https://langchain.cadn.net.cn/python/docs/how_to/index.html#tools)来请求与特定架构匹配的模型响应。
+ 
+ 工具调用的一个关键原则是，模型根据输入的相关性决定何时使用工具。模型并不总是需要调用工具。例如，给定一个不相关的输入"Hello world!"，模型不会调用该工具,模型将以自然语言做出的响应。
+ 如果调用了该工具`result`将具有`tool_calls`属性，此属性包括执行工具所需的一切，包括工具名称和输入参数。
+ ```
+ def tool_call():
+    llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+    # Tool列表
+    tools_list = [multiply]
+    # 工具绑定
+    llm_with_tools = llm.bind_tools(tools_list)
+    # 用户输入
+    user_input = "Hello world!"
+    user_input = "What is 2 multiplied by 3?"
+    # 工具回调
+    result = llm_with_tools.invoke(user_input)
+    print(result)
+    print(result.tool_calls)
+    if hasattr(result, "tool_calls") and result.tool_calls:
+        for tool_call in result.tool_calls:
+            tool_name = tool_call["name"]
+            args = tool_call["args"]
+            tool_call_id = tool_call["id"]
+            if tool_name == "multiply":
+                tool_response = multiply.invoke(args)
+                print(f"{tool_name}结果: {tool_response}")
+                # 可选：将工具执行结果反馈给模型，让它生成自然语言回答
+                final_messages = [
+                    HumanMessage(content=user_input),
+                    result,
+                    ToolMessage(
+                        tool_call_id=tool_call_id,
+                        content=str(tool_response)  # 工具执行结果
+                    )
+                ]
+                final_answer = llm.invoke(final_messages)
+                print(final_answer.content)
+ ```
+打印结果:
+```
+// result.tool_calls
+[{'name': 'multiply', 'args': {'a': 2, 'b': 3}, 'id': 'xxx', 'type': 'tool_call'}]
+multiply结果: 6
+2 multiplied by 3 is 6.
+```
+ 
+ 在设计模型要使用的工具时，请务必记住：
+ 
+ * 具有显式工具调用 API 的模型将比非微调模型更擅长工具调用
+ * 如果工具具有精心选择的名称和描述，则模型的性能会更好
+ * 简单、范围狭窄的工具比复杂的工具更容易被模型使用
+ * 要求模型从大量工具中进行选择会给模型带来挑战
