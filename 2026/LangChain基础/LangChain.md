@@ -1,8 +1,8 @@
 # LangChain
 
 术语：
-1. RAG 检索增强生成
-2. LLM 大语言模型
+1. LLM 大语言模型
+2. RAG 检索增强生成
 3. NLP 自然语言处理
 4. AIGC AI生成内容
 5. Agent 智能体
