@@ -23,7 +23,10 @@
 我们使用PyCharm来学习[没有下载的可以看这里](https://www.jianshu.com/p/355c7f55238b)。安装完成后，打开：
 ![pycharmIDE](./pycharmIDE.png)
 
-新建项目
+如果运行简单脚本，可以新建Notebook文件，运行Notebook可以启动一个`http://127.0.0.1:8888/`服务，可以打开浏览器，在浏览器窗口编写代码，在线运行调试代码：
+![note_book](./note_book.png)
+
+我们使用新建项目
 ![新建项目](./pycharm_add.png)
 
 venv‌ 是 Python 中的一个模块，用于创建和管理虚拟环境。虚拟环境是一个隔离的空间，允许你在其中安装和管理 Python 包，而不会影响到系统中的其他Python环境。
