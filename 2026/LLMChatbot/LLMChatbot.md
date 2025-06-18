@@ -41,7 +41,7 @@ def simple_chat_history():
 ```
 pip install langgraph
 ```
-LangGraph带有一个简单的[内存检查点](https://langchain-ai.github.io/langgraph/concepts/persistence/)程序，如下：
+LangGraph带有一个简单的[内存检查点](https://langchain-ai.github.io/langgraph/concepts/persistence/)程序，这在notebook中运行会更好一下，可以代码片段化运行。我们没有使用没想起来，在项目中代码如下：
 ```
 def chat_with_graph():
     workflow = StateGraph(state_schema=MessagesState)
