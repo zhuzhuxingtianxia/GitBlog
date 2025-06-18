@@ -9,6 +9,16 @@
 5. Agent 智能体
 6. AGI 通用人工智能
 
+![langchain_core](./langchain_core.png)
+
+**Langchain的核心**
+* 模型 Models：包装器允许你连接到大型语言模型，如GPT-4 或 Hugging Face 也包括GLM 提供的模型
+* Prompt Templates：这些模板让你避免硬编码文本输入。你可以动态地将用户输入插入到模板中，并发送给语言模型
+* Chains：链允许你将多个组件组合在一起，解决特定的任务，并构建完整的语言模型应用程序
+* Agents：代理允许语言模型与外部API交互
+* Embedding 嵌入与向量存储 Vectorstore 是数据表示和检索的手段，为模型提供必要的语言理解基础
+* Indexes：索引帮助你从语言模型中提取相关信息
+
 ## PyCharm 安装
 我们使用PyCharm来学习[没有下载的可以看这里](https://www.jianshu.com/p/355c7f55238b)。安装完成后，打开：
 ![pycharmIDE](./pycharmIDE.png)
