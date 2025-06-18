@@ -54,6 +54,10 @@ iOS VoIP电话: https://blog.csdn.net/weixin_38912070/article/details/93856988
 
 ## [2026](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2026)
 
+* [LangChain基础](https://github.com/zhuzhuxingtianxia/GitBlog/blob/master/2026/LangChain%E5%9F%BA%E7%A1%80/LangChain.md)
+
+* [LLMChatbot]()
+
 ## [2024](https://github.com/zhuzhuxingtianxia/GitBlog/tree/master/2024)
 
 * [Andriod开发]()
