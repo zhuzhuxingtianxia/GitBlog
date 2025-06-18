@@ -26,6 +26,10 @@
 如果运行简单脚本，可以新建Notebook文件，运行Notebook可以启动一个`http://127.0.0.1:8888/`服务，可以打开浏览器，在浏览器窗口编写代码，在线运行调试代码：
 ![note_book](./note_book.png)
 
+
+也可直接在pycharm IDE工作区查看，如下：
+![note_book_ide](./note_book_ide.png)
+
 我们使用新建项目
 ![新建项目](./pycharm_add.png)
 
