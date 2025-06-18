@@ -56,6 +56,7 @@ def chat_with_graph():
 
     query = "Hi! I'm Bob."
     input_messages = [HumanMessage(query)]
+    # 添加消息和配置
     output = app.invoke({"messages": input_messages}, config)
     output["messages"][-1].pretty_print()
     
@@ -210,7 +211,7 @@ def chat_with_graph():
 ```
 
 ## 管理对话历史
-构建聊天机器人时需要管理对话历史, 否则消息列表无限增长，将使LLM上下文溢出。因此添加一个限制传递的消息大小的步骤是很重要的。
+构建聊天机器人时需要[管理对话历史](https://python.langchain.com/docs/how_to/trim_messages/), 否则消息列表无限增长，将使LLM上下文溢出。因此添加一个限制传递的消息大小的步骤是很重要的。
 
 LangChain内置了[管理消息列表](https://python.langchain.com/docs/how_to/#messages)工具助手.使用修剪器`trim_messages`来减少我们向模型发送的消息数量。
 修剪器允许我们指定我们想要保留多少个令牌,以及其他参数,例如如果我们想始终保留系统消息以及是否允许部分消息:
@@ -245,3 +246,131 @@ def chat_trim_messages():
     for i, msg in enumerate(output):
         print(f"{i + 1}. {msg.type}: {msg.content}")
 ```
+
+我们修改调用模型：
+```
+def call_model_trim(state: State):
+    model = init_chat_model("gpt-4o-mini", model_provider="openai")
+    trimmer = trim_messages(
+        max_tokens=65,
+        strategy="last",
+        token_counter=model,
+        include_system=True,
+        allow_partial=False,
+        start_on="human",
+    )
+    # 剪切历史消息记录
+    trimmed_messages = trimmer.invoke(state["messages"])
+    # 自定义系统消息提示模版，并利用MessagesPlaceholder以传入所有消息
+    prompt_template = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                # You are a helpful assistant. Answer all questions to the best of your ability in {language}.
+                "你是个乐于助人的助手。尽你所能用{language}回答所有问题。",
+            ),
+            MessagesPlaceholder(variable_name="messages"),
+        ]
+    )
+    prompt = prompt_template.invoke(
+        {"messages": trimmed_messages, "language": state["language"]}
+    )
+    response = model.invoke(prompt)
+    return {"messages": [response]}
+```
+然后调用`chat_with_graph`时，将`workflow.add_node("model", call_model_prompt)`改为`workflow.add_node("model", call_model_trim)`，实例如下：
+```
+def chat_with_graph():
+    workflow = StateGraph(state_schema=State)
+    # 添加单个节点到Graph
+    workflow.add_edge(START, "model")
+    workflow.add_node("model", call_model_trim)
+    workflow.add_edge("model", END)
+    # 将Graph添加到内存中
+    memory = MemorySaver()
+    app = workflow.compile(checkpointer=memory)
+    # 传递到runnable中，此配置包含的信息不直接属于input，但很重要。它使单个应用程序支持多个对话线程(不同thread_id不同对话)
+    config = RunnableConfig(configurable={"thread_id": "abc123"})
+    messages = [
+        SystemMessage(content="you're a good assistant"),
+        HumanMessage(content="hi! I'm bob"),
+        AIMessage(content="hi!"),
+        HumanMessage(content="I like vanilla ice cream"),
+        AIMessage(content="nice"),
+        HumanMessage(content="whats 2 + 2"),
+        AIMessage(content="4"),
+        HumanMessage(content="thanks"),
+        AIMessage(content="no problem!"),
+    ]
+
+    language = "zh"
+    query = "What is my name?"
+    # 历史消息 + 当前会话
+    input_messages = messages + [HumanMessage(query)]
+    output = app.invoke(
+        {"messages": input_messages, "language": language},
+        config
+    )
+    output["messages"][-1].pretty_print()
+
+    # 打印完整历史
+    for i, msg in enumerate(output["messages"]):
+        print(f"{i + 1}. {msg.type}: {msg.content}")
+```
+我不知道你的名字，但如果你告诉我，我会很高兴地记住它！
+
+`pretty_print`如下：
+ ```
+ ================== Ai Message ==================
+
+ 我不知道你的名字。请告诉我你的名字，或者我可以用其他方式来称呼你。
+ ```
+ 但是,如果我们询问最后几条消息中的信息,它会记得:
+ 
+ ```
+ // 将query更改如下
+ query = "What math problem did I ask?"
+ ```
+ `pretty_print`如下：
+ ```
+ ================== Ai Message ==================
+
+ 你问的是“2 + 2 等于多少？”这个数学题。
+ ```
+ 
+ ## 流式传输
+ LLM有时可能需要一段时间才能响应，为了改善用户体验就是生成流，使用[流式传输](https://langchain.cadn.net.cn/python/docs/how_to/streaming/index.html)。
+ LangGraph中`CompiledStateGraph`允许我们流式传输输出令牌，使用`app.stream`，
+ 并配置参数`stream_mode="messages"`即可。
+ ```
+ def chat_with_graph():
+    workflow = StateGraph(state_schema=State)
+    # 添加单个节点到Graph
+    workflow.add_edge(START, "model")
+    workflow.add_node("model", call_model_trim)
+    # 将Graph添加到内存中
+    memory = MemorySaver()
+    app = workflow.compile(checkpointer=memory)
+    # 传递到runnable中，此配置包含的信息不直接属于input，但很重要。它使单个应用程序支持多个对话线程(不同thread_id不同对话)
+    config = RunnableConfig(configurable={"thread_id": "abc123"})
+
+    language = "zh"
+    query = "Hi I'm Todd, please tell me a joke."
+    input_messages = [HumanMessage(query)]
+    for chunk, metadata in app.stream(
+            {"messages": input_messages, "language": language},
+            config,
+            stream_mode="messages",
+    ):
+        if isinstance(chunk, AIMessage):
+            print(chunk.content, end="|")
+ ```
+ 
+ 打印如下：
+ ```
+ |嗨|，|Todd|！|这里|有|一个|笑|话|希望|能|让|你|开心|：
+
+|为什么|数学|书|总|是|很|伤|心|？
+
+|因为|它|有|太|多|的问题|！||
+ ```
