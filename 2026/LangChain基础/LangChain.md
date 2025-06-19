@@ -234,8 +234,8 @@ def split_pdf_doc():
     print(len(all_splits))
 ```
 
-### 嵌入
-[嵌入](https://langchain.cadn.net.cn/python/docs/concepts/embedding_models/index.html)是检索系统的核心。嵌入模型将人类语言转换为机器可以理解的格式，并可以快速准确地进行比较。 这些模型将文本作为输入，并生成一个固定长度的数字数组，即文本语义的数字指纹。 嵌入允许搜索系统不仅根据关键字匹配，而且根据语义理解来查找相关文档。
+### Embeddings嵌入
+[Embeddings嵌入](https://langchain.cadn.net.cn/python/docs/concepts/embedding_models/index.html)是检索系统的核心。嵌入模型将人类语言转换为机器可以理解的格式，并可以快速准确地进行比较。 这些模型将文本作为输入，并生成一个固定长度的数字数组，即文本语义的数字指纹。 嵌入允许搜索系统不仅根据关键字匹配，而且根据语义理解来查找相关文档。
 
 给定一个查询，我们可以将其嵌入为相同维度的向量，并使用向量相似度指标（例如余弦相似度）来识别相关文本。
 
@@ -321,6 +321,43 @@ results = vector_store.similarity_search_with_score("What was Nike's revenue in 
 doc, score = results[0]
 print(f"Score: {score}\n")
 print(doc)
+```
+
+### Retriever检索器
+`VectorStore`不是`Runnable`的子类。`Retriever`是`Runnable`的子类，所以它们实现了`invoke`和`batch`的同步和异步方法。
+
+```
+# k=1 表示检索到的第一个数据
+@chain
+def retriever(query: str) -> List[Document]:
+    return vector_store.similarity_search(query, k=1)
+
+
+retriever.batch(
+    [
+        "How many distribution centers does Nike have in the US?",
+        "When was Nike incorporated?",
+    ],
+)
+```
+
+`VectorStore`通过`as_retriever`转换为retriever。检索器包括特定的`search_type`和`search_kwargs`属性，这些属性标识要调用的基础向量存储的方法，以及如何参数化它们。
+
+例如：
+```
+retriever = vector_store.as_retriever(
+    # 类型相似
+    search_type="similarity",
+    # 分值最相似的数据
+    search_kwargs={"k": 1},
+)
+
+retriever.batch(
+    [
+        "How many distribution centers does Nike have in the US?",
+        "When was Nike incorporated?",
+    ],
+)
 ```
 
 ## 文本分类打标
