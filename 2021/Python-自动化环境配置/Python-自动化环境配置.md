@@ -54,7 +54,7 @@
 
 ## 配置pip镜像源
 
-pip类似`npm`或`cocoapods`，是包管理工具。
+pip类似`npm`或`cocoapods`，是包管理工具，所有可用安装可在[这里查找](https://pypi.org/search/)。
 pip默认的镜像源是：**https://pypi.org/simple/**
 
 运行以下命令列出所有生效的配置：
