@@ -100,6 +100,7 @@ pip install langchain-openai
 pip install python-dotenv
 ```
 新建`.env`文件，配置环境变量。我们这里添加的openai的库所以配置需要配置`OPENAI_API_KEY`。
+需要到[官网注册](https://platform.openai.com/docs/overview)申请(需vpn)。
 ```
 def openai_chat():
     model = init_chat_model("gpt-4o-mini", model_provider="openai")
