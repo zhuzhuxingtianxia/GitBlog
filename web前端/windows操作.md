@@ -126,3 +126,12 @@ n rm 16.19
 `win+x`->系统->高级系统设置->环境变量
 
 
+# Linux系统
+
+## CentOS
+CentOS7是Linux发行版，基于Red Hat Enterprise Linux (RHEL)，是一个企业级的操作系统，提供了稳定的环境，适合生产环境中使用，一般用服务器无GUI界面。接近Unix系统，稳定安全。
+包管理工具yum或dnf，依赖于`.rpm`格式的软件包。
+
+## Ubtutu
+Ubtutu是Linux发行版，基于Debian，社区活跃更新频繁。默认带有图形用户界面（GUI）。
+使用apt和apt-get来进行包管理，apt依赖于`.deb`格式的软件包。
