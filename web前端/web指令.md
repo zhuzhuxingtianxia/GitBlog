@@ -525,6 +525,50 @@ http-proxy=http://myproxy:8080
 sass_binary_site=https://cdn.npmmirror.com/binaries/node-sass
 
 ```
+#### .yarnrc.yml
+是yarn2+用来存储配置信息的文件，被用来控制依赖包的安装来源、包管理、工作空间、插件配置等。
+```
+# 指定 Yarn 二进制路径（强制项目使用特定版本）
+# yarnPath: .yarn/releases/yarn-3.6.4.cjs
+
+# 使用传统的 node_modules 布局
+nodeLinker: node-modules
+
+# yarn镜像源
+npmRegistryServer: "https://registry.npmmirror.com"
+npmScopes:
+  my-scope:
+  # 对于特定作用域的 NPM 包总是进行认证
+    npmAlwaysAuth: true
+    npmAuthToken: "..."
+company:
+    npmRegistryServer: "https://npm.company.com"
+    npmAuthToken: "xxxxxxxx" 
+
+# 是否启用全局缓存
+enableGlobalCache: false
+
+# 插件
+plugins:
+  - path: .yarn/plugins/@yarnpkg/plugin-workspace-tools  # 插件路径
+    spec: "@yarnpkg/plugin-workspace-tools@^1.0.0"       # 插件版本
+  - name: "@my-org/my-private-plugin" # npm 远程插件
+    version: "1.2.3"
+
+workspaces:
+  - packages/*       # 工作区模式下的包目录
+
+# 网络代理设置
+httpsProxy: "http://proxy.example.com:8080"
+strictSsl: false  # 禁用 SSL 验证（不推荐）
+```
+* yarnPath: 指向项目本地存储的Yarn二进制文件,锁定Yarn版本，确保所有协作者使用相同版本.
+* nodeLinker: 控制如何链接依赖。
+    * `pnp`: 默认。不生成`node_modules`，依赖直接从压缩包读取。
+    * `node-modules`: 传统安装方式，生成`node_modules` 目录。
+    * `pnpm`: 类似pnpm的符号链接结构（需启用 enablePnP）
+* npmScopes: 作用域注册表,为特定npm包（如 @company）配置私有注册表和认证信息。
+* plugins: 插件系统。通过`path`引用本地插件，`spec`指定版本。
 
 ## 前端掌握技术
 
