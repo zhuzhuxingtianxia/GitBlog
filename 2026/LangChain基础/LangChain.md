@@ -2,6 +2,9 @@
 [LangChain](https://langchain.cadn.net.cn/python/docs/introduction/index.html)及[API文档](https://python.langchain.com/api_reference/langchain/index.html#)相关可供查阅。
 
 LangChain社区支持库可在[此处查看](https://smith.langchain.com/hub)
+其他开源社区：
+[魔搭社区](https://modelscope.cn/home)
+[Hugging Face](https://huggingface.co)
 
 术语：
 1. LLM 大语言模型
@@ -267,7 +270,7 @@ print(vector_1[:10])
     }
 }
 ```
-好吧，我只能切换使用其他模型，可以使用`langchain-core`自带的`DeterministicFakeEmbedding`。我们这里使用`llama3`:
+好吧，没有余额了。我只能切换使用其他模型，可以使用`langchain-core`自带的`DeterministicFakeEmbedding`。我们这里使用`llama3`:
 ```
 pip install langchain-ollama
 ```
