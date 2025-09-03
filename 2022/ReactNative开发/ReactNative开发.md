@@ -107,7 +107,7 @@ create-react-native-module libray_name
 * `name`: 用于创建包含规范的文件的名称。按照惯例，它应该有后缀 `Spec`，但这不是必须的
 * `type`: 需要生成的代码类型。允许的值是 `modules`, `components`, `all`
 	* `modules`:如果只需要为 Turbo 原生模块生成代码，请使用此值.Turbo 原生模块要求规范文件以 `Native`开头。例如，`NativeLocalStorage.ts` 是一个有效的规范文件名
-	* `components`:如果只需要为原生 Fabric 组件生成代码，请使用此值.原生 Fabric 组件要求规范文件以 `NativeComponent` 结尾。例如，`WebViewNativeComponent.tx`是一个有效的规范文件名
+	* `components`:如果只需要为原生 Fabric 组件生成代码，请使用此值.原生 Fabric 组件要求规范文件以 `NativeComponent` 结尾。例如，`WebViewNativeComponent.tsx`是一个有效的规范文件名
 	* `all`: 如果有组件和模块的混合，请使用此值
 * `jsSrcsDir`: 所有规范所在的根文件夹
 * `android.javaPackageName`: 这是 Android 特有的设置，让 Codegen 在自定义包中生成文件
@@ -132,6 +132,12 @@ npx create-react-native-library@latest module-name
   * Turbo module - requires new arch (experimental)
   * Fabric view with backward compat - supports new arch (experimental)
   * Fabric view - requires new arch (experimental)
+* create-react-native-library0.52库类型：
+    * Turbo module - integration for native APIs to JS
+    * Fabric view - integration for native views to JS
+    * Nitro module - type-safe, fast integration for native APIs to JS (experimental)
+    * Nitro view - integration for native views to JS using nitro for prop parsing (experimental)
+    * JavaScript library - supports Expo Go and Web
   这里我们选择`Turbo module - requires new arch (experimental)`的方式
   然后选择想要的语言：
 * Kotlin & Objective-C
@@ -156,6 +162,38 @@ yarn add link:./modules/RNCalculator
 cd ios
 rm -rf build & bundle exec pod install
 ```
+**iOS自定义View**
+1. Spec文件必须命名为`<MODULE_NAME>NativeComponent.ts`才能被Codegen识别
+2. 定义事件方法,<T>其中参数T必须是一个对象,例如：
+    ```
+    import codegenNativeComponent from 'react-native/Libraries/Utilities/codegenNativeComponent';
+    import type { ViewProps } from 'react-native';
+    import type { BubblingEventHandler } from 'react-native/Libraries/Types/CodegenTypes';
+    
+    interface NativeProps extends ViewProps {
+      color?: string;
+      // 定义事件方法,<T>其中参数T必须是一个对象
+      onWillShow?: BubblingEventHandler<{finished: boolean}> | null;
+    }
+    
+    export default codegenNativeComponent<NativeProps>('MyView');
+    ```
+1. ios原生代码中`<RCTxxxViewProtocol>`协议可使用`<NSObject>`代替，它是codegen自动生成的协议文件，目前该协议在`<react/renderer/components/xxxSpec/RCTComponentViewHelpers.h>`无任何协议方法。
+2. 但当注册ref的`Commands`方法时，将被添加到`<RCTxxxViewProtocol>`协议列表
+3. ios端事件代码：
+    ```
+    - (const MyViewEventEmitter &)eventEmitter
+    {
+      return static_cast<const MyViewEventEmitter &>(*_eventEmitter);
+    }
+    // 调用
+    MyViewEventEmitter::OnWillShow result = MyViewEventEmitter::OnWillShow {
+        .finished =  true
+    };
+    self.eventEmitter.onWillShow(result);
+    ```
+
+
 在android下编写原生代码:
 ```
 cd android
