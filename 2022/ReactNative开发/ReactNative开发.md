@@ -229,6 +229,9 @@ cd android
 ```
 通过命令打包可以成功！
 
+**Android Studio 运行rn报错:** command 'node' not found
+原因: shell中配置的环境变量没有生效，使用终端打开`open -a "Android Studio"`即可让变量在Android Studio环境中生效
+
 ## rn**项目运行报错**
 
 ```
