@@ -97,6 +97,8 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 * `aboutToAppear`：组件即将出现时回调该接口，具体时机为在创建自定义组件的新实例后，在执行其build()函数之前执行。
 * `aboutToDisappear`：在自定义组件析构销毁之前执行。不允许在aboutToDisappear函数中改变状态变量，特别是@Link变量的修改可能会导致应用程序行为不稳定。
 
+`@Preview`是一个装饰器，用于在 DevEco Studio快速调试布局,实时预览 UI。
+
 **周期方法交互流程:**
 
 页面冷启动流程: Page aboutToAppear --> Page build --> Child aboutToAppear --> Child build --> Child build执行完毕 --> Page build执行完毕 --> Page onPageShow
@@ -162,6 +164,86 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 
  ```
 
+## 导航Navigation
+堆栈需要使用`Navigation`包裹，子页需要使用`NavDestination`.
+例如根导航：
+```
+pathStack: NavPathStack = new NavPathStack();
+
+  build() {
+    Navigation(this.pathStack){
+        Column() {
+            Button('Push PageOne')
+            .onClick(() => {
+                this.pathStack.pushPathByName('pageOne', null);
+            })
+        }
+    }
+   }
+```
+子页事例：
+```
+@Component
+export struct PageOne {
+  pathStack: NavPathStack = new NavPathStack();
+
+  build() {
+    NavDestination() {
+      // ...
+    }.title('PageOne')
+    .onReady((context: NavDestinationContext) => {
+      this.pathStack = context.pathStack;
+    })
+  }
+}
+```
+
+或者通过查询获取导航信息
+```
+@Component
+struct CustomNode {
+  pathStack: NavPathStack = new NavPathStack();
+
+  aboutToAppear() {
+    // query navigation info
+    let navigationInfo: NavigationInfo = this.queryNavigationInfo() as NavigationInfo;
+    this.pathStack = navigationInfo.pathStack;
+  }
+
+  build() {
+    Row() {
+      Button('跳转到PageTwo')
+        .onClick(() => {
+          this.pathStack.pushPath({ name: 'pageTwo' });
+        })
+    }
+  }
+}
+```
+
+## 路由跳转router (API18开始废弃)
+`windowStage.loadContent('pages/Index')`初始化UI加载。
+router库来自`@ohos.router`。
+跳转到下一个界面：
+```
+router.pushUrl({ url: 'pages/SecondPage',params: { source: '测试路由参数' } })
+```
+替换当前页面：
+```
+router.replaceUrl({
+  url: 'pages/LoginPage'
+});
+```
+获取参数：`router.getParams()`
+返回：
+```
+// 返回上一页
+router.back();
+
+// 返回到指定页面
+router.back({ url: 'pages/FirstPage' });
+```
+获取路由栈长度：`router.getLength()`
 
 ## 本地资源引用
 
