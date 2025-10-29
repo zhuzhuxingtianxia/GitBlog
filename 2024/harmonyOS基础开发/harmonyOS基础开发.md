@@ -17,6 +17,11 @@
   * src > main > ets > entryability：应用/服务的入口。
   * src > main > ets > pages：应用/服务包含的页面。
   * src > main > resources：用于存放应用/服务所用到的资源文件，如图形、多媒体、字符串、布局文件等。
+      * src > main > resources > base > profile > main_pages.json: 用于存放路由
+      * src > main > resources > base > element > color.json:
+      * src > main > resources > base > element > float.json:
+      * src > main > resources > base > element > string.json:
+      * src > main > resources > base > media: 
   * src > main > module.json5：Stage模型模块配置文件。主要包含HAP包的配置信息、应用/服务在具体设备上的配置信息以及应用/服务的全局配置信息。[module.json5配置文件](https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/module-configuration-file-0000001427744540-V3)
 
   * build-profile.json5：当前的模块信息、编译信息配置项，包括buildOption、targets配置等。其中targets中可配置当前运行环境，默认为HarmonyOS。
@@ -49,6 +54,10 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 * onBackground: UIAbility切换至后台时候触发。此处可以释放UI页面不可见时无用的资源，或者执行较为耗时的操作，例如状态保存等
 * onWindowStageDestroy: 在UIAbility实例销毁之前调用，可在此时释放UI页面资源。
 * onDestroy: 在UIAbility销毁时触发
+
+## BackupExtensionAbility
+
+BackupExtensionAbility，是Stage模型中扩展组件ExtensionAbility的派生类。开发者可以通过修改配置文件定制备份恢复框架的行为，包括是否允许备份恢复，备份哪些文件等
 
 ## ArkUI状态管理
 
@@ -313,7 +322,12 @@ ohpm cli是鸿蒙三方库的包管理工具，类似npm、yarn等工具，支�
 
 ## hdc
 
-hdc（HarmonyOS Device Connector）是HarmonyOS为开发人员提供的用于调试的命令行工具，通过该工具可以在windows/linux/mac系统上与真实设备或者模拟器进行交互
+hdc（HarmonyOS Device Connector）是HarmonyOS为开发人员提供的用于调试的命令行工具，通过该工具可以在windows/linux/mac系统上与真实设备或者模拟器进行交互。SDK已嵌入DevEco Studio中，无需额外下载配置。
+添加到环境变量：
+```
+PATH="/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains:$PATH"
+```
+查看连接的所有目标设备：`hdc list targets`
 
 ## hvigor命令行
 
