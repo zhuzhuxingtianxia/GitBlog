@@ -259,6 +259,7 @@ router.back({ url: 'pages/FirstPage' });
 将本地图片放入ets文件夹下的任意位置，Image组件引入本地图片路径，即可显示图片（根目录为ets文件夹）。
 
 ```
+// 在新的版本中这种方式不可用
 // main/ets/images/view.jpg
 Image('images/view.jpg')
 	.width(200)
@@ -298,6 +299,12 @@ Image('file://media/Photos/5')
 	.width(200)
 ```
 
+## 数据持久化
+
+* PersistentStorage: 总存储容量<2KB,适用于小数据存储。
+    * 通常和全局AppStorage配合使用。
+    * @StorageLink 响应式配合存储
+* 用户首选项Preferences: 建议存储≤50MB轻量数据
 
 ## 打包拆包工具
 
@@ -316,7 +323,7 @@ ohpm cli是鸿蒙三方库的包管理工具，类似npm、yarn等工具，支�
 * 安装后查看执行：`ohpm -v`
 * 查看配置信息：`ohpm config list -j`
 * 创建 oh-package.json5 文件: `ohpm init`
-* 安装三方库: `ohpm install xxx`
+* 安装三方库: `ohpm install xxx`, 例如：项目终端执行`ohpm install @ohos/axios`
 * 卸载三方库: `ohpm uninstall xxx`
 * 查看已安装的库: `ohpm list`
 
@@ -369,3 +376,6 @@ hvigor + hvigor-ohos-plugin类似前端开发中的webpack或vite等构建打包
    * profile：申请的调试Profile文件，格式为.p7b。
    * certpath：申请的调试证书文件，格式为.cer。
 
+## 多环境配置
+[鸿蒙应用如何配置多环境](https://juejin.cn/post/7493453361699356724)及[配置不同环境的资源文件](https://cloud.tencent.com/developer/article/2535824)
+[多环境的配置和管理](https://developer.huawei.com/consumer/cn/blog/topic/03177687127004049)
