@@ -451,7 +451,7 @@ Navigator.pushNamed(context, '/detail/102');
 
 ## 第三方插件[pub.dev](https://pub.flutter-io.cn/)
 
-* flutter_boost: 一个Flutter插件，它可以轻松地为现有原生应用程序提供Flutter混合集成方案。它的理念是将Flutter像Webview那样来使用
+* flutter_boost: Flutter插件，它可以轻松地为现有原生应用程序提供Flutter混合集成方案。它的理念是将Flutter像Webview那样来使用
 * fluro: 路由框架
 * provider: 数据共享库
 * dio: 网络库
