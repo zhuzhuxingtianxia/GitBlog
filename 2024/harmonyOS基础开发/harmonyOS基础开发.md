@@ -59,7 +59,9 @@ UIAbility的生命周期包括Create、Foreground、Background、Destroy四个�
 
 BackupExtensionAbility，是Stage模型中扩展组件ExtensionAbility的派生类。开发者可以通过修改配置文件定制备份恢复框架的行为，包括是否允许备份恢复，备份哪些文件等
 
-## ArkUI状态管理
+## ArkUI[状态管理](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/arkts-state-management-overview)
+
+**V1版本**
 
 * @State: 组件内的状态管理
 * @Prop: 父子组件单向同步，当子组件中的状态依赖父组件传递的数据时，需要使用@Prop装饰器
@@ -92,6 +94,10 @@ BackupExtensionAbility，是Stage模型中扩展组件ExtensionAbility的派生�
   2. 子组件中@ObjectLink装饰的属性从父组件初始化，接收被@Observed装饰的class的实例，@ObjectLink的包装类会将自己注册给@Observed class。
 
 * 属性更新：当@Observed装饰的class属性改变时，会走到代理的setter和getter方法，然后遍历依赖它的@ObjectLink包装类，通知数据更新。
+
+#### V1版本VSV2版本
+![stateVs1](./stateVs1.png)
+![stateVs2](./stateVs2.png)
 
 ## @Enty和@Component生命周期
 
