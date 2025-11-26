@@ -230,9 +230,10 @@ struct CustomNode {
 }
 ```
 
-## 路由跳转router (API18开始废弃)
+## 路由跳转router
 `windowStage.loadContent('pages/Index')`初始化UI加载。
-router库来自`@ohos.router`。
+router库来自`@ohos.router`,API18开始废弃。
+使用`this.getUIContext().getRouter()` 代替。
 跳转到下一个界面：
 ```
 router.pushUrl({ url: 'pages/SecondPage',params: { source: '测试路由参数' } })
@@ -379,3 +380,14 @@ hvigor + hvigor-ohos-plugin类似前端开发中的webpack或vite等构建打包
 ## 多环境配置
 [鸿蒙应用如何配置多环境](https://juejin.cn/post/7493453361699356724)及[配置不同环境的资源文件](https://cloud.tencent.com/developer/article/2535824)
 [多环境的配置和管理](https://developer.huawei.com/consumer/cn/blog/topic/03177687127004049)
+
+## 工具库
+```
+// 工具库导入
+ohpm i xxx
+// 或
+ohpm intsall xxx
+```
+* `@pura/harmony-utils`: 其封装的工具涵盖了APP、设备、屏幕、授权、通知、线程间通信、弹框、吐司、生物认证、用户首选项、拍照、相册、扫码、文件、日志，异常捕获、字符、字符串、数字、集合、日期、随机、base64、加密、解密、JSON等一系列的功能和操作，能够满足各种不同的开发需求.
+* `@pura/picker_utils`: harmony-utils拆分出来的一个子库，包含PickerUtil、PhotoHelper、ScanUtil
+* `@hadss/dialoghub`: 弹框库，已暂停维护
