@@ -3,7 +3,7 @@
 
 LangChain社区支持库可在[此处查看](https://smith.langchain.com/hub)
 其他开源社区：
-[魔搭社区](https://modelscope.cn/home)
+[魔搭社区](https://www.modelscope.cn/models)
 [Hugging Face](https://huggingface.co)
 
 术语：
