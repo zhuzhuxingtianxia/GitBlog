@@ -350,6 +350,17 @@ tree -L 4 -I "node_modules|themes|public" > tree.md
 git log --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
 
 ```
+**项目代码提交次数统计：**
+按时间范围统计
+```
+git log --author="ZZJ" --since="2025-01-01" --until="2025-12-31" --pretty=oneline | wc -l
+
+```
+所有贡献者的提交次数排名
+```
+git shortlog -s -n
+
+```
 
 ## ESLint 检测配置
 package.json文件修改
