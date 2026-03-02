@@ -275,6 +275,11 @@ print(vector_1[:10])
 pip install langchain-ollama
 ```
 安装[ollama](https://ollama.com/download),`ollama pull llama3`安装本地llama3模型,可能需要花一些时间。
+终端查看ollama版本：`ollama --version`
+ollama安装的模型列表：`ollama list`
+ollama安装模型：`ollama pull gemma3`最强单GPU模型
+ollama某个模型详细信息: `ollama show llama3.1`
+ollama删除本地模型: `ollama rm llama3`
 
 ```
 # 加载嵌入模型
