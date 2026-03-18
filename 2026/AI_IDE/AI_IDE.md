@@ -23,4 +23,8 @@
 [OpenCode](https://opencode.ai/zh/download) 没用过
 
 
+## Perplexity
 
+## Midjourney
+
+## ComfyUI
