@@ -19,6 +19,9 @@
 ## Windsurf
 [Windsurf](https://windsurf.com/editor) 每月25免费积分
 
+## Codex
+[Codex](https://chatgpt.com/codex) OpenAI开发,有桌面应用、cli、插件
+
 ## OpenCode
 [OpenCode](https://opencode.ai/zh/download) 没用过
 
