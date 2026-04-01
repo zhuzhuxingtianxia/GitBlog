@@ -397,3 +397,4 @@ ohpm intsall xxx
 * `@pura/harmony-utils`: 其封装的工具涵盖了APP、设备、屏幕、授权、通知、线程间通信、弹框、吐司、生物认证、用户首选项、拍照、相册、扫码、文件、日志，异常捕获、字符、字符串、数字、集合、日期、随机、base64、加密、解密、JSON等一系列的功能和操作，能够满足各种不同的开发需求.
 * `@pura/picker_utils`: harmony-utils拆分出来的一个子库，包含PickerUtil、PhotoHelper、ScanUtil
 * `@hadss/dialoghub`: 弹框库，已暂停维护
+* `@ohos/mpchart`: 图表库
