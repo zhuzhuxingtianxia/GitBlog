@@ -6,6 +6,10 @@
 ## Antigravity
 [Antigravity](https://antigravity.google/) 由Google开发，其中的Gemini3 Flash模型可免费使用
 
+## Codex
+[Codex](https://chatgpt.com/codex) OpenAI开发,有桌面应用、cli、插件
+
+
 ## TRAE
 [TRAE](https://www.trae.ai/) 字节出品
 [TRAE CN](https://www.trae.cn/) 国内版本，个人免费但功能不完全开放。
@@ -18,9 +22,6 @@
 
 ## Windsurf
 [Windsurf](https://windsurf.com/editor) 每月25免费积分
-
-## Codex
-[Codex](https://chatgpt.com/codex) OpenAI开发,有桌面应用、cli、插件
 
 ## OpenCode
 [OpenCode](https://opencode.ai/zh/download) 没用过
