@@ -55,6 +55,13 @@ code-push-standalone login URL --accessKey XXX
  // 如果您需要更改密钥的名称和/或到期日期，使用以下命令：
  code-push-standalone access-key patch <accessKeyName> --name "new name" --ttl 10d
  ```
+* 管理与维护命令
+```
+// 查看当前所有的 Key 及其过期时间
+code-push-standalone access-key ls
+// 手动删除Key
+code-push-standalone access-key rm <Key的名称或ID>
+```
 * 查看是否登陆：
 ```
 code-push-standalone whoami
