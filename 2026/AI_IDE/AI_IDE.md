@@ -7,7 +7,7 @@
 [Antigravity](https://antigravity.google/) 由Google开发，其中的Gemini3 Flash模型可免费使用
 
 ## Codex
-[Codex](https://chatgpt.com/codex) OpenAI开发,有桌面应用、cli、插件
+[Codex](https://chatgpt.com/codex) OpenAI开发,有桌面应用、cli、插件。每周更新额度
 
 
 ## TRAE
