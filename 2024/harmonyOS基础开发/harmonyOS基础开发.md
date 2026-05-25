@@ -178,6 +178,21 @@ BackupExtensionAbility，是Stage模型中扩展组件ExtensionAbility的派生�
     }
 
  ```
+ 
+ ## 装饰器@Extend与@Styles
+
+* 组件扩展@Extend
+    1. 只能扩展已有组件，不能用于自定义组件或结构体
+    2. @Extend仅支持在全局定义，不支持在组件内部定义
+    3. 仅限在当前文件内使用，不支持导出
+    4. 不能访问组件内部状态，例如：`@Local`、`@Param` 或`@State` 、 `@Prop`
+    5. 只能用于链式调用，可传递参数
+* 样式装饰器@Styles
+    1. 只能在当前组件内部使用
+    2. 不支持传递参数
+    3. 可访问组件内部状态
+    4. 只能用于链式调用
+    5. 只支持通用属性
 
 ## 导航Navigation
 堆栈需要使用`Navigation`包裹，子页需要使用`NavDestination`.
