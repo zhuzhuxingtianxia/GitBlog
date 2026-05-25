@@ -1,7 +1,7 @@
 # AI开发编辑器
 
 ## Claude Code
-[Claude Code](https://claude.ai/)由Anthropic 公司开发，大陆用户无法注册使用Claude相关模型。其表现比较优秀
+[Claude Code](https://claude.ai/)由Anthropic 公司开发，大陆用户无法注册使用Claude相关模型, 支持插件、桌面应用、cli。其表现比较优秀，[中文站点可查看](https://claude-zh.cn/guide/getting-started.html)
 
 ## Antigravity
 [Antigravity](https://antigravity.google/) 由Google开发，其中的Gemini3 Flash模型可免费使用
@@ -19,6 +19,8 @@
 
 ## Cursor 
 [Cursor](https://cursor.com/) 据说用起来不错，支持马斯克x公司的Grok模型
+
+## Copilot
 
 ## Windsurf
 [Windsurf](https://windsurf.com/editor) 每月25免费积分
