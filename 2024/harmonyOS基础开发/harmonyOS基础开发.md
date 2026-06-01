@@ -116,21 +116,21 @@ BackupExtensionAbility，是Stage模型中扩展组件ExtensionAbility的派生�
 
 **周期方法交互流程:**
 
-页面冷启动流程: Page aboutToAppear --> Page build --> Child aboutToAppear --> Child build --> Child build执行完毕 --> Page build执行完毕 --> Page onPageShow
+页面冷启动流程: `Page aboutToAppear` --> `Page build` --> `Child aboutToAppear` --> `Child build` --> `Child build执行完毕` --> `Page build执行完毕` --> `Page onPageShow`
 
-删除Child组件: 会执行Child aboutToDisappear方法.
+删除`Child`组件: 会执行`Child aboutToDisappear`方法.
 
-调用router.pushUrl: 会执行Page onPageHide， 页面被隐藏，并没有销毁.
+调用router.pushUrl: 会执行`Page onPageHide`， 页面被隐藏，并没有销毁.
 
-调用router.replaceUrl: 当前页面被销毁,执行的生命周期流程将变为: Page onPageHide --> Page aboutToDisappear --> Child aboutToDisappear。
+调用router.replaceUrl: 当前页面被销毁,执行的生命周期流程将变为: `Page onPageHide` --> `Page aboutToDisappear` --> `Child aboutToDisappear`。
 
-返回操作: 触发Page onBackPress, 并销毁当前的Page.
+返回操作: 触发`Page onBackPress`, 并销毁当前的Page.
 
-最小化应用或者应用进入后台: 触发Page onPageHide。当前Page页面没有被销毁，所以并不会执行组件的aboutToDisappear。
+最小化应用或者应用进入后台: 触发`Page onPageHide`。当前Page页面没有被销毁，所以并不会执行组件的`aboutToDisappear`。
 
-应用回到前台: 执行Page onPageShow。
+应用回到前台: 执行`Page onPageShow`。
 
-退出应用，执行Page onPageHide --> Page aboutToDisappear --> Child aboutToDisappear。
+退出应用，执行`Page onPageHide` --> `Page aboutToDisappear` --> `Child aboutToDisappear`。
 
 `@Builder` 用于修饰function，并且该function返回一个需要渲染的部件元素，主要用于布局代码的抽离。
 
@@ -265,7 +265,16 @@ router.replaceUrl({
   url: 'pages/LoginPage'
 });
 ```
-获取参数：`router.getParams()`
+获取参数：
+```
+aboutToAppear(): void {
+    // 获取push时的参数
+    const params = this.getUIContext().getRouter().getParams();
+    if(params) {
+      console.log('params--:', JSON.stringify(params))
+    }
+}
+```
 返回：
 ```
 // 返回上一页
@@ -273,8 +282,42 @@ router.back();
 
 // 返回到指定页面
 router.back({ url: 'pages/FirstPage' });
+// 返回上一级并传参数
+router.back(Number(router.getLength()) - 1, {
+    back: '返回的数据'
+  });
 ```
 获取路由栈长度：`router.getLength()`
+返回上一级获取参数:
+```
+onPageShow(): void {
+    // 获取返回时传递的参数
+    const params = this.getUIContext().getRouter().getParams();
+    if(params.back) {
+      console.log('params:', JSON.stringify(params))
+    }
+}
+```
+**问题:**
+首次进入和返回都会执行`onPageShow`,不好区分push入参还是back携带参数。
+
+**其他方案：**
+事件订阅
+```
+aboutToAppear(): void {
+    this.getUIContext().getHostContext()?.eventHub.on('callback',(data: string)=>{
+      console.log('收到用户事件：',data)
+    })
+    
+}
+  
+aboutToDisappear(): void {
+    this.getUIContext().getHostContext()?.eventHub.off('callback')
+}
+// 发送消息
+this.getUIContext().getHostContext()?.eventHub.emit('callback', '回调数据')
+```
+**注意:** 不能push的时候在params中传递function，因`Function`无法被序列化故无法被传递，获取字段将是undefined。
 
 ## 本地资源引用
 
@@ -300,7 +343,6 @@ Image($r('app.media.ic_bg_img'))
   .margin({ left: 12 })
 
 ```
-
 
 还可以将图片放在rawfile文件夹下:
 
