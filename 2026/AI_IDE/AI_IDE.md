@@ -9,6 +9,8 @@
 ## Codex
 [Codex](https://chatgpt.com/codex) OpenAI开发,有桌面应用、cli、插件。每周更新额度
 
+## Cursor 
+[Cursor](https://cursor.com/) 据说用起来不错
 
 ## TRAE
 [TRAE](https://www.trae.ai/) 字节出品
@@ -16,9 +18,6 @@
 
 ## Ollama
 [Ollama](https://ollama.com/download) Meta(FaceBook)开发，可本地部署，云模型可有限使用
-
-## Cursor 
-[Cursor](https://cursor.com/) 据说用起来不错，支持马斯克x公司的Grok模型
 
 ## Copilot
 
