@@ -3,6 +3,13 @@
 ## Claude Code
 [Claude Code](https://claude.ai/)由Anthropic 公司开发，大陆用户无法注册使用Claude相关模型, 支持插件、桌面应用、cli。其表现比较优秀，[中文站点可查看](https://claude-zh.cn/guide/getting-started.html)
 
+可通过安装[CC-Switch](http://ccswitch.io/zh/)配置Deepseek模型来使用。
+也可使用[RightCode](https://www.right.codes/dashboard)中的其他国外模型
+
+## Claude Desktop
+由Anthropic 公司开发的Claude客户端工具。
+[Claude Desktop](https://ccswitch.io/zh/docs?section=providers&item=claude-desktop)配置可参考CC-Switch中的说明进行配置。
+
 ## Antigravity
 [Antigravity](https://antigravity.google/) 由Google开发，其中的Gemini3 Flash模型可免费使用
 
@@ -27,6 +34,7 @@
 ## OpenCode
 [OpenCode](https://opencode.ai/zh/download) 没用过
 
+## OpenClaw
 
 ## Perplexity
 
