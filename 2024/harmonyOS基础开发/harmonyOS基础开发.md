@@ -440,6 +440,8 @@ hvigor + hvigor-ohos-plugin类似前端开发中的webpack或vite等构建打包
    * profile：申请的调试Profile文件，格式为.p7b。
    * certpath：申请的调试证书文件，格式为.cer。
 
+上传[蒲公英hap包指南](https://www.pgyer.com/doc/view/harmonyos)
+
 ## 多环境配置
 [鸿蒙应用如何配置多环境](https://juejin.cn/post/7493453361699356724)及[配置不同环境的资源文件](https://cloud.tencent.com/developer/article/2535824)
 [多环境的配置和管理](https://developer.huawei.com/consumer/cn/blog/topic/03177687127004049)
