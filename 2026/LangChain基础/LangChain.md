@@ -6,6 +6,14 @@ LangChain社区支持库可在[此处查看](https://smith.langchain.com/hub)
 [魔搭社区](https://www.modelscope.cn/models)
 [Hugging Face](https://huggingface.co)
 
+Notebook在线工具：
+* [Jupyter](https://jupyter.org/try)无需注册即可直接在浏览器中体验官方 JupyterLab 环境。
+* [Google Colab](https://colab.research.google.com)谷歌提供的云端 Notebook，提供免费的 CPU/GPU 算力支持，支持连接 Google Drive。
+* [Deepnote](https://deepnote.com)主打实时团队协作与数据可视化的现代化云端 Notebook 平台。
+* 阿里天池
+* 百度飞桨 AI Studio
+
+
 术语：
 1. LLM 大语言模型
 2. RAG 检索增强生成
