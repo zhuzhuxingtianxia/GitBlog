@@ -14,6 +14,7 @@ LangChain社区支持库可在[此处查看](https://smith.langchain.com/hub)
 5. Agent 智能体
 6. AGI 通用人工智能
 7. ROS (Robot Operating System)[机器人操作系统](wiki.ros.org)
+8. LoRA 参数微调技术
 
 ![langchain_core](./langchain_core.png)
 
