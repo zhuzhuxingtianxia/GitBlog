@@ -1,5 +1,5 @@
 # harmonyOS: 基础开发
-
+若开发跨平台应用可[使用ArkUI-X](https://gitcode.com/arkui-x)进行开发，支持OpenHarmony、HarmonyOS、Android、 iOS。
 
 ## 项目目录结构（Stage模型）
 
