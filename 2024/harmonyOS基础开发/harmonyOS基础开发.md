@@ -95,6 +95,30 @@ BackupExtensionAbility，是Stage模型中扩展组件ExtensionAbility的派生�
 
 * 属性更新：当@Observed装饰的class属性改变时，会走到代理的setter和getter方法，然后遍历依赖它的@ObjectLink包装类，通知数据更新。
 
+**V2版本**
+双向绑定的实现：
+自定义组件
+```CustomView.ets
+@Param value: string = '';
+// 用于双向绑定value
+@Event $value: (val: string) => void = (val: string) => {};
+
+build(){
+    TextArea({
+      text: this.value,
+      placeholder: '请输入'
+    })
+    .onChange((text: string) => {
+        this.$value(text);
+    })
+}
+
+```
+父组件使用末尾需加`!!`：
+```
+CustomView({value: this.name!!})
+```
+
 #### V1版本VSV2版本
 ![stateVs1](./stateVs1.png)
 ![stateVs2](./stateVs2.png)
