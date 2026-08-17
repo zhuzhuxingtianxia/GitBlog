@@ -26,6 +26,9 @@
 ## Ollama
 [Ollama](https://ollama.com/download) Meta(FaceBook)开发，可本地部署，云模型可有限使用
 
+## Qoder原通义灵码
+[Qoder](https://qoder.com)原通义灵码阿里出品 [中国站](https://qoder.com.cn)
+
 ## Copilot
 
 ## Windsurf
