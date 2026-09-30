@@ -123,6 +123,50 @@ CustomView({value: this.name!!})
 ![stateVs1](./stateVs1.png)
 ![stateVs2](./stateVs2.png)
 
+**`PersistenceV2`是状态管理V2框架中提供的持久化状态管理工具**
+
+1. 结合 `@ObservedV2` 与 `@Trace`，支持对复杂对象、嵌套属性以及数组的更改进行精细化追踪，当属性发生变化时自动同步落盘。
+2. 通过与 `@AppStorageV2` 或 `@ObservedV2` 协作，提供全局可共享的持久化数据源。
+3. 使用 `PersistenceV2` 需要配合 `@ObservedV2` 和 `@Trace` 装饰器
+    
+    ```
+    @ObservedV2
+    export class UserSettings {
+      @Trace themeColor: string = 'light';
+      @Trace fontSize: number = 16;
+      @Trace isNotificationEnabled: boolean = true;
+    }
+      // 参数说明：
+      // - Type: 数据类的构造函数
+      // - key (可选): 持久化唯一标识符（默认使用类名）
+      // - defaultCreator: 当磁盘无数据时调用的默认对象创建器
+      @Local settings: UserSettings = PersistenceV2.connect(
+        UserSettings,
+        'app_user_settings', // 持久化的 key 标识
+        () => new UserSettings() // 默认值构建逻辑
+      )!;
+    ```
+
+**AppStorageV2全局状态共享工具**
+
+它用于在 UI 组件之间、甚至不同页面/UIAbility 之间共享内存中的全局数据。与 `PersistenceV2` 不同的是，`AppStorageV2` 的数据仅保留在内存中，应用进程重启后数据会恢复初始状态。
+```
+@ObservedV2
+export class UserInfo {
+  @Trace name: string = '未登录';
+  @Trace age: number = 0;
+  @Trace isLogin: boolean = false;
+}
+// 连接全局唯一的 UserInfo 实例
+  // 参数说明：
+  // - Type: 数据类的构造函数
+  // - defaultCreator: 若全局未创建该实例，则调用此函数创建默认值
+  @Local userInfo: UserInfo = AppStorageV2.connect(
+    UserInfo,
+    () => new UserInfo()
+  )!;
+```
+
 ## @Enty和@Component生命周期
 
 ![pageLife](./pageLife.png)
