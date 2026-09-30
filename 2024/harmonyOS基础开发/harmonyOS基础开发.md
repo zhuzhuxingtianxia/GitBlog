@@ -157,14 +157,15 @@ export class UserInfo {
   @Trace age: number = 0;
   @Trace isLogin: boolean = false;
 }
+
 // 连接全局唯一的 UserInfo 实例
-  // 参数说明：
-  // - Type: 数据类的构造函数
-  // - defaultCreator: 若全局未创建该实例，则调用此函数创建默认值
-  @Local userInfo: UserInfo = AppStorageV2.connect(
-    UserInfo,
-    () => new UserInfo()
-  )!;
+// 参数说明：
+// - Type: 数据类的构造函数
+// - defaultCreator: 若全局未创建该实例，则调用此函数创建默认值
+@Local userInfo: UserInfo = AppStorageV2.connect(
+UserInfo,
+() => new UserInfo()
+)!;
 ```
 
 ## @Enty和@Component生命周期
