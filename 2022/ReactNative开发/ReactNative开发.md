@@ -417,6 +417,14 @@ In Gemfile:
 在`.zshrc`文件中配置brew安装的ruby路径`export PATH="/usr/local/opt/ruby/bin:$PATH"`,并使用source执行让其立即生效。
 关闭编译器重新打开运行`bundle install`就可以了
 
+## android图表svg过大导致bitmap溢出问题
+```
+FATAL EXCEPTION: main
+                                                                                                    Process: com.hil.platform.debug, PID: 19053
+                                                                                                    java.lang.RuntimeException: Canvas: trying to draw too large(132387840bytes) bitmap.
+```
+**解决**: 如何使用滑动分批渲染，暂未解决。`dataZoom`移动端存在滑动不流畅问题
+
 ## rn自定义Location库
 在iOS中库中CLLocationManager的代理方法一直不执行，将代码直接copy到项目中，却没有问题。
 
