@@ -50,7 +50,7 @@ sudo n v24.13.0
 ```
 安装某个版本：
 ```
-sudo n install 18.20.0
+sudo n install 24.22.2
 ```
 查看所有可以安装的版本: `n ls`
 设置n镜像环境变量并下载稳定版本：
@@ -63,7 +63,7 @@ N_NODE_MIRROR=https://npmmirror.com/mirrors/node n lts
 ```
 sudo n rm v24.13.0
 // 或
-n uninstall 18.20.1
+n uninstall 20.20.0
 ```
 如果n无法加载nodejs.org，修改变量也无效，可下载复制[n命令](https://github.com/tj/n)
 的代码文件然后执行：`sudo bash n.sh 24.13.0`
